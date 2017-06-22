@@ -35,7 +35,7 @@ public class UserInfoItemAdapter extends ArrayAdapter<UserInfoItem> {
         SimpleDraweeView simpleDraweeView = (SimpleDraweeView) view.findViewById(R.id.userinfo_value_portrait);
         if(position == 0){
             userinfo_value.setVisibility(View.GONE);
-            simpleDraweeView.setImageURI(Uri.parse("http://minardwu.com/wordpress/wp-content/uploads/2017/03/20150622212916054-1-300x282.png"));
+            simpleDraweeView.setImageURI(Uri.parse(userInfoItem.getAvatarUrl()));
         }else {
             simpleDraweeView.setVisibility(View.GONE);
         }
