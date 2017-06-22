@@ -1,15 +1,15 @@
 package com.minardwu.see.activity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.minardwu.see.R;
 import com.minardwu.see.adapter.MyFragmentPagerAdapter;
@@ -26,7 +26,7 @@ public class MainActivity extends FragmentActivity implements YourFragment.OnFra
     private MyFragment myFragment;
     private List<Fragment> fragmentList;
     private RadioButton rb_your, rb_my;
-    private ImageButton ibtn_user, ibtn_add;
+    private ImageView iv_user, iv_add;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +38,16 @@ public class MainActivity extends FragmentActivity implements YourFragment.OnFra
     private void initView() {
         rb_your = (RadioButton) findViewById(R.id.rbtn_your);
         rb_my = (RadioButton) findViewById(R.id.rbtn_my);
-        ibtn_user = (ImageButton) findViewById(R.id.ibtn_toolbar_user);
-        ibtn_add = (ImageButton) findViewById(R.id.ibtn_toolbar_add);
+        iv_user = (ImageView) findViewById(R.id.ibtn_toolbar_user);
+        iv_add = (ImageView) findViewById(R.id.ibtn_toolbar_add);
 
         rb_your.setChecked(true);
         rb_my.setChecked(false);
 
         rb_your.setOnClickListener(this);
         rb_my.setOnClickListener(this);
-        ibtn_user.setOnClickListener(this);
-        ibtn_add.setOnClickListener(this);
+        iv_user.setOnClickListener(this);
+        iv_add.setOnClickListener(this);
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         yourFragment = new YourFragment();
@@ -90,10 +90,9 @@ public class MainActivity extends FragmentActivity implements YourFragment.OnFra
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.ibtn_toolbar_user:
-
+                startActivity(new Intent(MainActivity.this,UserActivity.class));
                 break;
             case R.id.ibtn_toolbar_add:
-
                 break;
             case R.id.rbtn_your:
                 viewPager.setCurrentItem(0);

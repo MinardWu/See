@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical">
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/ibtn_toolbar_user"
                 android:layout_width="0dp"
                 android:layout_height="20dp"
@@ -58,7 +58,7 @@
             </info.hoang8f.android.segmented.SegmentedGroup>
 
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/ibtn_toolbar_add"
                 android:layout_width="0dp"
                 android:layout_height="20dp"

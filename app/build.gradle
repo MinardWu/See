@@ -26,4 +26,5 @@ dependencies {
     compile 'com.android.support:design:24.2.1'
     compile 'com.android.support:support-v4:24.2.1'
     compile 'info.hoang8f:android-segmented:1.0.6'
+    compile 'com.facebook.fresco:fresco:0.12.0'
 }

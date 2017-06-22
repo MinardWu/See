@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.minardwu.see.R;
@@ -21,8 +22,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         //设置toolbar
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ImageButton ibtn_back = (ImageButton) findViewById(R.id.ibtn_toolbar_back);
-        ibtn_back.setOnClickListener(new View.OnClickListener() {
+        ImageView iv_back = (ImageView) findViewById(R.id.iv_toolbar_back);
+        iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
