@@ -2,7 +2,9 @@ package com.minardwu.see.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -33,7 +35,6 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
     private ImageView iv_user, iv_add;
     private View popupView;
     private PopupWindow mPopupWindow;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,14 +95,12 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
         ListView listView = (ListView) popupView.findViewById(R.id.lv_popup);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,new String[]{"拍照","相册"});
         listView.setAdapter(arrayAdapter);
-        mPopupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        mPopupWindow = new PopupWindow(popupView, 130, LinearLayout.LayoutParams.WRAP_CONTENT, true);
         mPopupWindow.setFocusable(true);
         mPopupWindow.setTouchable(true);
         mPopupWindow.setOutsideTouchable(true);
-        mPopupWindow.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
+        mPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
     }
-
-
 
     @Override
     public void onClick(View view) {
