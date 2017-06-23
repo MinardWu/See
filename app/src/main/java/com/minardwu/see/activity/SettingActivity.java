@@ -88,7 +88,7 @@ public class SettingActivity extends BaseActivity {
                     dialog_edit_avatar = new MaterialDialog(SettingActivity.this).setTitle("更换头像").setContentView(listView);
                     dialog_edit_avatar.show();
                 } else if (position == 1) {
-                    view_edit_username = LayoutInflater.from(SettingActivity.this).inflate(R.layout.dialog_editusername, null);
+                    view_edit_username = LayoutInflater.from(SettingActivity.this).inflate(R.layout.dialog_editname, null);
                     et_newname = (MaterialEditText) view_edit_username.findViewById(R.id.et_newUsername);
                     dialog_edit_username = new MaterialDialog(SettingActivity.this);
                     dialog_edit_username.setPositiveButton("确定", new View.OnClickListener() {
