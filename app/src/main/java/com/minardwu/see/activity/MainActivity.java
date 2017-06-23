@@ -18,7 +18,7 @@ import com.minardwu.see.fragment.YourFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends FragmentActivity implements YourFragment.OnFragmentInteractionListener,MyFragment.OnFragmentInteractionListener, View.OnClickListener {
+public class MainActivity extends FragmentActivity implements  View.OnClickListener {
 
     private ViewPager viewPager;
     private YourFragment yourFragment;
@@ -80,10 +80,7 @@ public class MainActivity extends FragmentActivity implements YourFragment.OnFra
         });
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
 
-    }
 
     @Override
     public void onClick(View view) {

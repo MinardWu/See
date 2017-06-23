@@ -1,12 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context="com.minardwu.see.activity.SearchActivity">
 
-</RelativeLayout>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_search"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary" />
+
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/ll_search"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="32dp"-->
+        <!--android:layout_marginLeft="32dp"-->
+        <!--android:layout_marginRight="32dp">-->
+
+        <!--<com.rengwuxian.materialedittext.MaterialEditText-->
+            <!--android:id="@+id/et_search_username"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_marginRight="16dp"-->
+            <!--android:hint="输入用户名"-->
+            <!--android:singleLine="true"-->
+            <!--app:met_baseColor="@color/et_hint"-->
+            <!--app:met_floatingLabel="highlight"-->
+            <!--app:met_primaryColor="@color/main" />-->
+
+        <!--<Button-->
+            <!--android:text="搜索"-->
+            <!--android:background="@drawable/btn_logout"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+
+    <!--</LinearLayout>-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_search_info"
+            android:text="开始寻找那个人吧！"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_search_result"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            android:layout_marginLeft="64dp"
+            android:layout_marginRight="64dp"
+            android:gravity="center">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/iv_search_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
+                fresco:failureImage="@drawable/icon_user"
+                fresco:placeholderImage="@drawable/icon_user"
+                fresco:roundAsCircle="true"
+                fresco:roundingBorderColor="@color/main"
+                fresco:roundingBorderWidth="0.5dp" />
+
+            <TextView
+                android:id="@+id/tv_search_username"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:text="user"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+            <Button
+                android:text="添加"
+                android:id="@+id/btn_search_add"
+                android:background="@drawable/btn_logout"
+                android:layout_marginLeft="64dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+
+
+
+</LinearLayout>

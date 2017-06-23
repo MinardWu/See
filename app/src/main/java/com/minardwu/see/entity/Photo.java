@@ -11,6 +11,14 @@ public class Photo {
     private String photoInfo;
     private int state;
 
+    public Photo(int photoid, int userid, String photoUrl, String photoInfo, int state) {
+        this.photoid = photoid;
+        this.userid = userid;
+        this.photoUrl = photoUrl;
+        this.photoInfo = photoInfo;
+        this.state = state;
+    }
+
     public int getPhotoid() {
         return photoid;
     }

@@ -57,7 +57,6 @@ public class SettingActivity extends BaseActivity {
         list.add(new UserInfoItem("性别","汉子",Config.tempUrl));
         userInfoItemAdapter = new UserInfoItemAdapter(this,R.layout.listview_normalitem,list);
         listView.setAdapter(userInfoItemAdapter);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

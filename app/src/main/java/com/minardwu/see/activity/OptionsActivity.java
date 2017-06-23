@@ -9,6 +9,7 @@ import android.widget.ListView;
 import com.minardwu.see.R;
 import com.minardwu.see.adapter.OptionsAdapter;
 import com.minardwu.see.base.BaseActivity;
+import com.minardwu.see.base.Config;
 import com.minardwu.see.entity.News;
 import com.minardwu.see.entity.Options;
 
@@ -26,8 +27,8 @@ public class OptionsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         list = new ArrayList<Options>();
         listView = (ListView) findViewById(R.id.lv_options);
-        list.add(new Options("我的资料","MinardWu","http://minardwu.com/wordpress/wp-content/uploads/2017/03/20150622212916054-1-300x282.png"));
-        list.add(new Options("他的资料","Ming","http://minardwu.com/wordpress/wp-content/uploads/2017/03/20150622212916054-1-300x282.png"));
+        list.add(new Options("我的资料","MinardWu", Config.tempUrl));
+        list.add(new Options("他的资料","Ming",Config.tempUrl));
         list.add(new Options("消息","会有谁呢","null"));
         list.add(new Options("搜索","又在哪呢","null"));
         optionsAdapter = new OptionsAdapter(this,R.layout.listview_normalitem,list);

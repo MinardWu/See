@@ -4,10 +4,14 @@
     android:layout_height="match_parent"
     tools:context=".fragment.MyFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <GridView
+        android:id="@+id/gv_my"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="my" />
+        android:layout_height="wrap_content"
+        android:stretchMode="columnWidth"
+        android:numColumns="3"
+        android:horizontalSpacing="1dp"
+        android:verticalSpacing="1dp">
+    </GridView>
 
 </FrameLayout>
