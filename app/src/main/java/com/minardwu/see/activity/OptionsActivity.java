@@ -41,7 +41,7 @@ public class OptionsActivity extends BaseActivity {
 
                 }else if(position == 2){
                     startActivity(new Intent(OptionsActivity.this,NewsActivity.class));
-                }else if(position == 4){
+                }else if(position == 3){
                     startActivity(new Intent(OptionsActivity.this,SearchActivity.class));
                 }
             }
@@ -56,6 +56,6 @@ public class OptionsActivity extends BaseActivity {
     @Override
     protected void toolbarSetting(ToolbarHelper toolbarHelper) {
         super.toolbarSetting(toolbarHelper);
-        toolbarHelper.setTitle("用户");
+        toolbarHelper.setTitle("选项");
     }
 }

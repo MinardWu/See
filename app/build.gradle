@@ -25,6 +25,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
     compile 'com.android.support:support-v4:24.2.1'
-    compile 'info.hoang8f:android-segmented:1.0.6'
-    compile 'com.facebook.fresco:fresco:0.12.0'
+    compile 'info.hoang8f:android-segmented:1.0.6'//首页顶部按钮
+    compile 'com.facebook.fresco:fresco:0.12.0'//Fresco
+    compile 'com.rengwuxian.materialedittext:library:2.1.4'//文本输入框
+    compile 'me.drakeet.materialdialog:library:1.2.8'//dialog
 }

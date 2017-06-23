@@ -10,6 +10,13 @@ public class News {
     private int user2id;
     private int state;
 
+    public News(int newsid, int user1id, int user2id, int state) {
+        this.newsid = newsid;
+        this.user1id = user1id;
+        this.user2id = user2id;
+        this.state = state;
+    }
+
     public int getNewsid() {
         return newsid;
     }
