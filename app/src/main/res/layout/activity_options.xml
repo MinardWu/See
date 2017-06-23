@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context="com.minardwu.see.activity.UserActivity">
+    tools:context=".activity.OptionsActivity">
 
     <ListView
-        android:id="@+id/lv_userinfo"
+        android:id="@+id/lv_options"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp">

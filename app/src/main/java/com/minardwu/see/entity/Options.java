@@ -1,15 +1,15 @@
 package com.minardwu.see.entity;
 
 /**
- * Created by MinardWu on 2017/6/22.
+ * Created by Administrator on 2017/6/23.
  */
-public class UserInfoItem {
+public class Options {
 
     private String itemTitle;
     private String itemVaule;
     private String avatarUrl;
 
-    public UserInfoItem(String itemName, String itemVaule, String avatarUrl) {
+    public Options(String itemName, String itemVaule, String avatarUrl) {
         this.itemTitle = itemName;
         this.itemVaule = itemVaule;
         this.avatarUrl = avatarUrl;
@@ -38,4 +38,6 @@ public class UserInfoItem {
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
     }
+
+
 }

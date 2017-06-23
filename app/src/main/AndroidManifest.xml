@@ -25,7 +25,7 @@
         <activity android:name=".activity.SettingActivity" />
         <activity android:name=".base.BaseActivity" />
         <activity android:name=".activity.SearchActivity" />
-        <activity android:name=".activity.UserActivity"/>
+        <activity android:name=".activity.OptionsActivity"/>
     </application>
 
 </manifest>

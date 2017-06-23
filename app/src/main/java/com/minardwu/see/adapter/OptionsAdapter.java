@@ -10,39 +10,37 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.minardwu.see.R;
-import com.minardwu.see.entity.UserInfoItem;
+import com.minardwu.see.entity.Options;
 
 import java.util.List;
 
 /**
- * Created by MinardWu on 2017/6/22.
+ * Created by Administrator on 2017/6/23.
  */
-public class UserInfoItemAdapter extends ArrayAdapter<UserInfoItem> {
+public class OptionsAdapter extends ArrayAdapter<Options>{
 
-    private int resource_id;
+    int resource_id;
 
-    public UserInfoItemAdapter(Context context, int resource, List<UserInfoItem> objects) {
+    public OptionsAdapter(Context context, int resource, List<Options> objects) {
         super(context, resource, objects);
         this.resource_id = resource;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        UserInfoItem userInfoItem = getItem(position);
+        Options options = getItem(position);
         View view = LayoutInflater.from(getContext()).inflate(resource_id,null);
-        TextView userinfo_title = (TextView) view.findViewById(R.id.tv_item_title);
-        TextView userinfo_value = (TextView) view.findViewById(R.id.tv_item_value);
+        TextView option_title = (TextView) view.findViewById(R.id.tv_item_title);
+        TextView option_value = (TextView) view.findViewById(R.id.tv_item_value);
         SimpleDraweeView simpleDraweeView = (SimpleDraweeView) view.findViewById(R.id.iv_image);
-        if(position == 0){
-            userinfo_value.setVisibility(View.GONE);
-            simpleDraweeView.setImageURI(Uri.parse(userInfoItem.getAvatarUrl()));
+        if(position == 0||position == 1){
+            option_value.setVisibility(View.GONE);
+            simpleDraweeView.setImageURI(Uri.parse(options.getAvatarUrl()));
         }else {
             simpleDraweeView.setVisibility(View.GONE);
         }
-        userinfo_title.setText(userInfoItem.getItemTitle());
-        userinfo_value.setText(userInfoItem.getItemVaule());
+        option_title.setText(options.getItemTitle());
+        option_value.setText(options.getItemVaule());
         return view;
     }
-
-
 }

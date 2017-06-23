@@ -9,7 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.Toast;
 
 import com.minardwu.see.R;
 import com.minardwu.see.adapter.MyFragmentPagerAdapter;
@@ -90,7 +89,7 @@ public class MainActivity extends FragmentActivity implements YourFragment.OnFra
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.ibtn_toolbar_user:
-                startActivity(new Intent(MainActivity.this,UserActivity.class));
+                startActivity(new Intent(MainActivity.this,OptionsActivity.class));
                 break;
             case R.id.ibtn_toolbar_add:
                 break;

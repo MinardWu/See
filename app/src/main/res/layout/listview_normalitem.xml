@@ -26,14 +26,14 @@
         android:textSize="14dp" />
 
     <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/userinfo_value_portrait"
+        android:id="@+id/iv_image"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="16dp"
-        fresco:failureImage="@drawable/ic_user"
-        fresco:placeholderImage="@drawable/ic_user"
+        fresco:failureImage="@drawable/icon_user"
+        fresco:placeholderImage="@drawable/icon_user"
         fresco:roundAsCircle="true"
         fresco:roundingBorderColor="@color/main"
         fresco:roundingBorderWidth="0.5dp" />
