@@ -1,13 +1,18 @@
 package com.minardwu.see.activity;
 
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 
 import com.minardwu.see.R;
@@ -26,12 +31,16 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
     private List<Fragment> fragmentList;
     private RadioButton rb_your, rb_my;
     private ImageView iv_user, iv_add;
+    private View popupView;
+    private PopupWindow mPopupWindow;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+        initPopupWindow();
     }
 
     private void initView() {
@@ -80,6 +89,18 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
         });
     }
 
+    private void initPopupWindow() {
+        popupView = getLayoutInflater().inflate(R.layout.popupwindow, null);
+        ListView listView = (ListView) popupView.findViewById(R.id.lv_popup);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,new String[]{"拍照","相册"});
+        listView.setAdapter(arrayAdapter);
+        mPopupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        mPopupWindow.setFocusable(true);
+        mPopupWindow.setTouchable(true);
+        mPopupWindow.setOutsideTouchable(true);
+        mPopupWindow.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
+    }
+
 
 
     @Override
@@ -89,6 +110,7 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
                 startActivity(new Intent(MainActivity.this,OptionsActivity.class));
                 break;
             case R.id.ibtn_toolbar_add:
+                mPopupWindow.showAsDropDown(view);
                 break;
             case R.id.rbtn_your:
                 viewPager.setCurrentItem(0);
