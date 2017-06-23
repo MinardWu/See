@@ -20,7 +20,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="50dp"
-        android:background="@drawable/btn_logout"
+        android:background="@drawable/btn_rect_enable"
         android:text="切换账号"
         android:textColor="@color/white"
         android:textSize="20dp" />

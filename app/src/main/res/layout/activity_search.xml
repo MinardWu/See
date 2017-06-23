@@ -37,7 +37,7 @@
 
         <!--<Button-->
             <!--android:text="搜索"-->
-            <!--android:background="@drawable/btn_logout"-->
+            <!--android:background="@drawable/btn_rect_enable"-->
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="wrap_content" />-->
 
@@ -90,7 +90,7 @@
             <Button
                 android:text="添加"
                 android:id="@+id/btn_search_add"
-                android:background="@drawable/btn_logout"
+                android:background="@drawable/btn_rect_enable"
                 android:layout_marginLeft="64dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
