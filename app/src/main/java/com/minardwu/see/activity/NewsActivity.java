@@ -64,7 +64,7 @@ public class NewsActivity extends BaseActivity {
                         }
                     }
                 });
-                dialog_handle_news = new MaterialDialog(NewsActivity.this).setTitle("处理").setContentView(listView);
+                dialog_handle_news = new MaterialDialog(NewsActivity.this).setContentView(listView);
                 dialog_handle_news.show();
             }
         });
