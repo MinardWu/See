@@ -99,7 +99,7 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
         mPopupWindow.setTouchable(true);
         mPopupWindow.setOutsideTouchable(true);
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
-                R.drawable.popupwindow);
+                R.drawable.popupwindow_9);
         mPopupWindow.setBackgroundDrawable(new BitmapDrawable(bitmap));
     }
 
