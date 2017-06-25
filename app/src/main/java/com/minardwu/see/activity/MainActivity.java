@@ -2,9 +2,8 @@ package com.minardwu.see.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -99,7 +98,9 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
         mPopupWindow.setFocusable(true);
         mPopupWindow.setTouchable(true);
         mPopupWindow.setOutsideTouchable(true);
-        mPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
+                R.drawable.popupwindow);
+        mPopupWindow.setBackgroundDrawable(new BitmapDrawable(bitmap));
     }
 
     @Override
