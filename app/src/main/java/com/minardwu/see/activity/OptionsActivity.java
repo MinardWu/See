@@ -2,10 +2,12 @@ package com.minardwu.see.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.avos.avoscloud.AVUser;
 import com.minardwu.see.R;
@@ -15,6 +17,15 @@ import com.minardwu.see.base.BaseActivity;
 import com.minardwu.see.base.Config;
 import com.minardwu.see.entity.News;
 import com.minardwu.see.entity.Options;
+import com.minardwu.see.entity.User;
+import com.minardwu.see.entity.UserInfoItem;
+import com.minardwu.see.event.GetUserInfoEvent;
+import com.minardwu.see.event.LoginEvent;
+import com.minardwu.see.net.GetUserInfo;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +40,17 @@ public class OptionsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initList();
+        Log.d("getUserInfoByUserId",AVUser.getCurrentUser().getObjectId());
+        GetUserInfo.getUserInfoByUserId(AVUser.getCurrentUser().getObjectId());
+        EventBus.getDefault().register(this);
+    }
+
+    private void initList() {
         list = new ArrayList<Options>();
         listView = (ListView) findViewById(R.id.lv_options);
-        list.add(new Options("我的资料","MinardWu", Config.tempUrl));
-        list.add(new Options("他的资料","Ming",Config.tempUrl));
+        list.add(new Options("我的资料","me",Config.tempUrl));
+        list.add(new Options("他的资料","you",Config.tempUrl));
         list.add(new Options("消息","会有谁呢","null"));
         list.add(new Options("搜索","又在哪呢","null"));
         optionsAdapter = new OptionsAdapter(this,R.layout.listview_normalitem,list);
@@ -63,6 +81,25 @@ public class OptionsActivity extends BaseActivity {
         });
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onGetUserInfoEvent(GetUserInfoEvent event){
+        User user = event.getUser();
+        if(user!=null){
+            Config.me.setUserid(user.getUserid());
+            Config.me.setUsername(user.getUsername());
+            Config.me.setSex(user.getSex());
+            Config.me.setAvatar(user.getAvatar());
+            list.clear();
+            list.add(new Options("我的资料","me",Config.me.getAvatar()));
+            list.add(new Options("他的资料","you",Config.tempUrl));
+            list.add(new Options("消息","会有谁呢","null"));
+            list.add(new Options("搜索","又在哪呢","null"));
+            optionsAdapter.notifyDataSetChanged();
+        }else {
+            Toast.makeText(this,"huoqushibai",Toast.LENGTH_LONG).show();
+        }
+    };
+
     @Override
     protected int getContentView() {
         return R.layout.activity_options;
@@ -72,5 +109,11 @@ public class OptionsActivity extends BaseActivity {
     protected void toolbarSetting(ToolbarHelper toolbarHelper) {
         super.toolbarSetting(toolbarHelper);
         toolbarHelper.setTitle("选项");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

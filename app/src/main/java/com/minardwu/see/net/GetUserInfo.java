@@ -8,7 +8,9 @@ import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.GetCallback;
 import com.minardwu.see.entity.User;
+import com.minardwu.see.event.GetUserInfoEvent;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,9 +21,9 @@ import java.util.List;
  */
 public class GetUserInfo {
 
-    private User user = new User();
+    static User user = new User();
 
-    public void getUserInfoByUserName(String username){
+    public static void getUserInfoByUserName(String username){
         AVQuery<AVObject> query = new AVQuery<>("_User");
         query.whereEqualTo("username",username);
         query.findInBackground(new FindCallback<AVObject>() {
@@ -58,7 +60,7 @@ public class GetUserInfo {
 
     }
 
-    public void getUserInfoByUserId(String userid){
+    public static void getUserInfoByUserId(String userid){
         AVQuery<AVObject> avQuery = new AVQuery<>("_User");
         avQuery.getInBackground(userid, new GetCallback<AVObject>() {
             @Override
@@ -75,10 +77,12 @@ public class GetUserInfo {
                         JSONObject avatar = serverData.getJSONObject("avatar");
                         user.setUserid(root.getString("objectId"));
                         user.setUsername(serverData.getString("username"));
+                        user.setSex(serverData.getInt("sex"));
                         user.setAvatar(avatar.getString("url"));
                         Log.d("getUserInfoByUserId",root.getString("objectId"));
                         Log.d("getUserInfoByUserId",serverData.getString("username"));
                         Log.d("getUserInfoByUserId",avatar.getString("url"));
+                        EventBus.getDefault().post(new GetUserInfoEvent(user));
                     } catch (JSONException e1) {
                         e1.printStackTrace();
                         Log.d("getUserInfoByUserId",e1.getMessage());

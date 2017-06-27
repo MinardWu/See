@@ -12,17 +12,13 @@ import com.minardwu.see.base.Config;
 
 public class SplashActivity extends AppCompatActivity {
 
+    SimpleDraweeView splashPic;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
-        SimpleDraweeView splashPic = (SimpleDraweeView) findViewById(R.id.iv_splash);
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) splashPic.getLayoutParams();
-        params.width = Config.screenWidth;
-        params.height = Config.screenHeight;
-        splashPic.setLayoutParams(params);
-
+        initView();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -43,5 +39,13 @@ public class SplashActivity extends AppCompatActivity {
 
             }
         }).start();
+    }
+
+    private void initView() {
+        splashPic = (SimpleDraweeView) findViewById(R.id.iv_splash);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) splashPic.getLayoutParams();
+        params.width = Config.screenWidth;
+        params.height = Config.screenHeight;
+        splashPic.setLayoutParams(params);
     }
 }

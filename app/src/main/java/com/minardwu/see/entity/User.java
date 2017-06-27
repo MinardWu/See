@@ -7,10 +7,9 @@ public class User {
 
     private String userid;
     private String username;
-    private String password;
     private String avatar;
     private int sex;
-    private int combineid;
+    private int friendid;
 
     public String getUserid() {
         return userid;
@@ -26,14 +25,6 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getAvatar() {
@@ -52,11 +43,11 @@ public class User {
         this.sex = sex;
     }
 
-    public int getCombineid() {
-        return combineid;
+    public int getFriendid() {
+        return friendid;
     }
 
-    public void setCombineid(int combineid) {
-        this.combineid = combineid;
+    public void setFriendid(int friendid) {
+        this.friendid = friendid;
     }
 }
