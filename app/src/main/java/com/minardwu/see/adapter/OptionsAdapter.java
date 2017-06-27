@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -20,10 +21,12 @@ import java.util.List;
 public class OptionsAdapter extends ArrayAdapter<Options>{
 
     int resource_id;
+    List<Options> list;
 
     public OptionsAdapter(Context context, int resource, List<Options> objects) {
         super(context, resource, objects);
         this.resource_id = resource;
+        list = objects;
     }
 
     @Override
@@ -42,5 +45,15 @@ public class OptionsAdapter extends ArrayAdapter<Options>{
         option_title.setText(options.getItemTitle());
         option_value.setText(options.getItemVaule());
         return view;
+    }
+
+    public void updataItemView(ListView listView,int position, String avatar){
+        int index = position - listView.getFirstVisiblePosition();//求出index，index即为要更新的item相对当前可见画面第一项的位置
+        if(index>=0 && index<listView.getChildCount()){//判断item是否在可见画面(getChildCount获得当前页面的item数，getCount获得总的item数)
+            Options option = list.get(position);
+            option.setAvatarUrl(avatar);
+            View newItem = listView.getChildAt(index);
+            getView(position,newItem,listView);
+        }
     }
 }

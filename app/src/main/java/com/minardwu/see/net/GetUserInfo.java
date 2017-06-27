@@ -81,6 +81,7 @@ public class GetUserInfo {
                         user.setAvatar(avatar.getString("url"));
                         Log.d("getUserInfoByUserId",root.getString("objectId"));
                         Log.d("getUserInfoByUserId",serverData.getString("username"));
+                        Log.d("getUserInfoByUserId",serverData.getInt("sex")+"");
                         Log.d("getUserInfoByUserId",avatar.getString("url"));
                         EventBus.getDefault().post(new GetUserInfoEvent(user));
                     } catch (JSONException e1) {

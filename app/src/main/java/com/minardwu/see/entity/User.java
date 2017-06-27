@@ -9,7 +9,7 @@ public class User {
     private String username;
     private String avatar;
     private int sex;
-    private int friendid;
+    private String friendid;
 
     public String getUserid() {
         return userid;
@@ -43,11 +43,11 @@ public class User {
         this.sex = sex;
     }
 
-    public int getFriendid() {
+    public String getFriendid() {
         return friendid;
     }
 
-    public void setFriendid(int friendid) {
+    public void setFriendid(String friendid) {
         this.friendid = friendid;
     }
 }

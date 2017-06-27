@@ -42,7 +42,9 @@ public class OptionsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         initList();
         Log.d("getUserInfoByUserId",AVUser.getCurrentUser().getObjectId());
-        GetUserInfo.getUserInfoByUserId(AVUser.getCurrentUser().getObjectId());
+        Log.d("getUserInfoByUserId",Config.me.getFriendid()+"=======");
+//        GetUserInfo.getUserInfoByUserId(AVUser.getCurrentUser().getObjectId());
+        GetUserInfo.getUserInfoByUserId(Config.me.getFriendid());
         EventBus.getDefault().register(this);
     }
 
@@ -85,16 +87,25 @@ public class OptionsActivity extends BaseActivity {
     public void onGetUserInfoEvent(GetUserInfoEvent event){
         User user = event.getUser();
         if(user!=null){
-            Config.me.setUserid(user.getUserid());
-            Config.me.setUsername(user.getUsername());
-            Config.me.setSex(user.getSex());
-            Config.me.setAvatar(user.getAvatar());
-            list.clear();
-            list.add(new Options("我的资料","me",Config.me.getAvatar()));
-            list.add(new Options("他的资料","you",Config.tempUrl));
-            list.add(new Options("消息","会有谁呢","null"));
-            list.add(new Options("搜索","又在哪呢","null"));
-            optionsAdapter.notifyDataSetChanged();
+            if(user.getUserid().equals(AVUser.getCurrentUser().getObjectId())){
+                Config.me.setUserid(user.getUserid());
+                Config.me.setUsername(user.getUsername());
+                Config.me.setSex(user.getSex());
+                Config.me.setAvatar(user.getAvatar());
+            }else if(user.getUserid().equals(Config.me.getFriendid())){
+                Config.you.setUserid(user.getUserid());
+                Config.you.setUsername(user.getUsername());
+                Config.you.setSex(user.getSex());
+                Config.you.setAvatar(user.getAvatar());
+                Log.d("getUserInfoByUserId",Config.you.getAvatar()+"/////////");
+                optionsAdapter.updataItemView(listView,0,Config.you.getAvatar());
+            }
+//            list.clear();
+//            list.add(new Options("我的资料","me",Config.tempUrl));
+//            list.add(new Options("他的资料","you",Config.you.getAvatar()));
+//            list.add(new Options("消息","会有谁呢","null"));
+//            list.add(new Options("搜索","又在哪呢","null"));
+//            optionsAdapter.notifyDataSetChanged();
         }else {
             Toast.makeText(this,"huoqushibai",Toast.LENGTH_LONG).show();
         }

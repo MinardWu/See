@@ -6,9 +6,13 @@ import com.avos.avoscloud.AVCloudQueryResult;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.CloudQueryCallback;
 import com.avos.avoscloud.FindCallback;
+import com.avos.avoscloud.GetCallback;
+import com.minardwu.see.event.GetFriendEvent;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -71,6 +75,31 @@ public class Friend {
             }
         });
         return 0;
+    }
+
+    public static void getFriendid(){
+        AVQuery<AVObject> query = new AVQuery<>("Friend");
+        query.whereEqualTo("user1id", AVUser.getCurrentUser().getObjectId());
+        query.getFirstInBackground(new GetCallback<AVObject>() {
+            @Override
+            public void done(AVObject avObject, AVException e) {
+                if(e==null){
+                    Log.d("getFriendid","success");
+                    Log.d("getFriendid",avObject.toString());
+                    try {
+                        JSONObject jsonObject = new JSONObject(avObject.toString());
+                        JSONObject serverData = jsonObject.getJSONObject("serverData");
+                        Log.d("getFriendid",serverData.getString("user2id"));
+                        EventBus.getDefault().post(new GetFriendEvent(serverData.getString("user2id")));
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
+                }else{
+                    Log.d("getFriendid","fail");
+                    Log.d("getFriendid",e.getMessage());
+                }
+            }
+        });
     }
 
 }

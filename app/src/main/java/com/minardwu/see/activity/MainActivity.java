@@ -19,8 +19,10 @@ import android.widget.RadioButton;
 import com.minardwu.see.R;
 import com.minardwu.see.adapter.MyFragmentPagerAdapter;
 import com.minardwu.see.base.ActivityController;
+import com.minardwu.see.entity.Photo;
 import com.minardwu.see.fragment.MyFragment;
 import com.minardwu.see.fragment.YourFragment;
+import com.minardwu.see.net.Friend;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +45,10 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
         ActivityController.addActivity(this);//MainActivity没有继承BaseActivity，故要手动添加
         initView();
         initPopupWindow();
+//        String user2id="5951c2898d6d8100571769d2";
+//        String user3id="5951c2891b69e60062dd4daf";
+//        Friend.addFriend(user2id,user3id);
+//        Friend.getFriendid();
     }
 
     private void initView() {
