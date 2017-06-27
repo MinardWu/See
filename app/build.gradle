@@ -29,4 +29,17 @@ dependencies {
     compile 'com.facebook.fresco:fresco:0.12.0'//Fresco
     compile 'com.rengwuxian.materialedittext:library:2.1.4'//文本输入框
     compile 'me.drakeet.materialdialog:library:1.2.8'//dialog
+    // LeanCloud 基础包
+    compile ('cn.leancloud.android:avoscloud-sdk:v4.1.0')
+    // 推送与实时聊天需要的包
+    compile ('cn.leancloud.android:avoscloud-push:v4.1.0@aar'){transitive = true}
+    // LeanCloud 统计包
+    compile ('cn.leancloud.android:avoscloud-statistics:v4.1.0')
+    // LeanCloud 用户反馈包
+    compile ('cn.leancloud.android:avoscloud-feedback:v4.1.0@aar')
+    // LeanCloud 应用内搜索包
+    compile ('cn.leancloud.android:avoscloud-search:v4.1.0@aar')
+
+    compile 'org.greenrobot:eventbus:3.0.0'
+
 }

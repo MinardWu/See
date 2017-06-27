@@ -3,6 +3,7 @@ package com.minardwu.see.base;
 import android.app.Application;
 import android.content.Context;
 
+import com.avos.avoscloud.AVOSCloud;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
 /**
@@ -17,6 +18,8 @@ public class MyApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
         Fresco.initialize(this);
+        AVOSCloud.initialize(this,"gh25r7M4yb5989YauDjwfPQb-gzGzoHsz","MV820glQWmHtVRCOX9mT9oDf");
+        AVOSCloud.setDebugLogEnabled(true);
     }
 
     public static Context getAppContext(){

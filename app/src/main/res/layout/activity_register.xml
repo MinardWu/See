@@ -45,16 +45,26 @@
             app:met_primaryColor="@color/main" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/et_phonenumber"
+            android:id="@+id/et_comfirmpsw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="手机号码"
+            android:hint="确认密码"
             android:imeOptions="actionDone"
             android:singleLine="true"
             app:met_baseColor="@color/et_hint"
             app:met_floatingLabel="highlight"
             app:met_primaryColor="@color/main" />
 
+        <!--<com.rengwuxian.materialedittext.MaterialEditText-->
+            <!--android:id="@+id/et_phonenumber"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:hint="手机号码"-->
+            <!--android:imeOptions="actionDone"-->
+            <!--android:singleLine="true"-->
+            <!--app:met_baseColor="@color/et_hint"-->
+            <!--app:met_floatingLabel="highlight"-->
+            <!--app:met_primaryColor="@color/main" />-->
 
         <Button
             android:id="@+id/btn_register"

@@ -5,18 +5,18 @@ package com.minardwu.see.entity;
  */
 public class User {
 
-    private int userid;
+    private String userid;
     private String username;
     private String password;
-    private String avatatUrl;
+    private String avatar;
     private int sex;
     private int combineid;
 
-    public int getUserid() {
+    public String getUserid() {
         return userid;
     }
 
-    public void setUserid(int userid) {
+    public void setUserid(String userid) {
         this.userid = userid;
     }
 
@@ -36,12 +36,12 @@ public class User {
         this.password = password;
     }
 
-    public String getAvatatUrl() {
-        return avatatUrl;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setAvatatUrl(String avatatUrl) {
-        this.avatatUrl = avatatUrl;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public int getSex() {
