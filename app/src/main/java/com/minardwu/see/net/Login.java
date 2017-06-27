@@ -22,13 +22,15 @@ public class Login {
                 if(e==null){
                     Log.d("Login","success");
                     result[0] = 1;
-                }else if(e.getMessage().equals("{\"code\":210,\"error\":\"The username and password mismatch.\"}")){
-                    result[0] = -1;
-                }else if(e.getMessage().equals("{\"code\":211,\"error\":\"Could not find user\"}")){
-                    result[0] = -2;
-                }else {
-                    result[0] = -3;
+                }else{
                     Log.d("Login",e.getMessage());
+                    if(e.getMessage().equals("{\"code\":210,\"error\":\"The username and password mismatch.\"}")){
+                        result[0] = -1;
+                    }else if(e.getMessage().equals("{\"code\":211,\"error\":\"Could not find user\"}")){
+                        result[0] = -2;
+                    }else {
+                        result[0] = -3;
+                    }
                 }
                 Log.d("Login",result[0]+"");
                 EventBus.getDefault().post(new LoginEvent(result[0]));

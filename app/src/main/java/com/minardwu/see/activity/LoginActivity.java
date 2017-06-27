@@ -74,12 +74,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             this.finish();
         }else if(event.getResult()==-1){
             et_password.setError("密码错误");
+            btn_login.setEnabled(true);
         }else if(event.getResult()==-2){
             et_username.setError("该用户不存在");
+            btn_login.setEnabled(true);
         }else if(event.getResult()==-3){
             Toast.makeText(this,"登陆出错了",Toast.LENGTH_LONG).show();
+            btn_login.setEnabled(true);
         }
-        btn_login.setEnabled(true);
     };
 
     @Override

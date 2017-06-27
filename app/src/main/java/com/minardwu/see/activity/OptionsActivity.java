@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
+import com.avos.avoscloud.AVUser;
 import com.minardwu.see.R;
 import com.minardwu.see.adapter.OptionsAdapter;
+import com.minardwu.see.base.ActivityController;
 import com.minardwu.see.base.BaseActivity;
 import com.minardwu.see.base.Config;
 import com.minardwu.see.entity.News;
@@ -18,9 +21,10 @@ import java.util.List;
 
 public class OptionsActivity extends BaseActivity {
 
-    List<Options> list;
-    ListView listView;
-    OptionsAdapter optionsAdapter;
+    private List<Options> list;
+    private ListView listView;
+    private OptionsAdapter optionsAdapter;
+    private Button btn_logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,16 @@ public class OptionsActivity extends BaseActivity {
                 }else if(position == 3){
                     startActivity(new Intent(OptionsActivity.this,SearchActivity.class));
                 }
+            }
+        });
+
+        btn_logout = (Button) findViewById(R.id.btn_logout);
+        btn_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AVUser.logOut();
+                ActivityController.finishAllActivity();
+                startActivity(new Intent(OptionsActivity.this,LoginActivity.class));
             }
         });
     }

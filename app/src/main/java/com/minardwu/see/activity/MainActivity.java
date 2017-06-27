@@ -18,6 +18,7 @@ import android.widget.RadioButton;
 
 import com.minardwu.see.R;
 import com.minardwu.see.adapter.MyFragmentPagerAdapter;
+import com.minardwu.see.base.ActivityController;
 import com.minardwu.see.fragment.MyFragment;
 import com.minardwu.see.fragment.YourFragment;
 
@@ -39,6 +40,7 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ActivityController.addActivity(this);//MainActivity没有继承BaseActivity，故要手动添加
         initView();
         initPopupWindow();
     }
