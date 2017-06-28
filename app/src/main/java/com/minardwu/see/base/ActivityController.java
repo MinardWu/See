@@ -1,6 +1,7 @@
 package com.minardwu.see.base;
 
 import android.app.Activity;
+import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.List;

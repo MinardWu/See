@@ -42,8 +42,8 @@ public class OptionsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         initData();
         initView();
-        Log.d("getUserInfoByUserId",AVUser.getCurrentUser().getObjectId());
-        Log.d("getUserInfoByUserId",Config.me.getFriendid());
+//        Log.d("getUserInfoByUserId",AVUser.getCurrentUser().getObjectId());
+//        Log.d("getUserInfoByUserId",Config.me.getFriendid());
         if(Config.me.getAvatar()!=null){
             Config.myTempAvatarUrl=Config.me.getAvatar();
         }
@@ -102,7 +102,7 @@ public class OptionsActivity extends BaseActivity {
                 Config.me.setUsername(user.getUsername());
                 Config.me.setSex(user.getSex());
                 Config.me.setAvatar(user.getAvatar());
-                multipleAdapter.updataItemView(listView,0,Config.me.getAvatar());
+                multipleAdapter.updataItemAvatar(listView,0,Config.me.getAvatar());
                 Log.d("getUserInfoByUserId",Config.me.getAvatar());
             }else if(user.getUserid().equals(Config.me.getFriendid())){
                 Config.you.setUserid(user.getUserid());
@@ -110,7 +110,7 @@ public class OptionsActivity extends BaseActivity {
                 Config.you.setSex(user.getSex());
                 Config.you.setAvatar(user.getAvatar());
                 Log.d("getUserInfoByUserId",Config.you.getAvatar());
-                multipleAdapter.updataItemView(listView,1,Config.you.getAvatar());
+                multipleAdapter.updataItemAvatar(listView,1,Config.you.getAvatar());
             }
         }else {
             Log.d("getUserInfoByUserId","fail");

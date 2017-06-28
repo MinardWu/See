@@ -94,11 +94,21 @@ public class MultipleAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void updataItemView(ListView listView, int position, String avatar){
+    public void updataItemAvatar(ListView listView, int position, String avatar){
         int index = position - listView.getFirstVisiblePosition();//求出index，index即为要更新的item相对当前可见画面第一项的位置
         if(index>=0 && index<listView.getChildCount()){//判断item是否在可见画面(getChildCount获得当前页面的item数，getCount获得总的item数)
             MultipleView multipleView = (MultipleView) getItem(position);
             multipleView.setAvatarUrl(avatar);
+            View newItem = listView.getChildAt(index);
+            getView(position,newItem,listView);
+        }
+    }
+
+    public void updataItemValue(ListView listView, int position, String value){
+        int index = position - listView.getFirstVisiblePosition();//求出index，index即为要更新的item相对当前可见画面第一项的位置
+        if(index>=0 && index<listView.getChildCount()){//判断item是否在可见画面(getChildCount获得当前页面的item数，getCount获得总的item数)
+            MultipleView multipleView = (MultipleView) getItem(position);
+            multipleView.setItemVaule(value);
             View newItem = listView.getChildAt(index);
             getView(position,newItem,listView);
         }

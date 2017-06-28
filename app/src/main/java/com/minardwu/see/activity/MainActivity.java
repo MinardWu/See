@@ -1,5 +1,6 @@
 package com.minardwu.see.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -49,6 +50,7 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
 //        String user3id="5951c2891b69e60062dd4daf";
 //        Friend.addFriend(user2id,user3id);
 //        Friend.getFriendid();
+//        ProgressDialog progressDialog = ProgressDialog.show(this,"","login");
     }
 
     private void initView() {
