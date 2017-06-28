@@ -11,37 +11,33 @@
         android:id="@+id/toolbar_search"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary" />
+        android:background="?attr/colorPrimary" >
+
+        <!--<LinearLayout-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_toolbar_back"-->
+                <!--android:layout_width="25dp"-->
+                <!--android:layout_height="25dp"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:src="@drawable/icon_back" />-->
+
+            <!--<android.support.v7.widget.SearchView-->
+                <!--android:id="@+id/sv"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:iconifiedByDefault="false"-->
+                <!--android:queryHint="请输入搜索内容" />-->
 
 
-    <!--<LinearLayout-->
-        <!--android:id="@+id/ll_search"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="32dp"-->
-        <!--android:layout_marginLeft="32dp"-->
-        <!--android:layout_marginRight="32dp">-->
+        <!--</LinearLayout>-->
 
-        <!--<com.rengwuxian.materialedittext.MaterialEditText-->
-            <!--android:id="@+id/et_search_username"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:layout_marginRight="16dp"-->
-            <!--android:hint="输入用户名"-->
-            <!--android:singleLine="true"-->
-            <!--app:met_baseColor="@color/et_hint"-->
-            <!--app:met_floatingLabel="highlight"-->
-            <!--app:met_primaryColor="@color/main" />-->
+    </android.support.v7.widget.Toolbar>
 
-        <!--<Button-->
-            <!--android:text="搜索"-->
-            <!--android:background="@drawable/btn_rect_enable"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content" />-->
-
-    <!--</LinearLayout>-->
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -49,7 +45,6 @@
 
         <TextView
             android:id="@+id/tv_search_info"
-            android:text="开始寻找那个人吧！"
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -98,9 +93,6 @@
         </LinearLayout>
 
     </RelativeLayout>
-
-
-
 
 
 </LinearLayout>

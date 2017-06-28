@@ -86,7 +86,7 @@ public class NewsActivity extends BaseActivity {
             list.add(news);
             newsAdapter.notifyDataSetChanged();
         }else {
-            Log.v("getNewsend","******************");
+            Log.v("getNewsend","fail");
         }
     };
 
@@ -104,6 +104,6 @@ public class NewsActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().register(this);
+        EventBus.getDefault().unregister(this);
     }
 }

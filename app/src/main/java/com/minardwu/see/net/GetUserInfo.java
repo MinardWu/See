@@ -31,6 +31,8 @@ public class GetUserInfo {
             public void done(List<AVObject> list, AVException e) {
                 if(list.size()==0){
                     Log.d("getUserInfoByUserName","null");
+                    user.setUserid("0");
+                    EventBus.getDefault().post(new GetUserInfoEvent(user));
                 }
                 for(AVObject avObject:list) {
                     if(e==null){
@@ -42,11 +44,13 @@ public class GetUserInfo {
                             JSONObject avatar = serverData.getJSONObject("avatar");
                             user.setUserid(root.getString("objectId"));
                             user.setUsername(serverData.getString("username"));
+                            user.setSex(serverData.getInt("sex"));
                             user.setAvatar(avatar.getString("url"));
                             Log.d("getUserInfoByUserName", root.getString("objectId"));
                             Log.d("getUserInfoByUserName", serverData.getString("username"));
                             Log.d("getUserInfoByUserName", avatar.getString("url"));
                             Log.d("getUserInfoByUserName", avObject.getAVFile("avatar").getUrl());
+                            EventBus.getDefault().post(new GetUserInfoEvent(user));
                         } catch (JSONException e1) {
                             Log.d("getUserInfoByUserId", e1.getMessage());
                         }
