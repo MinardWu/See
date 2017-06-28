@@ -1,6 +1,7 @@
 package com.minardwu.see.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -10,8 +11,12 @@ import android.widget.ListView;
 import com.minardwu.see.R;
 import com.minardwu.see.adapter.NewsAdapter;
 import com.minardwu.see.base.BaseActivity;
-import com.minardwu.see.entity.News;
-import com.rengwuxian.materialedittext.MaterialEditText;
+import com.minardwu.see.entity.NewsEntity;
+import com.minardwu.see.event.GetNewsEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +25,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 
 public class NewsActivity extends BaseActivity {
 
-    private List<News> newsList;
+    private List<NewsEntity> list;
     private ListView listView;
     private NewsAdapter newsAdapter;
     private MaterialDialog dialog_handle_news;
@@ -30,15 +35,18 @@ public class NewsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
+        EventBus.getDefault().register(this);
+        com.minardwu.see.net.News news = new com.minardwu.see.net.News();
+        news.getNews();
     }
 
     private void initView() {
-        newsList = new ArrayList<News>();
+        list = new ArrayList<NewsEntity>();
         listView = (ListView) findViewById(R.id.lv_news);
-        newsList.add(new News(1,2,3,4));
-        newsList.add(new News(1,2,3,4));
-        newsList.add(new News(1,2,3,4));
-        newsAdapter = new NewsAdapter(this,R.layout.listview_news,newsList);
+//        list.add(new News(1,2,3,4));
+//        list.add(new News(1,2,3,4));
+//        list.add(new News(1,2,3,4));
+        newsAdapter = new NewsAdapter(this,R.layout.listview_news, list);
         listView.setAdapter(newsAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -70,6 +78,18 @@ public class NewsActivity extends BaseActivity {
         });
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onGetNewsEvent(GetNewsEvent event){
+        NewsEntity news = event.getNews();
+        if(news!=null){
+            Log.v("getNewsend",news.getUsername());
+            list.add(news);
+            newsAdapter.notifyDataSetChanged();
+        }else {
+            Log.v("getNewsend","******************");
+        }
+    };
+
     @Override
     protected int getContentView() {
         return R.layout.activity_news;
@@ -79,5 +99,11 @@ public class NewsActivity extends BaseActivity {
     protected void toolbarSetting(ToolbarHelper toolbarHelper) {
         super.toolbarSetting(toolbarHelper);
         toolbarHelper.setTitle("消息");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().register(this);
     }
 }

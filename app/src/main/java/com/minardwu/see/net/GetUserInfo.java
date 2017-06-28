@@ -96,4 +96,39 @@ public class GetUserInfo {
         });
     }
 
+    public static void getUserInfoByUserIdForNews(final String newsid, String userid){
+        AVQuery<AVObject> avQuery = new AVQuery<>("_User");
+        avQuery.getInBackground(userid, new GetCallback<AVObject>() {
+            @Override
+            public void done(AVObject avObject, AVException e) {
+                if(avObject==null){
+                    Log.d("getUserInfoByUserId","null");
+                }
+                if(e==null){
+                    Log.d("getUserInfoByUserId","success");
+                    Log.d("getUserInfoByUserId",avObject.toString());
+                    try {
+                        JSONObject root = new JSONObject(avObject.toString());
+                        JSONObject serverData = root.getJSONObject("serverData");
+                        JSONObject avatar = serverData.getJSONObject("avatar");
+                        user.setUserid(newsid);
+                        user.setUsername(serverData.getString("username"));
+                        user.setAvatar(avatar.getString("url"));
+                        Log.d("getUserInfoByUserId",root.getString("objectId"));
+                        Log.d("getUserInfoByUserId",serverData.getString("username"));
+                        Log.d("getUserInfoByUserId",serverData.getInt("sex")+"");
+                        Log.d("getUserInfoByUserId",avatar.getString("url"));
+                        EventBus.getDefault().post(new GetUserInfoEvent(user));
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                        Log.d("getUserInfoByUserId",e1.getMessage());
+                    }
+                }else{
+                    Log.d("getUserInfoByUserId","fail");
+                    Log.d("getUserInfoByUserId",e.getMessage());
+                }
+            }
+        });
+    }
+
 }

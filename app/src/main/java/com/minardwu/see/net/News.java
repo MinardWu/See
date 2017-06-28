@@ -8,7 +8,14 @@ import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.SaveCallback;
+import com.minardwu.see.entity.NewsEntity;
+import com.minardwu.see.entity.User;
+import com.minardwu.see.event.GetNewsEvent;
+import com.minardwu.see.event.GetUserInfoEvent;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,7 +44,8 @@ public class News {
         });
     }
 
-    public static void getNews(){
+    public void getNews(){
+        EventBus.getDefault().register(this);
         final AVQuery<AVObject> firstQuery = new AVQuery<>("News");
         firstQuery.whereEqualTo("to",AVUser.getCurrentUser().getObjectId());
         final AVQuery<AVObject> secondQuery = new AVQuery<>("News");
@@ -50,24 +58,27 @@ public class News {
                     Log.d("getNews","success");
                     for (AVObject avObject:list){
                         try {
-                            Log.v("News",avObject.toString());
+                            Log.v("getNews",avObject.toString());
                             JSONObject jsonObject = new JSONObject(avObject.toString());
                             JSONObject serverData = jsonObject.getJSONObject("serverData");
-                            Log.v("News",jsonObject.getString("objectId"));
-                            Log.v("News",serverData.getString("from"));
+                            String newsid = jsonObject.getString("objectId");
+                            Log.v("getNews",jsonObject.getString("objectId"));
+                            Log.v("getNews",serverData.getString("from"));
+                            //利用得到的from获取用户的资料，这里为了将特定的消息与用户绑定在一起用了getUserInfoByUserIdForNews这个稍微改造的方法
+                            GetUserInfo.getUserInfoByUserIdForNews(newsid,serverData.getString("from"));
                         } catch (JSONException e1) {
-                            Log.v("News",e1.getMessage());
+                            Log.v("getNews",e1.getMessage());
                         }
                     }
                 }else{
-                    Log.d("getNews","fail");
+                    Log.d("getNews","getnews fail");
                     Log.d("getNews",e.getMessage());
                 }
             }
         });
     }
 
-    public static void readNews(String newsId){
+    public void readNews(String newsId){
         AVObject changeState = AVObject.createWithoutData("News",newsId);
         changeState.put("status",0);
         changeState.saveInBackground(new SaveCallback() {
@@ -82,5 +93,16 @@ public class News {
             }
         });
     }
+
+    @Subscribe
+    public void onGetUserInfoEvent(GetUserInfoEvent event){
+        User user = event.getUser();
+        if(user!=null){
+            Log.v("getNews",user.getUsername());
+            EventBus.getDefault().post(new GetNewsEvent(new NewsEntity(user.getUserid(),user.getUsername(),user.getAvatar())));
+        }else {
+            Log.d("getNews","getuser fail");
+        }
+    };
 
 }
