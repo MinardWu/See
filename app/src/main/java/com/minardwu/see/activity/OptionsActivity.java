@@ -7,20 +7,18 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.avos.avoscloud.AVUser;
 import com.minardwu.see.R;
+import com.minardwu.see.adapter.MultipleAdapter;
 import com.minardwu.see.adapter.OptionsAdapter;
 import com.minardwu.see.base.ActivityController;
 import com.minardwu.see.base.BaseActivity;
 import com.minardwu.see.base.Config;
-import com.minardwu.see.entity.News;
+import com.minardwu.see.entity.MultipleView;
 import com.minardwu.see.entity.Options;
 import com.minardwu.see.entity.User;
-import com.minardwu.see.entity.UserInfoItem;
 import com.minardwu.see.event.GetUserInfoEvent;
-import com.minardwu.see.event.LoginEvent;
 import com.minardwu.see.net.GetUserInfo;
 
 import org.greenrobot.eventbus.EventBus;
@@ -33,30 +31,42 @@ import java.util.List;
 public class OptionsActivity extends BaseActivity {
 
     private List<Options> list;
+    private List<MultipleView> mlist;
     private ListView listView;
     private OptionsAdapter optionsAdapter;
+    private MultipleAdapter multipleAdapter;
     private Button btn_logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initList();
+        initData();
+        initView();
         Log.d("getUserInfoByUserId",AVUser.getCurrentUser().getObjectId());
-        Log.d("getUserInfoByUserId",Config.me.getFriendid()+"=======");
-//        GetUserInfo.getUserInfoByUserId(AVUser.getCurrentUser().getObjectId());
+        Log.d("getUserInfoByUserId",Config.me.getFriendid());
+        if(Config.me.getAvatar()!=null){
+            Config.myTempAvatarUrl=Config.me.getAvatar();
+        }
+        if(Config.you.getAvatar()!=null){
+            Config.yourTempAvatarUrl=Config.you.getAvatar();
+        }
+        GetUserInfo.getUserInfoByUserId(AVUser.getCurrentUser().getObjectId());
         GetUserInfo.getUserInfoByUserId(Config.me.getFriendid());
         EventBus.getDefault().register(this);
     }
 
-    private void initList() {
-        list = new ArrayList<Options>();
+    private void initData() {
+        mlist= new ArrayList<MultipleView>();
+        mlist.add(new MultipleView(0,"我的资料","me",Config.myTempAvatarUrl));
+        mlist.add(new MultipleView(0,"他的资料","you",Config.yourTempAvatarUrl));
+        mlist.add(new MultipleView(1,"消息","会有谁呢","null"));
+        mlist.add(new MultipleView(1,"搜索","又在哪呢","null"));
+    }
+
+    private void initView() {
         listView = (ListView) findViewById(R.id.lv_options);
-        list.add(new Options("我的资料","me",Config.tempUrl));
-        list.add(new Options("他的资料","you",Config.tempUrl));
-        list.add(new Options("消息","会有谁呢","null"));
-        list.add(new Options("搜索","又在哪呢","null"));
-        optionsAdapter = new OptionsAdapter(this,R.layout.listview_normalitem,list);
-        listView.setAdapter(optionsAdapter);
+        multipleAdapter = new MultipleAdapter(this,mlist);
+        listView.setAdapter(multipleAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -92,22 +102,18 @@ public class OptionsActivity extends BaseActivity {
                 Config.me.setUsername(user.getUsername());
                 Config.me.setSex(user.getSex());
                 Config.me.setAvatar(user.getAvatar());
+                multipleAdapter.updataItemView(listView,0,Config.me.getAvatar());
+                Log.d("getUserInfoByUserId",Config.me.getAvatar());
             }else if(user.getUserid().equals(Config.me.getFriendid())){
                 Config.you.setUserid(user.getUserid());
                 Config.you.setUsername(user.getUsername());
                 Config.you.setSex(user.getSex());
                 Config.you.setAvatar(user.getAvatar());
-                Log.d("getUserInfoByUserId",Config.you.getAvatar()+"/////////");
-                optionsAdapter.updataItemView(listView,0,Config.you.getAvatar());
+                Log.d("getUserInfoByUserId",Config.you.getAvatar());
+                multipleAdapter.updataItemView(listView,1,Config.you.getAvatar());
             }
-//            list.clear();
-//            list.add(new Options("我的资料","me",Config.tempUrl));
-//            list.add(new Options("他的资料","you",Config.you.getAvatar()));
-//            list.add(new Options("消息","会有谁呢","null"));
-//            list.add(new Options("搜索","又在哪呢","null"));
-//            optionsAdapter.notifyDataSetChanged();
         }else {
-            Toast.makeText(this,"huoqushibai",Toast.LENGTH_LONG).show();
+            Log.d("getUserInfoByUserId","fail");
         }
     };
 

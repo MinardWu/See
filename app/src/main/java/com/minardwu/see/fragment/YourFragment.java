@@ -1,7 +1,5 @@
 package com.minardwu.see.fragment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -29,12 +27,12 @@ public class YourFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_your, container, false);
         gridView = (GridView) view.findViewById(R.id.gv_your);
         list = new ArrayList<Photo>();
-        list.add(new Photo(1,1, Config.tempUrl,"",1));
-        list.add(new Photo(1,1, Config.tempUrl,"",1));
-        list.add(new Photo(1,1, Config.tempUrl,"",1));
-        list.add(new Photo(1,1, Config.tempUrl,"",1));
-        list.add(new Photo(1,1, Config.tempUrl,"",1));
-        list.add(new Photo(1,1, Config.tempUrl,"",1));
+        list.add(new Photo(1,1, Config.myTempAvatarUrl,"",1));
+        list.add(new Photo(1,1, Config.myTempAvatarUrl,"",1));
+        list.add(new Photo(1,1, Config.myTempAvatarUrl,"",1));
+        list.add(new Photo(1,1, Config.myTempAvatarUrl,"",1));
+        list.add(new Photo(1,1, Config.myTempAvatarUrl,"",1));
+        list.add(new Photo(1,1, Config.myTempAvatarUrl,"",1));
         photoAdapter = new PhotoAdapter(getContext(),R.layout.gridview_photo,list);
         gridView.setAdapter(photoAdapter);
         return view;

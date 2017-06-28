@@ -3,7 +3,6 @@ package com.minardwu.see.adapter;
 import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
-import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -33,7 +32,7 @@ public class NewsAdapter extends ArrayAdapter<News> {
         SimpleDraweeView simpleDraweeView = (SimpleDraweeView) view.findViewById(R.id.iv_news_image);
         TextView news_user = (TextView) view.findViewById(R.id.tv_news_user);
         TextView news_msg = (TextView) view.findViewById(R.id.tv_news_msg);
-        simpleDraweeView.setImageURI(Uri.parse(Config.tempUrl));
+        simpleDraweeView.setImageURI(Uri.parse(Config.myTempAvatarUrl));
         news_user.setText("wu");
         news_msg.setText("请求加你为好友");
         return view;

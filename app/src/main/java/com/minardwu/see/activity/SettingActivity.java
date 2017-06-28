@@ -11,10 +11,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.minardwu.see.R;
-import com.minardwu.see.adapter.UserInfoItemAdapter;
+import com.minardwu.see.adapter.MultipleAdapter;
 import com.minardwu.see.base.BaseActivity;
 import com.minardwu.see.base.Config;
-import com.minardwu.see.entity.UserInfoItem;
+import com.minardwu.see.entity.MultipleView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.ArrayList;
@@ -24,9 +24,9 @@ import me.drakeet.materialdialog.MaterialDialog;
 
 public class SettingActivity extends BaseActivity {
 
-    private List<UserInfoItem> list;
+    private List<MultipleView> list;
     private ListView listView;
-    private UserInfoItemAdapter userInfoItemAdapter;
+    private MultipleAdapter multipleAdapter;
 
     private MaterialDialog dialog_edit_avatar;
     private MaterialDialog dialog_edit_username;
@@ -45,18 +45,26 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initData();
         initView();
     }
 
+    private void initData() {
+        list = new ArrayList<MultipleView>();
+        list.add(new MultipleView(0,"头像","",Config.me.getAvatar()));
+        list.add(new MultipleView(1,"昵称","MinardWu",""));
+        list.add(new MultipleView(1,"密码","不给你看",""));
+        if(Config.me.getSex()==0){
+            list.add(new MultipleView(1,"性别","妹子",""));
+        }else if(Config.me.getSex()==1){
+            list.add(new MultipleView(1,"性别","汉子",""));
+        }
+    }
+
     private void initView(){
-        list = new ArrayList<UserInfoItem>();
         listView = (ListView) findViewById(R.id.lv_userinfo);
-        list.add(new UserInfoItem("头像","MinardWu", Config.tempUrl));
-        list.add(new UserInfoItem("昵称","MinardWu",Config.tempUrl));
-        list.add(new UserInfoItem("密码","不给你看",Config.tempUrl));
-        list.add(new UserInfoItem("性别","汉子",Config.tempUrl));
-        userInfoItemAdapter = new UserInfoItemAdapter(this,R.layout.listview_normalitem,list);
-        listView.setAdapter(userInfoItemAdapter);
+        multipleAdapter = new MultipleAdapter(this,list);
+        listView.setAdapter(multipleAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -142,7 +150,7 @@ public class SettingActivity extends BaseActivity {
                             }
                         }
                     });
-                    dialog_edit_sex = new MaterialDialog(SettingActivity.this).setTitle("选一个吧").setContentView(listView);
+                    dialog_edit_sex = new MaterialDialog(SettingActivity.this).setContentView(listView);
                     dialog_edit_sex.show();
                 }
             }
