@@ -23,7 +23,9 @@ import com.minardwu.see.base.BaseActivity;
 import com.minardwu.see.base.Config;
 import com.minardwu.see.entity.User;
 import com.minardwu.see.event.GetUserInfoEvent;
+import com.minardwu.see.event.SendOrReadNewsEvent;
 import com.minardwu.see.net.GetUserInfo;
+import com.minardwu.see.net.News;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -38,6 +40,7 @@ public class SearchActivity extends AppCompatActivity {
     private Button btn_add;
     private LinearLayout ll_result;
 
+    private User searchUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,12 @@ public class SearchActivity extends AppCompatActivity {
         ll_result = (LinearLayout) findViewById(R.id.ll_search_result);
 
         tv_info.setText("开始寻找那个人吧!");
+        btn_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                News.sendNews(searchUser.getUserid());
+            }
+        });
     }
 
     @Override
@@ -69,8 +78,12 @@ public class SearchActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                btn_add.setEnabled(true);
+                btn_add.setText("请求");
                 if(query.equals(Config.me.getUsername())){
                     tv_info.setText("哗啦啦啦，天在下雨。");
+                }else if(query.equals(Config.you.getUsername())){
+                    tv_info.setText("远在天边，近在眼前。");
                 }else {
                     GetUserInfo.getUserInfoByUserName(query);
                 }
@@ -87,16 +100,32 @@ public class SearchActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGetUserInfoEvent(GetUserInfoEvent event){
-        User user = event.getUser();
-        if(user.getUserid().equals("0")){
+        searchUser = event.getUser();
+        if(searchUser.getUserid().equals("0")){
             ll_result.setVisibility(View.GONE);
             tv_info.setVisibility(View.VISIBLE);
             tv_info.setText("找不到该用户");
         }else {
             tv_info.setVisibility(View.GONE);
             ll_result.setVisibility(View.VISIBLE);
-            tv_username.setText(user.getUsername());
-            iv_avatar.setImageURI(Uri.parse(user.getAvatar()));
+            tv_username.setText(searchUser.getUsername());
+            iv_avatar.setImageURI(Uri.parse(searchUser.getAvatar()));
+        }
+    };
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSendOrReadNewsEvent(SendOrReadNewsEvent event){
+        if(event.getResult()==1){
+            Toast.makeText(SearchActivity.this, "请求发送成功", Toast.LENGTH_SHORT).show();
+            btn_add.setEnabled(false);
+            btn_add.setText("请求已发送");
+        } else if(event.getResult()==-1){
+            Toast.makeText(SearchActivity.this, "你之前已发送过请求了哦", Toast.LENGTH_SHORT).show();
+            btn_add.setEnabled(false);
+            btn_add.setText("请求已发送");
+        } else {
+            Toast.makeText(SearchActivity.this, "请求发送失败", Toast.LENGTH_SHORT).show();
         }
     };
 

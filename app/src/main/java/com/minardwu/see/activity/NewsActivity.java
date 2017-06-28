@@ -13,6 +13,7 @@ import com.minardwu.see.adapter.NewsAdapter;
 import com.minardwu.see.base.BaseActivity;
 import com.minardwu.see.entity.NewsEntity;
 import com.minardwu.see.event.GetNewsEvent;
+import com.minardwu.see.net.News;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -36,24 +37,21 @@ public class NewsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         initView();
         EventBus.getDefault().register(this);
-        com.minardwu.see.net.News news = new com.minardwu.see.net.News();
+        News news = new News();
         news.getNews();
     }
 
     private void initView() {
         list = new ArrayList<NewsEntity>();
         listView = (ListView) findViewById(R.id.lv_news);
-//        list.add(new News(1,2,3,4));
-//        list.add(new News(1,2,3,4));
-//        list.add(new News(1,2,3,4));
         newsAdapter = new NewsAdapter(this,R.layout.listview_news, list);
         listView.setAdapter(newsAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(NewsActivity.this, android.R.layout.simple_list_item_1);
+                arrayAdapter.add("忽略");
                 arrayAdapter.add("同意");
-                arrayAdapter.add("拒绝");
                 ListView listView = new ListView(NewsActivity.this);
                 listView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 float scale = getResources().getDisplayMetrics().density;
