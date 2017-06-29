@@ -18,9 +18,14 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class SplashActivity extends AppCompatActivity {
 
     SimpleDraweeView splashPic;
+    Timer timer;
+    AVUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,35 +34,34 @@ public class SplashActivity extends AppCompatActivity {
         initView();
         EventBus.getDefault().register(this);
 
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    Thread.sleep(3000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                AVUser currentUser = AVUser.getCurrentUser();
-//                if (currentUser != null) {
-//                    Friend.getFriendid();
-//                    startActivity(new Intent(SplashActivity.this,MainActivity.class));
-//                    finish();
-//                } else {
-//                    startActivity(new Intent(SplashActivity.this,LoginActivity.class));
-//                    finish();
-//                }
-//
-//            }
-//        }).start();
+        timer = new Timer(true);
 
-        AVUser currentUser = AVUser.getCurrentUser();
-        if (currentUser != null) {
-            Friend.getFriendid();
-        } else {
-            startActivity(new Intent(SplashActivity.this,LoginActivity.class));
-            finish();
-        }
+        //1秒之后开始获取数据（如果有的话），这一秒固定用来展示
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                currentUser = AVUser.getCurrentUser();
+                if (currentUser != null) {
+
+                }
+            }
+        },1000);
+
+        //3秒之后不论如何跳离SplashActivity
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                currentUser = AVUser.getCurrentUser();
+                if (currentUser != null) {
+                    startActivity(new Intent(SplashActivity.this,MainActivity.class));
+                    finish();
+                } else {
+                    startActivity(new Intent(SplashActivity.this,LoginActivity.class));
+                    finish();
+                }
+            }
+        },3000);
+
     }
 
     private void initView() {
@@ -72,9 +76,12 @@ public class SplashActivity extends AppCompatActivity {
     public void onGetFriendEvent(GetFriendEvent event){
         if(event.getResult()!=null){
             Config.me.setFriendid(event.getResult());
-            startActivity(new Intent(SplashActivity.this,MainActivity.class));
-            finish();
+        }else {
+            Config.me.setFriendid("0");
         }
+        //获取完数据马上跳转
+        startActivity(new Intent(SplashActivity.this,MainActivity.class));
+        finish();
     };
 
     @Override

@@ -80,6 +80,8 @@ public class SearchActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 btn_add.setEnabled(true);
                 btn_add.setText("请求");
+                ll_result.setVisibility(View.GONE);
+                tv_info.setVisibility(View.VISIBLE);
                 if(query.equals(Config.me.getUsername())){
                     tv_info.setText("哗啦啦啦，天在下雨。");
                 }else if(query.equals(Config.you.getUsername())){

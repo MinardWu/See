@@ -27,12 +27,12 @@ public class MyFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_my, container, false);
         gridView = (GridView) view.findViewById(R.id.gv_my);
         list = new ArrayList<Photo>();
-        list.add(new Photo(1,1, Config.myTempAvatarUrl,"",1));
-        list.add(new Photo(1,1, Config.myTempAvatarUrl,"",1));
-        list.add(new Photo(1,1, Config.myTempAvatarUrl,"",1));
-        list.add(new Photo(1,1, Config.myTempAvatarUrl,"",1));
-        list.add(new Photo(1,1, Config.myTempAvatarUrl,"",1));
-        list.add(new Photo(1,1, Config.myTempAvatarUrl,"",1));
+        list.add(new Photo(1,1, Config.tempAvatarUrl,"",1));
+        list.add(new Photo(1,1, Config.tempAvatarUrl,"",1));
+        list.add(new Photo(1,1, Config.tempAvatarUrl,"",1));
+        list.add(new Photo(1,1, Config.tempAvatarUrl,"",1));
+        list.add(new Photo(1,1, Config.tempAvatarUrl,"",1));
+        list.add(new Photo(1,1, Config.tempAvatarUrl,"",1));
         photoAdapter = new PhotoAdapter(getContext(),R.layout.gridview_photo,list);
         gridView.setAdapter(photoAdapter);
         return view;

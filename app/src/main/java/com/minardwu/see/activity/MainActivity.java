@@ -20,10 +20,16 @@ import android.widget.RadioButton;
 import com.minardwu.see.R;
 import com.minardwu.see.adapter.MyFragmentPagerAdapter;
 import com.minardwu.see.base.ActivityController;
+import com.minardwu.see.base.Config;
 import com.minardwu.see.entity.Photo;
+import com.minardwu.see.event.GetFriendEvent;
 import com.minardwu.see.fragment.MyFragment;
 import com.minardwu.see.fragment.YourFragment;
 import com.minardwu.see.net.Friend;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +52,8 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
         ActivityController.addActivity(this);//MainActivity没有继承BaseActivity，故要手动添加
         initView();
         initPopupWindow();
+        EventBus.getDefault().register(this);
+        Friend.getFriendid();
 //        String user2id="5951c2898d6d8100571769d2";
 //        String user3id="5951c2891b69e60062dd4daf";
 //        Friend.addFriend(user2id,user3id);
@@ -129,6 +137,22 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
                 viewPager.setCurrentItem(1);
                 break;
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onGetFriendEvent(GetFriendEvent event){
+        if(event.getResult()!=null){
+            Config.me.setFriendid(event.getResult());
+        }else {
+            Config.me.setFriendid("0");
+        }
+    };
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
 

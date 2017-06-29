@@ -100,7 +100,7 @@ public class GetUserInfo {
         });
     }
 
-    public static void getUserInfoByUserIdForNews(final String newsid, String userid){
+    public static void getUserInfoByUserIdForNews(final String newsid, final String userid){
         AVQuery<AVObject> avQuery = new AVQuery<>("_User");
         avQuery.getInBackground(userid, new GetCallback<AVObject>() {
             @Override
@@ -115,9 +115,10 @@ public class GetUserInfo {
                         JSONObject root = new JSONObject(avObject.toString());
                         JSONObject serverData = root.getJSONObject("serverData");
                         JSONObject avatar = serverData.getJSONObject("avatar");
-                        user.setUserid(newsid);
+                        user.setUserid(userid);
                         user.setUsername(serverData.getString("username"));
                         user.setAvatar(avatar.getString("url"));
+                        user.setNewsid(newsid);
                         Log.d("getUserInfoByUserId",root.getString("objectId"));
                         Log.d("getUserInfoByUserId",serverData.getString("username"));
                         Log.d("getUserInfoByUserId",serverData.getInt("sex")+"");

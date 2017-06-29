@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.avos.avoscloud.AVUser;
 import com.minardwu.see.R;
@@ -42,25 +43,27 @@ public class OptionsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         initData();
         initView();
-//        Log.d("getUserInfoByUserId",AVUser.getCurrentUser().getObjectId());
-//        Log.d("getUserInfoByUserId",Config.me.getFriendid());
-        if(Config.me.getAvatar()!=null){
-            Config.myTempAvatarUrl=Config.me.getAvatar();
-        }
-        if(Config.you.getAvatar()!=null){
-            Config.yourTempAvatarUrl=Config.you.getAvatar();
-        }
+//        Log.d("getUserInfoByUserIddddddddd",AVUser.getCurrentUser().getObjectId());
+//        Log.d("getUserInfoByUserIddddddddd",Config.me.getFriendid());
+//        if(Config.me.getAvatar()!=null){
+//            Config.myTempAvatarUrl=Config.me.getAvatar();
+//        }
+//        if(Config.you.getAvatar()!=null){
+//            Config.yourTempAvatarUrl=Config.you.getAvatar();
+//        }
         GetUserInfo.getUserInfoByUserId(AVUser.getCurrentUser().getObjectId());
-        GetUserInfo.getUserInfoByUserId(Config.me.getFriendid());
+        if(Config.me!=null){
+            GetUserInfo.getUserInfoByUserId(Config.me.getFriendid());
+        }
         EventBus.getDefault().register(this);
     }
 
     private void initData() {
         mlist= new ArrayList<MultipleView>();
-        mlist.add(new MultipleView(0,"我的资料","me",Config.myTempAvatarUrl));
-        mlist.add(new MultipleView(0,"他的资料","you",Config.yourTempAvatarUrl));
-        mlist.add(new MultipleView(1,"消息","会有谁呢","null"));
-        mlist.add(new MultipleView(1,"搜索","又在哪呢","null"));
+        mlist.add(new MultipleView(0,"我的资料","",Config.myTempAvatarUrl));
+        mlist.add(new MultipleView(0,"他的资料","",Config.yourTempAvatarUrl));
+        mlist.add(new MultipleView(1,"消息","会有谁呢",""));
+        mlist.add(new MultipleView(1,"搜索","又在哪呢",""));
     }
 
     private void initView() {
@@ -73,7 +76,9 @@ public class OptionsActivity extends BaseActivity {
                 if(position==0){
                     startActivity(new Intent(OptionsActivity.this,SettingActivity.class));
                 }else if(position == 1){
-
+//                    if(Config.me.getFriendid().equals("0")){
+//                        Toast.makeText(OptionsActivity.this, "您目前还没有好友哦", Toast.LENGTH_SHORT).show();
+//                    }
                 }else if(position == 2){
                     startActivity(new Intent(OptionsActivity.this,NewsActivity.class));
                 }else if(position == 3){
@@ -87,6 +92,10 @@ public class OptionsActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 AVUser.logOut();
+                Config.me = null;
+                Config.you = null;
+                Config.myTempAvatarUrl = "";
+                Config.yourTempAvatarUrl = "";
                 ActivityController.finishAllActivity();
                 startActivity(new Intent(OptionsActivity.this,LoginActivity.class));
             }
@@ -126,6 +135,14 @@ public class OptionsActivity extends BaseActivity {
     protected void toolbarSetting(ToolbarHelper toolbarHelper) {
         super.toolbarSetting(toolbarHelper);
         toolbarHelper.setTitle("选项");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(Config.me!=null){
+            GetUserInfo.getUserInfoByUserId(Config.me.getFriendid());
+        }
     }
 
     @Override

@@ -2,10 +2,12 @@ package com.minardwu.see.net;
 
 import android.util.Log;
 
+import com.avos.avoscloud.AVCloudQueryResult;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.CloudQueryCallback;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.minardwu.see.entity.NewsEntity;
@@ -83,19 +85,23 @@ public class News {
             @Override
             public void done(List<AVObject> list, AVException e) {
                 if(e==null){
-                    Log.d("getNews","success");
-                    for (AVObject avObject:list){
-                        try {
-                            Log.v("getNews",avObject.toString());
-                            JSONObject jsonObject = new JSONObject(avObject.toString());
-                            JSONObject serverData = jsonObject.getJSONObject("serverData");
-                            String newsid = jsonObject.getString("objectId");
-                            Log.v("getNews",jsonObject.getString("objectId"));
-                            Log.v("getNews",serverData.getString("from"));
-                            //利用得到的from获取用户的资料，这里为了将特定的消息与用户绑定在一起用了getUserInfoByUserIdForNews这个稍微改造的方法
-                            GetUserInfo.getUserInfoByUserIdForNews(newsid,serverData.getString("from"));
-                        } catch (JSONException e1) {
-                            Log.v("getNews",e1.getMessage());
+                    if(list.size()==0){
+                        EventBus.getDefault().post(new GetNewsEvent(0,null));
+                    }else {
+                        Log.d("getNews","success");
+                        for (AVObject avObject:list){
+                            try {
+                                Log.v("getNews",avObject.toString());
+                                JSONObject jsonObject = new JSONObject(avObject.toString());
+                                JSONObject serverData = jsonObject.getJSONObject("serverData");
+                                String newsid = jsonObject.getString("objectId");
+                                Log.v("getNews",jsonObject.getString("objectId"));
+                                Log.v("getNews",serverData.getString("from"));
+                                //利用得到的from获取用户的资料，这里为了将特定的消息与用户绑定在一起用了getUserInfoByUserIdForNews这个稍微改造的方法
+                                GetUserInfo.getUserInfoByUserIdForNews(newsid,serverData.getString("from"));
+                            } catch (JSONException e1) {
+                                Log.v("getNews",e1.getMessage());
+                            }
                         }
                     }
                 }else{
@@ -106,7 +112,7 @@ public class News {
         });
     }
 
-    public void readNews(String newsId){
+    public static void readNews(String newsId){
         AVObject changeState = AVObject.createWithoutData("News",newsId);
         changeState.put("status",0);
         changeState.saveInBackground(new SaveCallback() {
@@ -122,15 +128,30 @@ public class News {
         });
     }
 
+    public static void deleteNews(String newsId){
+        AVQuery.doCloudQueryInBackground("delete from News where objectId='"+newsId+"'", new CloudQueryCallback<AVCloudQueryResult>() {
+            @Override
+            public void done(AVCloudQueryResult avCloudQueryResult, AVException e) {
+                if(e==null){
+                    Log.d("deleteNews","success");
+                }else{
+                    Log.d("deleteNews","fail");
+                    Log.d("deleteNews",e.getMessage());
+                }
+            }
+        });
+    }
+
     @Subscribe
     public void onGetUserInfoEvent(GetUserInfoEvent event){
         User user = event.getUser();
         if(user!=null){
             Log.v("getNews",user.getUsername());
-            EventBus.getDefault().post(new GetNewsEvent(new NewsEntity(user.getUserid(),user.getUsername(),user.getAvatar())));
+            EventBus.getDefault().post(new GetNewsEvent(1,new NewsEntity(user.getNewsid(),user.getUserid(),user.getUsername(),user.getAvatar())));
         }else {
             Log.d("getNews","getuser fail");
         }
     };
+
 
 }
