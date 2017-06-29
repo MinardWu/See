@@ -34,10 +34,14 @@ public class Friend {
         firstQuery.whereEqualTo("user1id",user1id);
         final AVQuery<AVObject> secondQuery = new AVQuery<>("Friend");
         secondQuery.whereEqualTo("user2id",user1id);
-        AVQuery<AVObject> query = AVQuery.or(Arrays.asList(firstQuery, secondQuery));
+        final AVQuery<AVObject> thirdQuery = new AVQuery<>("Friend");
+        thirdQuery.whereEqualTo("user1id",user2id);
+        final AVQuery<AVObject> fourthQuery = new AVQuery<>("Friend");
+        fourthQuery.whereEqualTo("user2id",user2id);
+        AVQuery<AVObject> query = AVQuery.or(Arrays.asList(firstQuery, secondQuery,thirdQuery,fourthQuery));
         query.findInBackground(new FindCallback<AVObject>() {
             @Override
-            public void done(List<AVObject> list, AVException e) {
+            public void done(final List<AVObject> list, AVException e) {
                 if(list.size()!=0){
                     for (AVObject avObject:list){
                         try {
@@ -52,8 +56,8 @@ public class Friend {
                                         Log.v("deleteFriend","delete success");
                                         count[0]++;
                                         Log.v("deleteFriend",""+count[0]);
-                                        //两个好友记录都删除了
-                                        if(count[0]==2){
+                                        //两个或四个好友记录都删除了（即一个人有好友或两个人有好友）
+                                        if(count[0]==list.size()){
                                             Log.v("deleteFriend","final"+count[0]);
                                             addFriend(user1id,user2id);
                                         }
@@ -185,8 +189,9 @@ public class Friend {
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }
+                    }else {
+                        EventBus.getDefault().post(new GetFriendEvent("0"));
                     }
-
                 }else{
                     Log.d("getFriendid","fail");
                     Log.d("getFriendid",e.getMessage());

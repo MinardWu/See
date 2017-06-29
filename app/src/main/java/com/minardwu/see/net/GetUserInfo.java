@@ -33,30 +33,27 @@ public class GetUserInfo {
                     Log.d("getUserInfoByUserName","null");
                     user.setUserid("0");
                     EventBus.getDefault().post(new GetUserInfoEvent(user));
-                }
-                for(AVObject avObject:list) {
-                    if(e==null){
-                        Log.d("getUserInfoByUserName","success");
-                        Log.d("getUserInfoByUserName", avObject.toString());
-                        try {
-                            JSONObject root = new JSONObject(avObject.toString());
-                            JSONObject serverData = root.getJSONObject("serverData");
-                            JSONObject avatar = serverData.getJSONObject("avatar");
-                            user.setUserid(root.getString("objectId"));
-                            user.setUsername(serverData.getString("username"));
-                            user.setSex(serverData.getInt("sex"));
-                            user.setAvatar(avatar.getString("url"));
-                            Log.d("getUserInfoByUserName", root.getString("objectId"));
-                            Log.d("getUserInfoByUserName", serverData.getString("username"));
-                            Log.d("getUserInfoByUserName", avatar.getString("url"));
-                            Log.d("getUserInfoByUserName", avObject.getAVFile("avatar").getUrl());
-                            EventBus.getDefault().post(new GetUserInfoEvent(user));
-                        } catch (JSONException e1) {
-                            Log.d("getUserInfoByUserId", e1.getMessage());
+                }else {
+                    for(AVObject avObject:list) {
+                        if(e==null){
+                            Log.d("getUserInfoByUserName","success");
+                            Log.d("getUserInfoByUserName", avObject.toString());
+                            try {
+                                JSONObject root = new JSONObject(avObject.toString());
+                                JSONObject serverData = root.getJSONObject("serverData");
+                                JSONObject avatar = serverData.getJSONObject("avatar");
+                                user.setUserid(root.getString("objectId"));
+                                user.setUsername(serverData.getString("username"));
+                                user.setSex(serverData.getInt("sex"));
+                                user.setAvatar(avatar.getString("url"));
+                                EventBus.getDefault().post(new GetUserInfoEvent(user));
+                            } catch (JSONException e1) {
+                                Log.d("getUserInfoByUserId", e1.getMessage());
+                            }
+                        }else{
+                            Log.d("getUserInfoByUserName","fail");
+                            Log.d("getUserInfoByUserName",e.getMessage());
                         }
-                    }else{
-                        Log.d("getUserInfoByUserName","fail");
-                        Log.d("getUserInfoByUserName",e.getMessage());
                     }
                 }
             }
@@ -71,30 +68,27 @@ public class GetUserInfo {
             public void done(AVObject avObject, AVException e) {
                 if(avObject==null){
                     Log.d("getUserInfoByUserId","null");
-                }
-                if(e==null){
-                    Log.d("getUserInfoByUserId","success");
-                    Log.d("getUserInfoByUserId",avObject.toString());
-                    try {
-                        JSONObject root = new JSONObject(avObject.toString());
-                        JSONObject serverData = root.getJSONObject("serverData");
-                        JSONObject avatar = serverData.getJSONObject("avatar");
-                        user.setUserid(root.getString("objectId"));
-                        user.setUsername(serverData.getString("username"));
-                        user.setSex(serverData.getInt("sex"));
-                        user.setAvatar(avatar.getString("url"));
-                        Log.d("getUserInfoByUserId",root.getString("objectId"));
-                        Log.d("getUserInfoByUserId",serverData.getString("username"));
-                        Log.d("getUserInfoByUserId",serverData.getInt("sex")+"");
-                        Log.d("getUserInfoByUserId",avatar.getString("url"));
-                        EventBus.getDefault().post(new GetUserInfoEvent(user));
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                        Log.d("getUserInfoByUserId",e1.getMessage());
+                }else {
+                    if(e==null){
+                        Log.d("getUserInfoByUserId","success");
+                        Log.d("getUserInfoByUserId",avObject.toString());
+                        try {
+                            JSONObject root = new JSONObject(avObject.toString());
+                            JSONObject serverData = root.getJSONObject("serverData");
+                            JSONObject avatar = serverData.getJSONObject("avatar");
+                            user.setUserid(root.getString("objectId"));
+                            user.setUsername(serverData.getString("username"));
+                            user.setSex(serverData.getInt("sex"));
+                            user.setAvatar(avatar.getString("url"));
+                            EventBus.getDefault().post(new GetUserInfoEvent(user));
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                            Log.d("getUserInfoByUserId",e1.getMessage());
+                        }
+                    }else{
+                        Log.d("getUserInfoByUserId","fail");
+                        Log.d("getUserInfoByUserId",e.getMessage());
                     }
-                }else{
-                    Log.d("getUserInfoByUserId","fail");
-                    Log.d("getUserInfoByUserId",e.getMessage());
                 }
             }
         });
@@ -106,11 +100,11 @@ public class GetUserInfo {
             @Override
             public void done(AVObject avObject, AVException e) {
                 if(avObject==null){
-                    Log.d("getUserInfoByUserId","null");
+                    Log.d("getUserInfoByUserIdForNews","null");
                 }
                 if(e==null){
-                    Log.d("getUserInfoByUserId","success");
-                    Log.d("getUserInfoByUserId",avObject.toString());
+                    Log.d("getUserInfoByUserIdForNews","success");
+                    Log.d("getUserInfoByUserIdForNews",avObject.toString());
                     try {
                         JSONObject root = new JSONObject(avObject.toString());
                         JSONObject serverData = root.getJSONObject("serverData");
@@ -119,18 +113,14 @@ public class GetUserInfo {
                         user.setUsername(serverData.getString("username"));
                         user.setAvatar(avatar.getString("url"));
                         user.setNewsid(newsid);
-                        Log.d("getUserInfoByUserId",root.getString("objectId"));
-                        Log.d("getUserInfoByUserId",serverData.getString("username"));
-                        Log.d("getUserInfoByUserId",serverData.getInt("sex")+"");
-                        Log.d("getUserInfoByUserId",avatar.getString("url"));
                         EventBus.getDefault().post(new GetUserInfoEvent(user));
                     } catch (JSONException e1) {
                         e1.printStackTrace();
-                        Log.d("getUserInfoByUserId",e1.getMessage());
+                        Log.d("getUserInfoByUserIdForNews",e1.getMessage());
                     }
                 }else{
-                    Log.d("getUserInfoByUserId","fail");
-                    Log.d("getUserInfoByUserId",e.getMessage());
+                    Log.d("getUserInfoByUserIdForNews","fail");
+                    Log.d("getUserInfoByUserIdForNews",e.getMessage());
                 }
             }
         });

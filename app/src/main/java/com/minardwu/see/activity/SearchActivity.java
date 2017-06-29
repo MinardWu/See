@@ -74,6 +74,7 @@ public class SearchActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_search, menu);
         final MenuItem item = menu.findItem(R.id.search);
         searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setQueryHint("输入用户名称搜索");
         searchView.setIconified(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

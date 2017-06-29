@@ -10,8 +10,8 @@ import com.minardwu.see.entity.User;
  * Created by Administrator on 2017/6/23.
  */
 public class Config {
-    public static User me = new User();
-    public static User you = new User();
+    public static User me;
+    public static User you;
     public static String tempAvatarUrl = "https://avatars3.githubusercontent.com/u/11813425?v=3&s=460";
     public static String myTempAvatarUrl = "";
     public static String yourTempAvatarUrl = "";

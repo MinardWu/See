@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -20,7 +21,11 @@ import com.minardwu.see.base.BaseActivity;
 import com.minardwu.see.base.Config;
 import com.minardwu.see.base.MyApplication;
 import com.minardwu.see.entity.MultipleView;
+import com.minardwu.see.entity.User;
+import com.minardwu.see.event.GetUserInfoEvent;
 import com.minardwu.see.event.SetUserInfoEvent;
+import com.minardwu.see.net.Friend;
+import com.minardwu.see.net.GetUserInfo;
 import com.minardwu.see.net.SetUserInfo;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -40,6 +45,7 @@ public class SettingActivity extends BaseActivity {
     private MultipleAdapter multipleAdapter;
 
     private MaterialDialog dialog_edit_avatar;
+    private MaterialDialog dialog_friend;
     private MaterialDialog dialog_edit_username;
     private MaterialDialog dialog_edit_psd;
     private MaterialDialog dialog_edit_sex;
@@ -48,7 +54,10 @@ public class SettingActivity extends BaseActivity {
     private MaterialEditText et_newname;
     private MaterialEditText et_oldPassword;
     private MaterialEditText et_newPassword;
+    private Button btn_logout;
 
+
+    private boolean isHaveFriend;
     public static int CAMERA_REQUEST_CODE = 1;
     public static int GALLERY_REQUEST_CODE = 2;
     public static int IMAGEZOOM_REQUEST_CODE = 3;
@@ -59,11 +68,29 @@ public class SettingActivity extends BaseActivity {
         initData();
         initView();
         EventBus.getDefault().register(this);
+//        if(!Config.me.getFriendid().equals("0")){
+//            GetUserInfo.getUserInfoByUserId(Config.me.getFriendid());
+//        }
     }
 
     private void initData() {
+        if(Config.me.getFriendid().equals("0")){
+            isHaveFriend = false;
+        }else {
+            isHaveFriend = true;
+        }
         list = new ArrayList<MultipleView>();
         list.add(new MultipleView(0,"头像","",Config.me.getAvatar()));
+//        if(Config.me.getFriendid().equals("0")){
+//            list.add(new MultipleView(0,"无好友","",Config.you.getAvatar()));
+//        }else {
+//            list.add(new MultipleView(0,"好友","",Config.you.getAvatar()));
+//        }
+        if(isHaveFriend){
+            list.add(new MultipleView(0,"好友","",Config.you.getAvatar()));
+        }else {
+            list.add(new MultipleView(0,"无好友","",Config.you.getAvatar()));
+        }
         list.add(new MultipleView(1,"昵称",Config.me.getUsername(),""));
         list.add(new MultipleView(1,"密码","不给你看",""));
         if(Config.me.getSex()==0){
@@ -107,7 +134,22 @@ public class SettingActivity extends BaseActivity {
                     });
                     dialog_edit_avatar = new MaterialDialog(SettingActivity.this).setTitle("更换头像").setContentView(listView);
                     dialog_edit_avatar.show();
-                } else if (position == 1) {
+                } else if (position == 1){
+                    if(isHaveFriend){
+                        dialog_friend = new MaterialDialog(SettingActivity.this);
+                        dialog_friend.setTitle("删除好友？");
+                        dialog_friend.setMessage(Config.you.getUsername());
+                        dialog_friend.setPositiveButton("确定", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Friend.deleteFriend(AVUser.getCurrentUser().getObjectId());
+                            }
+                        });
+                        dialog_friend.show();
+                    }else {
+                        Toast.makeText(SettingActivity.this, "快去寻找吧", Toast.LENGTH_SHORT).show();
+                    }
+                } else if (position == 2) {
                     view_edit_username = LayoutInflater.from(SettingActivity.this).inflate(R.layout.dialog_editname, null);
                     et_newname = (MaterialEditText) view_edit_username.findViewById(R.id.et_newUsername);
                     dialog_edit_username = new MaterialDialog(SettingActivity.this);
@@ -123,7 +165,7 @@ public class SettingActivity extends BaseActivity {
                         }
                     });
                     dialog_edit_username.setView(view_edit_username).show();
-                } else if (position == 2) {
+                } else if (position == 3) {
                     view_edit_password = LayoutInflater.from(SettingActivity.this).inflate(R.layout.dialog_editpsw, null);
                     et_oldPassword = (MaterialEditText) view_edit_password.findViewById(R.id.et_oldPassword);
                     et_newPassword = (MaterialEditText) view_edit_password.findViewById(R.id.et_newPassword);
@@ -144,7 +186,7 @@ public class SettingActivity extends BaseActivity {
                         }
                     });
                     dialog_edit_psd.setView(view_edit_password).show();
-                } else if (position == 3) {
+                } else if (position == 4) {
                     ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(SettingActivity.this, android.R.layout.simple_list_item_1);
                     arrayAdapter.add("妹子");
                     arrayAdapter.add("汉子");
@@ -179,6 +221,21 @@ public class SettingActivity extends BaseActivity {
                 }
             }
         });
+
+        btn_logout = (Button) findViewById(R.id.btn_logout);
+        btn_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AVUser.logOut();
+                Config.me = null;
+                Config.you = null;
+                Config.myTempAvatarUrl = "";
+                Config.yourTempAvatarUrl = "";
+                finish();
+                ActivityController.finishAllActivity();
+                startActivity(new Intent(SettingActivity.this,LoginActivity.class));
+            }
+        });
     }
 
     @Override
@@ -192,6 +249,31 @@ public class SettingActivity extends BaseActivity {
         toolbarHelper.setTitle("设置");
     }
 
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onGetUserInfoEvent(GetUserInfoEvent event){
+//        User user = event.getUser();
+//        if(user!=null){
+//            if(user.getUserid().equals(AVUser.getCurrentUser().getObjectId())){
+//                Config.me.setUserid(user.getUserid());
+//                Config.me.setUsername(user.getUsername());
+//                Config.me.setSex(user.getSex());
+//                Config.me.setAvatar(user.getAvatar());
+//                Log.d("justsadf",Config.me.getAvatar()+"sssssssssssssssssssssssssssss");
+//                multipleAdapter.updataItemAvatar(listView,0,Config.me.getAvatar());
+//                Log.d("getUserInfoByUserId",Config.me.getAvatar());
+//            }else if(user.getUserid().equals(Config.me.getFriendid())){
+//                Config.you.setUserid(user.getUserid());
+//                Config.you.setUsername(user.getUsername());
+//                Config.you.setSex(user.getSex());
+//                Config.you.setAvatar(user.getAvatar());
+//                Log.d("getUserInfoByUserId",Config.you.getAvatar());
+//                multipleAdapter.updataItemAvatar(listView,1,Config.you.getAvatar());
+//            }
+//        }else {
+//            Log.d("getUserInfoByUserId","fail");
+//        }
+//    };
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSetUserInfoEvent(SetUserInfoEvent event){
         switch (event.getType()){
@@ -201,7 +283,7 @@ public class SettingActivity extends BaseActivity {
             case 1:
                 if(event.getResult()==1){
                     Toast.makeText(MyApplication.getAppContext(), "修改昵称成功", Toast.LENGTH_SHORT).show();
-                    multipleAdapter.updataItemValue(listView,1,Config.me.getUsername());
+                    multipleAdapter.updataItemValue(listView,2,Config.me.getUsername());
                 }else if(event.getResult()==-1){
                     Toast.makeText(MyApplication.getAppContext(), "用户名已存在", Toast.LENGTH_SHORT).show();
                 }else if(event.getResult()==-2){
@@ -228,9 +310,9 @@ public class SettingActivity extends BaseActivity {
                 if(event.getResult()==1){
                     Toast.makeText(MyApplication.getAppContext(), "修改成功", Toast.LENGTH_SHORT).show();
                     if(Config.me.getSex()==0){
-                        multipleAdapter.updataItemValue(listView,3,"妹子");
+                        multipleAdapter.updataItemValue(listView,4,"妹子");
                     }else if(Config.me.getSex()==1){
-                        multipleAdapter.updataItemValue(listView,3,"汉子");
+                        multipleAdapter.updataItemValue(listView,4,"汉子");
                     }
                 }else if(event.getResult()==-1){
                     Toast.makeText(MyApplication.getAppContext(), "修改出错了", Toast.LENGTH_SHORT).show();

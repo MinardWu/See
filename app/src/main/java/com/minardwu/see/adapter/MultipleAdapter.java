@@ -74,7 +74,7 @@ public class MultipleAdapter extends BaseAdapter {
                     imgViewHolder = (ImgViewHolder) convertView.getTag();
                 }
                 imgViewHolder.tv_title.setText(multipleViewList.get(position).getItemTitle());
-                imgViewHolder.simpleDraweeView.setImageURI(Uri.parse(multipleViewList.get(position).getAvatarUrl()));
+                imgViewHolder.simpleDraweeView.setImageURI(Uri.parse(multipleViewList.get(position).getAvatarUrl()+""));
                 break;
             case 1:
                 if(convertView == null){

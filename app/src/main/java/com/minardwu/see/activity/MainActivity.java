@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -22,6 +23,7 @@ import com.minardwu.see.adapter.MyFragmentPagerAdapter;
 import com.minardwu.see.base.ActivityController;
 import com.minardwu.see.base.Config;
 import com.minardwu.see.entity.Photo;
+import com.minardwu.see.entity.User;
 import com.minardwu.see.event.GetFriendEvent;
 import com.minardwu.see.fragment.MyFragment;
 import com.minardwu.see.fragment.YourFragment;
@@ -54,6 +56,9 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
         initPopupWindow();
         EventBus.getDefault().register(this);
         Friend.getFriendid();
+        Config.me = new User();
+        Config.you = new User();
+
 //        String user2id="5951c2898d6d8100571769d2";
 //        String user3id="5951c2891b69e60062dd4daf";
 //        Friend.addFriend(user2id,user3id);
