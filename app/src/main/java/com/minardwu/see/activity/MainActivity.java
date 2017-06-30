@@ -68,15 +68,9 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
         Config.yourPhotos.add(new Photo(1,1, "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=45890665,2126133996&fm=85&s=AC725C8504520FD612B9E5BB0300F093&w=121&h=75&img.JPEG","今天也要元气满满哦",0));
         Config.yourPhotos.add(new Photo(1,1, "https://ss1.baidu.com/70cFfyinKgQFm2e88IuM_a/forum/pic/item/aa18972bd40735fa5b19608b94510fb30f240812.jpg","今天也要元气满满哦",1));
         Config.yourPhotos.add(new Photo(1,1, Config.tempAvatarUrl,"今天也要元气满满哦",0));
-//        String user2id="5951c2898d6d8100571769d2";
-//        String user3id="5951c2891b69e60062dd4daf";
-//        Friend.addFriend(user2id,user3id);
-//        Friend.getFriendid();
-//        ProgressDialog progressDialog = ProgressDialog.show(this,"","login");
     }
 
     private void initView() {
-
         rb_your = (RadioButton) findViewById(R.id.rbtn_your);
         rb_my = (RadioButton) findViewById(R.id.rbtn_my);
         iv_user = (ImageView) findViewById(R.id.ibtn_toolbar_user);
