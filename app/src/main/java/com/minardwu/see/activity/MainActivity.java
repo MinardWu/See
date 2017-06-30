@@ -15,7 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
+import com.avos.avoscloud.AVUser;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.minardwu.see.R;
 import com.minardwu.see.adapter.MyFragmentPagerAdapter;
@@ -24,9 +26,11 @@ import com.minardwu.see.base.Config;
 import com.minardwu.see.entity.Photo;
 import com.minardwu.see.entity.User;
 import com.minardwu.see.event.GetFriendEvent;
+import com.minardwu.see.event.GetUserPhotoEvent;
 import com.minardwu.see.fragment.MyFragment;
 import com.minardwu.see.fragment.YourFragment;
 import com.minardwu.see.net.Friend;
+import com.minardwu.see.net.PhotoService;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -54,20 +58,23 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
         initView();
         initPopupWindow();
         EventBus.getDefault().register(this);
+
         Friend.getFriendid();
+
+        PhotoService.getPhoto(AVUser.getCurrentUser().getObjectId());
 
         Config.me = new User();
         Config.you = new User();
         Config.myPhotos = new ArrayList<Photo>();
         Config.yourPhotos = new ArrayList<Photo>();
 
-        Config.myPhotos.add(new Photo(1,1, "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2899583721,3145205732&fm=111&gp=0.jpg","今天也要元气满满哦",0));
-        Config.myPhotos.add(new Photo(1,1, "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=801456143,3422334384&fm=26&gp=0.jpg","今天也要元气满满哦",1));
-        Config.myPhotos.add(new Photo(1,1, "https://ss1.baidu.com/70cFfyinKgQFm2e88IuM_a/forum/pic/item/43a7d933c895d1439fef623e75f082025aaf0715.jpg","今天也要元气满满哦",0));
+//        Config.myPhotos.add(new Photo("","","https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2899583721,3145205732&fm=111&gp=0.jpg","今天也要元气满满哦",0));
+//        Config.myPhotos.add(new Photo("","","https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=801456143,3422334384&fm=26&gp=0.jpg","今天也要元气满满哦",1));
+//        Config.myPhotos.add(new Photo("","","https://ss1.baidu.com/70cFfyinKgQFm2e88IuM_a/forum/pic/item/43a7d933c895d1439fef623e75f082025aaf0715.jpg","今天也要元气满满哦",0));
 
-        Config.yourPhotos.add(new Photo(1,1, "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=45890665,2126133996&fm=85&s=AC725C8504520FD612B9E5BB0300F093&w=121&h=75&img.JPEG","今天也要元气满满哦",0));
-        Config.yourPhotos.add(new Photo(1,1, "https://ss1.baidu.com/70cFfyinKgQFm2e88IuM_a/forum/pic/item/aa18972bd40735fa5b19608b94510fb30f240812.jpg","今天也要元气满满哦",1));
-        Config.yourPhotos.add(new Photo(1,1, Config.tempAvatarUrl,"今天也要元气满满哦",0));
+//        Config.yourPhotos.add(new Photo("","","https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=45890665,2126133996&fm=85&s=AC725C8504520FD612B9E5BB0300F093&w=121&h=75&img.JPEG","今天也要元气满满哦",0));
+//        Config.yourPhotos.add(new Photo("","","https://ss1.baidu.com/70cFfyinKgQFm2e88IuM_a/forum/pic/item/aa18972bd40735fa5b19608b94510fb30f240812.jpg","今天也要元气满满哦",1));
+//        Config.yourPhotos.add(new Photo("","",Config.tempAvatarUrl,"今天也要元气满满哦",0));
     }
 
     private void initView() {
@@ -152,11 +159,41 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
     public void onGetFriendEvent(GetFriendEvent event){
         if(event.getResult()!=null){
             Config.me.setFriendid(event.getResult());
+            PhotoService.getPhoto(Config.me.getFriendid());
         }else {
             Config.me.setFriendid("0");
         }
     };
 
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onGetUserPhotoEvent(GetUserPhotoEvent event){
+        if(event.getUserid().equals(AVUser.getCurrentUser().getObjectId())){
+            if(event.getList().size()!=0){
+                Config.myPhotos = event.getList();
+                Config.myPhotos.get(0).setState(1);
+                //Toast.makeText(MainActivity.this, "自己有照片", Toast.LENGTH_SHORT).show();
+                onResume();
+            }else {
+                Toast.makeText(MainActivity.this, "自己还没有照片哦", Toast.LENGTH_SHORT).show();
+            }
+        }else if(event.getUserid().equals(Config.me.getFriendid())){
+            if(event.getList().size()!=0){
+                Config.yourPhotos = event.getList();
+                Config.yourPhotos.get(0).setState(1);
+                //Toast.makeText(MainActivity.this, "他有照片", Toast.LENGTH_SHORT).show();
+                onResume();
+            }else {
+                Toast.makeText(MainActivity.this, "他还没有照片哦", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initView();
+    }
 
     @Override
     protected void onDestroy() {

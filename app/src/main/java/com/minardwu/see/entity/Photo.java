@@ -5,13 +5,13 @@ package com.minardwu.see.entity;
  */
 public class Photo {
 
-    private int photoid;
-    private int userid;
+    private String photoid;
+    private String userid;
     private String photoUrl;
     private String photoInfo;
     private int state;
 
-    public Photo(int photoid, int userid, String photoUrl, String photoInfo, int state) {
+    public Photo(String photoid, String userid, String photoUrl, String photoInfo,int state) {
         this.photoid = photoid;
         this.userid = userid;
         this.photoUrl = photoUrl;
@@ -19,19 +19,19 @@ public class Photo {
         this.state = state;
     }
 
-    public int getPhotoid() {
+    public String getPhotoid() {
         return photoid;
     }
 
-    public void setPhotoid(int photoid) {
+    public void setPhotoid(String photoid) {
         this.photoid = photoid;
     }
 
-    public int getUserid() {
+    public String getUserid() {
         return userid;
     }
 
-    public void setUserid(int userid) {
+    public void setUserid(String userid) {
         this.userid = userid;
     }
 

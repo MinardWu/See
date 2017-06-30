@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,16 @@ import android.widget.Toast;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.minardwu.see.R;
 import com.minardwu.see.adapter.ListTextAdapter;
+import com.minardwu.see.base.Config;
 import com.minardwu.see.base.MyApplication;
 import com.minardwu.see.entity.Photo;
+import com.minardwu.see.event.RefreshStatusEvent;
+import com.minardwu.see.event.SetShowPhotoEvent;
+import com.minardwu.see.net.PhotoService;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +54,12 @@ public class ShowPhotoFragment extends Fragment {
         this.photo = photo;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -67,6 +82,30 @@ public class ShowPhotoFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i){
+                    case 0:
+                        if(type==0){
+                            PhotoService.setShowPhoto(photo.getPhotoid());
+                            Log.v("idontknowyetpp","send");
+                        }else if(type==1){
+
+                        }
+                        break;
+                    case 1:
+                        if(type==0){
+
+                        }else if(type==1){
+
+                        }
+                        break;
+                    case 2:
+                        if(type==0){
+
+                        }else if(type==1){
+
+                        }
+                        break;
+                }
                 Toast.makeText(getContext(),list.get(i),Toast.LENGTH_SHORT).show();
             }
         });
@@ -105,5 +144,28 @@ public class ShowPhotoFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onSetShowPhotoEvent(SetShowPhotoEvent event){
+        if(event.getResult()==1){
+            for(Photo tempphoto:Config.yourPhotos){
+                if(tempphoto.getPhotoid().equals(event.getPhotoid())){
+                    tempphoto.setState(1);
+                }else {
+                    tempphoto.setState(0);
+                }
+            }
+            Toast.makeText(getContext(), "设置成功", Toast.LENGTH_SHORT).show();
+            EventBus.getDefault().post(new RefreshStatusEvent(1));
+        }else {
+            Toast.makeText(getContext(), "设置失败", Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

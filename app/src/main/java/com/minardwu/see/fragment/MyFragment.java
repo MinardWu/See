@@ -2,12 +2,14 @@ package com.minardwu.see.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.minardwu.see.R;
 import com.minardwu.see.activity.ShowPhotoActivity;
@@ -24,6 +26,8 @@ public class MyFragment extends Fragment {
     private GridView gridView;
     private List<Photo> list;
     private PhotoAdapter photoAdapter;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +51,7 @@ public class MyFragment extends Fragment {
         });
         return view;
     }
+
 
 
 }
