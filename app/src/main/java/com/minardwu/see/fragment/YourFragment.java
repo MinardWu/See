@@ -1,13 +1,16 @@
 package com.minardwu.see.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.minardwu.see.R;
+import com.minardwu.see.activity.ShowPhotoActivity;
 import com.minardwu.see.adapter.PhotoAdapter;
 import com.minardwu.see.base.Config;
 import com.minardwu.see.entity.Photo;
@@ -27,14 +30,21 @@ public class YourFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_your, container, false);
         gridView = (GridView) view.findViewById(R.id.gv_your);
         list = new ArrayList<Photo>();
-        list.add(new Photo(1,1, Config.tempAvatarUrl,"",1));
-        list.add(new Photo(1,1, Config.tempAvatarUrl,"",1));
-        list.add(new Photo(1,1, Config.tempAvatarUrl,"",1));
-        list.add(new Photo(1,1, Config.tempAvatarUrl,"",1));
-        list.add(new Photo(1,1, Config.tempAvatarUrl,"",1));
-        list.add(new Photo(1,1, Config.tempAvatarUrl,"",1));
+        for(Photo photo:Config.yourPhotos)
+            list.add(photo);
         photoAdapter = new PhotoAdapter(getContext(),R.layout.gridview_photo,list);
         gridView.setAdapter(photoAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getContext(), ShowPhotoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("type",0);
+                bundle.putInt("position",i);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 

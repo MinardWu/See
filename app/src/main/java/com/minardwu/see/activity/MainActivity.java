@@ -1,6 +1,5 @@
 package com.minardwu.see.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -18,6 +16,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.minardwu.see.R;
 import com.minardwu.see.adapter.MyFragmentPagerAdapter;
 import com.minardwu.see.base.ActivityController;
@@ -56,9 +55,19 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
         initPopupWindow();
         EventBus.getDefault().register(this);
         Friend.getFriendid();
+
         Config.me = new User();
         Config.you = new User();
+        Config.myPhotos = new ArrayList<Photo>();
+        Config.yourPhotos = new ArrayList<Photo>();
 
+        Config.myPhotos.add(new Photo(1,1, "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2899583721,3145205732&fm=111&gp=0.jpg","今天也要元气满满哦",0));
+        Config.myPhotos.add(new Photo(1,1, "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=801456143,3422334384&fm=26&gp=0.jpg","今天也要元气满满哦",1));
+        Config.myPhotos.add(new Photo(1,1, "https://ss1.baidu.com/70cFfyinKgQFm2e88IuM_a/forum/pic/item/43a7d933c895d1439fef623e75f082025aaf0715.jpg","今天也要元气满满哦",0));
+
+        Config.yourPhotos.add(new Photo(1,1, "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=45890665,2126133996&fm=85&s=AC725C8504520FD612B9E5BB0300F093&w=121&h=75&img.JPEG","今天也要元气满满哦",0));
+        Config.yourPhotos.add(new Photo(1,1, "https://ss1.baidu.com/70cFfyinKgQFm2e88IuM_a/forum/pic/item/aa18972bd40735fa5b19608b94510fb30f240812.jpg","今天也要元气满满哦",1));
+        Config.yourPhotos.add(new Photo(1,1, Config.tempAvatarUrl,"今天也要元气满满哦",0));
 //        String user2id="5951c2898d6d8100571769d2";
 //        String user3id="5951c2891b69e60062dd4daf";
 //        Friend.addFriend(user2id,user3id);
@@ -67,6 +76,7 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
     }
 
     private void initView() {
+
         rb_your = (RadioButton) findViewById(R.id.rbtn_your);
         rb_my = (RadioButton) findViewById(R.id.rbtn_my);
         iv_user = (ImageView) findViewById(R.id.ibtn_toolbar_user);

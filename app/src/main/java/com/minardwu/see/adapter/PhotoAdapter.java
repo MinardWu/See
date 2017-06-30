@@ -1,6 +1,8 @@
 package com.minardwu.see.adapter;
 
 import android.content.Context;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +45,12 @@ public class PhotoAdapter extends ArrayAdapter<Photo>{
         layoutParams.height = Config.screenHeight/3;
         imageView.setLayoutParams(layoutParams);
         imageView.setImageURI(Uri.parse(photo.getPhotoUrl()));
+        if(photo.getState()==0){
+            ColorMatrix colorMatrix = new ColorMatrix();
+            colorMatrix.setSaturation(0f); // 设置饱和度:0为纯黑白，饱和度为0；1为饱和度为100，即原图；
+            ColorMatrixColorFilter colorMatrixColorFilter = new ColorMatrixColorFilter(colorMatrix);
+            imageView.setColorFilter(colorMatrixColorFilter);
+        }
         return  view;
 
     }
