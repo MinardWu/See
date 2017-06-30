@@ -18,4 +18,12 @@ public class Config {
     public static final WindowManager wm = (WindowManager) MyApplication.getAppContext().getSystemService(Context.WINDOW_SERVICE);
     public static final int screenWidth = wm.getDefaultDisplay().getWidth();
     public static final int screenHeight= wm.getDefaultDisplay().getHeight();
+
+    public static void resetFriend(){
+        me.setFriendid("0");
+        you.setUserid("0");
+        you.setUsername("");
+        you.setAvatar("");
+        you.setSex(0);
+    }
 }

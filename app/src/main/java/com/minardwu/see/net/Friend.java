@@ -13,6 +13,7 @@ import com.avos.avoscloud.GetCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.minardwu.see.event.GetFriendEvent;
 import com.minardwu.see.event.ResultCodeEvent;
+import com.minardwu.see.event.SetUserInfoEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -58,7 +59,6 @@ public class Friend {
                                         Log.v("deleteFriend",""+count[0]);
                                         //两个或四个好友记录都删除了（即一个人有好友或两个人有好友）
                                         if(count[0]==list.size()){
-                                            Log.v("deleteFriend","final"+count[0]);
                                             addFriend(user1id,user2id);
                                         }
                                     }else {
@@ -147,6 +147,11 @@ public class Friend {
                                     if(e==null){
                                         Log.v("deleteFriend","delete success");
                                         count[0]++;
+                                        //两个好友记录都删除了
+                                        if(count[0]==2){
+                                            result[0] = 1;
+                                            EventBus.getDefault().post(new SetUserInfoEvent(4,result[0]));
+                                        }
                                     }else {
                                         Log.v("deleteFriend","delete fail");
                                         Log.v("deleteFriend",e.getMessage());
@@ -158,13 +163,8 @@ public class Friend {
                             e1.printStackTrace();
                         }
                     }
-                    //两个好友记录都删除了
-                    if(count[0]==2){
-                        result[0] = 1;
-                    }
                 }else {
                     Log.v("deleteFriend","you have no friend");
-                    result[0] = 1;
                 }
             }
         });

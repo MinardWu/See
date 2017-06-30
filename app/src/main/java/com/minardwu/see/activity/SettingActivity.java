@@ -318,6 +318,19 @@ public class SettingActivity extends BaseActivity {
                     Toast.makeText(MyApplication.getAppContext(), "修改出错了", Toast.LENGTH_SHORT).show();
                 }
                 break;
+            case 4:
+                Log.d("removeFriend","result:"+event.getResult());
+                if(event.getResult()==1){
+                    dialog_friend.dismiss();
+                    Toast.makeText(MyApplication.getAppContext(), "删除好友成功", Toast.LENGTH_SHORT).show();
+                    multipleAdapter.updataItemTitle(listView,1,"无好友");
+                    multipleAdapter.updataItemAvatar(listView,1,"");
+                    isHaveFriend = false;
+                    Config.resetFriend();
+                }else{
+                    dialog_friend.dismiss();
+                    Toast.makeText(MyApplication.getAppContext(), "操作失败了", Toast.LENGTH_SHORT).show();
+                }
         }
     };
 
