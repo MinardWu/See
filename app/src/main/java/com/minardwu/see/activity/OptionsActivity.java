@@ -43,8 +43,8 @@ public class OptionsActivity extends BaseActivity {
         //获取用户信息
         GetUserInfo.getUserInfoByUserId(AVUser.getCurrentUser().getObjectId());
         //获取好友信息
-        if(!Config.me.getFriendid().equals("0")){
-            GetUserInfo.getUserInfoByUserId(Config.me.getFriendid());
+        if(!Config.you.getUserid().equals("0")){
+            GetUserInfo.getUserInfoByUserId(Config.you.getUserid());
         }
         EventBus.getDefault().register(this);
     }
@@ -107,8 +107,8 @@ public class OptionsActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(OptionsActivity.this, Config.me.getFriendid(), Toast.LENGTH_SHORT).show();
-        if(!Config.me.getFriendid().equals("0")){
+        Toast.makeText(OptionsActivity.this, Config.you.getUserid(), Toast.LENGTH_SHORT).show();
+        if(!Config.you.getUserid().equals("0")){
             GetUserInfo.getUserInfoByUserId(Config.me.getFriendid());
         }
     }

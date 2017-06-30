@@ -68,9 +68,6 @@ public class SettingActivity extends BaseActivity {
         initData();
         initView();
         EventBus.getDefault().register(this);
-//        if(!Config.me.getFriendid().equals("0")){
-//            GetUserInfo.getUserInfoByUserId(Config.me.getFriendid());
-//        }
     }
 
     private void initData() {
@@ -81,11 +78,6 @@ public class SettingActivity extends BaseActivity {
         }
         list = new ArrayList<MultipleView>();
         list.add(new MultipleView(0,"头像","",Config.me.getAvatar()));
-//        if(Config.me.getFriendid().equals("0")){
-//            list.add(new MultipleView(0,"无好友","",Config.you.getAvatar()));
-//        }else {
-//            list.add(new MultipleView(0,"好友","",Config.you.getAvatar()));
-//        }
         if(isHaveFriend){
             list.add(new MultipleView(0,"好友","",Config.you.getAvatar()));
         }else {

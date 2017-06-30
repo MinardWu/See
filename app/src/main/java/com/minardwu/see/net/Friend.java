@@ -177,24 +177,28 @@ public class Friend {
         query.getFirstInBackground(new GetCallback<AVObject>() {
             @Override
             public void done(AVObject avObject, AVException e) {
-                if(e==null){
-                    Log.d("getFriendid","success");
-                    if(avObject!=null){
-                        Log.d("getFriendid",avObject.toString());
-                        try {
-                            JSONObject jsonObject = new JSONObject(avObject.toString());
-                            JSONObject serverData = jsonObject.getJSONObject("serverData");
-                            Log.d("getFriendid",serverData.getString("user2id"));
-                            EventBus.getDefault().post(new GetFriendEvent(serverData.getString("user2id")));
-                        } catch (JSONException e1) {
-                            e1.printStackTrace();
+                if(avObject==null){
+                    EventBus.getDefault().post(new GetFriendEvent("0"));
+                }else {
+                    if(e==null){
+                        Log.d("getFriendid","success");
+                        if(avObject!=null){
+                            Log.d("getFriendid",avObject.toString());
+                            try {
+                                JSONObject jsonObject = new JSONObject(avObject.toString());
+                                JSONObject serverData = jsonObject.getJSONObject("serverData");
+                                Log.d("getFriendid",serverData.getString("user2id"));
+                                EventBus.getDefault().post(new GetFriendEvent(serverData.getString("user2id")));
+                            } catch (JSONException e1) {
+                                e1.printStackTrace();
+                            }
+                        }else {
+                            EventBus.getDefault().post(new GetFriendEvent("0"));
                         }
-                    }else {
-                        EventBus.getDefault().post(new GetFriendEvent("0"));
+                    }else{
+                        Log.d("getFriendid","fail");
+                        Log.d("getFriendid",e.getMessage());
                     }
-                }else{
-                    Log.d("getFriendid","fail");
-                    Log.d("getFriendid",e.getMessage());
                 }
             }
         });

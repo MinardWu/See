@@ -71,7 +71,7 @@ public class YourFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().register(this);
+        EventBus.getDefault().unregister(this);
     }
 
 }

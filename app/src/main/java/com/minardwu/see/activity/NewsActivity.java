@@ -113,6 +113,7 @@ public class NewsActivity extends BaseActivity {
             Toast.makeText(NewsActivity.this, "添加好友成功"+result, Toast.LENGTH_SHORT).show();
             News.deleteNews(tempNewsEntity.getNewsid());
             Config.me.setFriendid(newFriendId);
+            Config.you.setUserid(newFriendId);
         }else {
             Toast.makeText(NewsActivity.this, "出错了，错误代码："+result, Toast.LENGTH_SHORT).show();
         }

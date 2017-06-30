@@ -60,7 +60,6 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
         EventBus.getDefault().register(this);
 
         Friend.getFriendid();
-
         PhotoService.getPhoto(AVUser.getCurrentUser().getObjectId());
 
         Config.me = new User();
@@ -68,13 +67,6 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
         Config.myPhotos = new ArrayList<Photo>();
         Config.yourPhotos = new ArrayList<Photo>();
 
-//        Config.myPhotos.add(new Photo("","","https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2899583721,3145205732&fm=111&gp=0.jpg","今天也要元气满满哦",0));
-//        Config.myPhotos.add(new Photo("","","https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=801456143,3422334384&fm=26&gp=0.jpg","今天也要元气满满哦",1));
-//        Config.myPhotos.add(new Photo("","","https://ss1.baidu.com/70cFfyinKgQFm2e88IuM_a/forum/pic/item/43a7d933c895d1439fef623e75f082025aaf0715.jpg","今天也要元气满满哦",0));
-
-//        Config.yourPhotos.add(new Photo("","","https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=45890665,2126133996&fm=85&s=AC725C8504520FD612B9E5BB0300F093&w=121&h=75&img.JPEG","今天也要元气满满哦",0));
-//        Config.yourPhotos.add(new Photo("","","https://ss1.baidu.com/70cFfyinKgQFm2e88IuM_a/forum/pic/item/aa18972bd40735fa5b19608b94510fb30f240812.jpg","今天也要元气满满哦",1));
-//        Config.yourPhotos.add(new Photo("","",Config.tempAvatarUrl,"今天也要元气满满哦",0));
     }
 
     private void initView() {
@@ -157,11 +149,14 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGetFriendEvent(GetFriendEvent event){
-        if(event.getResult()!=null){
+        if(!event.getResult().equals("0")){
             Config.me.setFriendid(event.getResult());
+            Config.you.setUserid(event.getResult());
             PhotoService.getPhoto(Config.me.getFriendid());
         }else {
             Config.me.setFriendid("0");
+            Config.you.setUserid("0");
+            Toast.makeText(MainActivity.this, "还没有好友哦", Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -177,7 +172,7 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
             }else {
                 Toast.makeText(MainActivity.this, "自己还没有照片哦", Toast.LENGTH_SHORT).show();
             }
-        }else if(event.getUserid().equals(Config.me.getFriendid())){
+        }else if(event.getUserid().equals(Config.you.getUserid())){
             if(event.getList().size()!=0){
                 Config.yourPhotos = event.getList();
                 Config.yourPhotos.get(0).setState(1);
