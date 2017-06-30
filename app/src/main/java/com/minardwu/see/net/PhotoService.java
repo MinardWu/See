@@ -160,11 +160,10 @@ public class PhotoService {
                 if(e==null){
                     Log.d("setShowPhoto","success");
                     EventBus.getDefault().post(new SetShowPhotoEvent(1,photoid));
-                    Log.v("idontknowyetpp","recv");
                 }else {
-                    EventBus.getDefault().post(new SetShowPhotoEvent(0,photoid));
                     Log.d("setShowPhoto","fail");
                     Log.d("setShowPhoto",e.getMessage());
+                    EventBus.getDefault().post(new SetShowPhotoEvent(0,photoid));
                 }
             }
         });
