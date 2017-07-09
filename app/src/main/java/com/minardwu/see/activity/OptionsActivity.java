@@ -107,7 +107,7 @@ public class OptionsActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(OptionsActivity.this, Config.you.getUserid(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(OptionsActivity.this, Config.you.getUserid(), Toast.LENGTH_SHORT).show();
         if(!Config.you.getUserid().equals("0")){
             GetUserInfo.getUserInfoByUserId(Config.me.getFriendid());
         }

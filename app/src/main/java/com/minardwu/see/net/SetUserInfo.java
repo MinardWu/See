@@ -9,12 +9,14 @@ import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
 import com.avos.avoscloud.UpdatePasswordCallback;
+import com.minardwu.see.activity.SettingActivity;
 import com.minardwu.see.base.Config;
 import com.minardwu.see.base.MyApplication;
 import com.minardwu.see.event.SetUserInfoEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 /**
@@ -22,47 +24,37 @@ import java.util.HashMap;
  */
 public class SetUserInfo {
 
-    public static void setAvatar(final String path, final Context context) {
+    public static void setAvatar(final String path) {
+        final int[] result = new int[1];
         new Thread(new Runnable() {
             @Override
             public void run() {
-                AVFile file = new AVFile("mingln.png","https://avatars3.githubusercontent.com/u/11813425?v=3&s=460", new HashMap<String, Object>());
-//                AVFile file = null;
-//                try {
-//                    file = AVFile.withAbsoluteLocalPath(System.currentTimeMillis() + ".jpg", path);
-//                } catch (FileNotFoundException e) {
-//                    e.printStackTrace();
-//                }
+
+               AVFile file = null;
+                try {
+                    file = AVFile.withAbsoluteLocalPath(System.currentTimeMillis() + ".jpg", path);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
                 AVUser.getCurrentUser().put("avatar", file);
+                final AVFile finalFile = file;
                 AVUser.getCurrentUser().saveInBackground(new SaveCallback() {
                     @Override
                     public void done(AVException e) {
                         if(e==null){
+                            Log.d("setAvatar", finalFile.getUrl());
+                            Config.me.setAvatar(finalFile.getUrl());
                             Log.d("setAvatar","success");
+                            result[0] = 1;
                         }else{
+                            result[0] = -1;
                             Log.d("setAvatar","fail");
                             Log.d("setAvatar",e.getMessage());
                         }
+                        EventBus.getDefault().post(new SetUserInfoEvent(0,result[0]));
                     }
                 });
 
-//                try {
-//                    AVQuery<AVObject> query = new AVQuery<AVObject>("_User");
-//                    AVObject avObject = query.get(AVUser.getCurrentUser().getObjectId());
-//                    avObject.put("avatar", file);
-//                    avObject.saveInBackground(new SaveCallback() {
-//                        @Override
-//                        public void done(AVException e) {
-//                            if (e == null) {
-//                                Toast.makeText(context, "更新成功", Toast.LENGTH_SHORT).show();
-//                            } else {
-//                                Toast.makeText(context, "更新失败", Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//                    });
-//                } catch (AVException e) {
-//                    e.printStackTrace();
-//                }
             }
         }).start();
     }

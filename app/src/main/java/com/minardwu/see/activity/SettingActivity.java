@@ -1,8 +1,11 @@
 package com.minardwu.see.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,12 +24,10 @@ import com.minardwu.see.base.BaseActivity;
 import com.minardwu.see.base.Config;
 import com.minardwu.see.base.MyApplication;
 import com.minardwu.see.entity.MultipleView;
-import com.minardwu.see.entity.User;
-import com.minardwu.see.event.GetUserInfoEvent;
 import com.minardwu.see.event.SetUserInfoEvent;
 import com.minardwu.see.net.Friend;
-import com.minardwu.see.net.GetUserInfo;
 import com.minardwu.see.net.SetUserInfo;
+import com.minardwu.see.net.UploadImgHelper;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.greenrobot.eventbus.EventBus;
@@ -61,6 +62,7 @@ public class SettingActivity extends BaseActivity {
     public static int CAMERA_REQUEST_CODE = 1;
     public static int GALLERY_REQUEST_CODE = 2;
     public static int IMAGEZOOM_REQUEST_CODE = 3;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,9 +116,11 @@ public class SettingActivity extends BaseActivity {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             if (position == 0) {
+                                dialog_edit_avatar.dismiss();
                                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                                 startActivityForResult(intent, CAMERA_REQUEST_CODE);
                             } else if (position == 1) {
+                                dialog_edit_avatar.dismiss();
                                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                                 intent.setType("image/*");
                                 startActivityForResult(intent, GALLERY_REQUEST_CODE);
@@ -172,7 +176,6 @@ public class SettingActivity extends BaseActivity {
                             }else if (et_newPassword.getText().toString().equals(et_oldPassword.getText().toString())) {
                                 et_newPassword.setError("新旧密码相同");
                             } else {
-//                                dialog_edit_psd.dismiss();
                                 SetUserInfo.setPassword(et_oldPassword.getText().toString(),et_newPassword.getText().toString());
                             }
                         }
@@ -241,36 +244,16 @@ public class SettingActivity extends BaseActivity {
         toolbarHelper.setTitle("设置");
     }
 
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void onGetUserInfoEvent(GetUserInfoEvent event){
-//        User user = event.getUser();
-//        if(user!=null){
-//            if(user.getUserid().equals(AVUser.getCurrentUser().getObjectId())){
-//                Config.me.setUserid(user.getUserid());
-//                Config.me.setUsername(user.getUsername());
-//                Config.me.setSex(user.getSex());
-//                Config.me.setAvatar(user.getAvatar());
-//                Log.d("justsadf",Config.me.getAvatar()+"sssssssssssssssssssssssssssss");
-//                multipleAdapter.updataItemAvatar(listView,0,Config.me.getAvatar());
-//                Log.d("getUserInfoByUserId",Config.me.getAvatar());
-//            }else if(user.getUserid().equals(Config.me.getFriendid())){
-//                Config.you.setUserid(user.getUserid());
-//                Config.you.setUsername(user.getUsername());
-//                Config.you.setSex(user.getSex());
-//                Config.you.setAvatar(user.getAvatar());
-//                Log.d("getUserInfoByUserId",Config.you.getAvatar());
-//                multipleAdapter.updataItemAvatar(listView,1,Config.you.getAvatar());
-//            }
-//        }else {
-//            Log.d("getUserInfoByUserId","fail");
-//        }
-//    };
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSetUserInfoEvent(SetUserInfoEvent event){
         switch (event.getType()){
             case 0:
-
+                if(event.getResult()==1){
+                    Toast.makeText(MyApplication.getAppContext(), "头像上传成功", Toast.LENGTH_SHORT).show();
+                    multipleAdapter.updataItemAvatar(listView,0,Config.me.getAvatar());
+                }else if(event.getResult()==-1){
+                    Toast.makeText(MyApplication.getAppContext(), "头像上传失败", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case 1:
                 if(event.getResult()==1){
@@ -330,5 +313,10 @@ public class SettingActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        UploadImgHelper.uploadAvatar(requestCode,data);
     }
 }
