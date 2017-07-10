@@ -26,6 +26,7 @@ public class Config {
     public static final int screenHeight= wm.getDefaultDisplay().getHeight();
 
     public static boolean changeFriend = false;
+    public static boolean deletePhoto = false;
 
     public static void resetFriend(){
         me.setFriendid("0");

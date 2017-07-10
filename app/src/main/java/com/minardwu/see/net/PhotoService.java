@@ -13,6 +13,7 @@ import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.GetCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.minardwu.see.entity.Photo;
+import com.minardwu.see.event.DeletePhotoEvent;
 import com.minardwu.see.event.GetUserPhotoEvent;
 import com.minardwu.see.event.ResultCodeEvent;
 import com.minardwu.see.event.SetShowPhotoEvent;
@@ -136,15 +137,17 @@ public class PhotoService {
         });
     }
 
-    public static void deletePhoto(String objectId) {
-        AVQuery.doCloudQueryInBackground("delete from Photo where objectId='"+objectId+"'", new CloudQueryCallback<AVCloudQueryResult>() {
+    public static void deletePhoto(final String photoid) {
+        AVQuery.doCloudQueryInBackground("delete from Photo where objectId='"+photoid+"'", new CloudQueryCallback<AVCloudQueryResult>() {
             @Override
             public void done(AVCloudQueryResult avCloudQueryResult, AVException e) {
                 if(e==null){
                     Log.d("deletePhoto","success");
+                    EventBus.getDefault().post(new DeletePhotoEvent(1,photoid));
                 }else{
                     Log.d("deletePhoto","fail");
                     Log.d("deletePhoto",e.getMessage());
+                    EventBus.getDefault().post(new DeletePhotoEvent(-1,photoid));
                 }
             }
         });

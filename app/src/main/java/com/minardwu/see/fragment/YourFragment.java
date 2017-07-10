@@ -127,6 +127,7 @@ public class YourFragment extends Fragment {
 
 
     //在更换、添加或删除好友后修改YourFragment内容
+    //在删除好友照片后修改YourFragment内容
     @Override
     public void onResume() {
         super.onResume();
@@ -147,7 +148,12 @@ public class YourFragment extends Fragment {
                 }
             }
         }
+        if(Config.deletePhoto){
+            photoAdapter.notifyDataSetChanged();
+        }
+        //更新界面过后都重置为false
         Config.changeFriend = false;
+        Config.deletePhoto = false;
     }
 
     @Override
