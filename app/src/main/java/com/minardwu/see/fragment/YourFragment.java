@@ -23,6 +23,7 @@ import com.minardwu.see.entity.Photo;
 import com.minardwu.see.event.GetFriendEvent;
 import com.minardwu.see.event.GetUserPhotoEvent;
 import com.minardwu.see.event.RefreshStatusEvent;
+import com.minardwu.see.net.Friend;
 import com.minardwu.see.net.PhotoService;
 
 import org.greenrobot.eventbus.EventBus;
@@ -42,6 +43,7 @@ public class YourFragment extends Fragment {
     private TextView tv_nofriend;
     private Button btn_load;
     private View view;
+    private Animation animation;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,7 +56,7 @@ public class YourFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_your, container, false);
         tv_nofriend = (TextView) view.findViewById(R.id.tv_nofriend);
         btn_load = (Button) view.findViewById(R.id.btn_load);
-        Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.rotate);
+        animation = AnimationUtils.loadAnimation(getContext(), R.anim.rotate);
         btn_load.startAnimation(animation);
         gridView = (GridView) view.findViewById(R.id.gv_your);
         emptyview = view.findViewById(R.id.emptyview);
@@ -100,7 +102,7 @@ public class YourFragment extends Fragment {
             Config.you.setUserid(event.getResult());
             gridView.setVisibility(View.VISIBLE);
             tv_nofriend.setVisibility(View.GONE);
-            PhotoService.getPhoto(Config.me.getFriendid());
+            PhotoService.getPhoto(Config.you.getUserid());
         }
     };
 
@@ -123,19 +125,29 @@ public class YourFragment extends Fragment {
         }
     };
 
+
+    //在更换、添加或删除好友后修改YourFragment内容
     @Override
     public void onResume() {
         super.onResume();
-        if(Config.you.getUserid()!=null){
-            if(Config.you.getUserid().equals("0")){
-                gridView.setVisibility(View.GONE);
-                emptyview.setVisibility(View.GONE);
-                tv_nofriend.setVisibility(View.VISIBLE);
-            }else {
-                gridView.setVisibility(View.VISIBLE);
-                tv_nofriend.setVisibility(View.GONE);
+        if(Config.changeFriend){
+            if(Config.you.getUserid()!=null){
+                if(Config.you.getUserid().equals("0")){
+                    //删除原好友
+                    gridView.setVisibility(View.GONE);
+                    emptyview.setVisibility(View.GONE);
+                    tv_nofriend.setVisibility(View.VISIBLE);
+                }else {
+                    //更换或添加新好友，把之前好友图片隐藏，只显示加载按钮
+                    gridView.setVisibility(View.GONE);
+                    tv_nofriend.setVisibility(View.GONE);
+                    btn_load.setVisibility(View.VISIBLE);
+                    btn_load.startAnimation(animation);
+                    PhotoService.getPhoto(Config.you.getUserid());
+                }
             }
         }
+        Config.changeFriend = false;
     }
 
     @Override

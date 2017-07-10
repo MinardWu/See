@@ -114,6 +114,7 @@ public class NewsActivity extends BaseActivity {
             News.deleteNews(tempNewsEntity.getNewsid());
             Config.me.setFriendid(newFriendId);
             Config.you.setUserid(newFriendId);
+            Config.changeFriend = true;
         }else {
             Toast.makeText(NewsActivity.this, "出错了，错误代码："+result, Toast.LENGTH_SHORT).show();
         }

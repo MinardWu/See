@@ -57,6 +57,7 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
     private View popupView;
     private PopupWindow mPopupWindow;
 
+    private boolean firstIn = true;
     private int currentItem = 0;
     public static int CAMERA_REQUEST_CODE = 1;
     public static int GALLERY_REQUEST_CODE = 2;
@@ -229,10 +230,11 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
         UploadPhotoHelper.uploadPhoto(requestCode,resultCode,data,MainActivity.this);
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
-        //initView();
+
     }
 
     @Override

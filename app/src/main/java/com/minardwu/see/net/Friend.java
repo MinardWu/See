@@ -11,6 +11,7 @@ import com.avos.avoscloud.CloudQueryCallback;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.GetCallback;
 import com.avos.avoscloud.SaveCallback;
+import com.minardwu.see.base.Config;
 import com.minardwu.see.event.GetFriendEvent;
 import com.minardwu.see.event.ResultCodeEvent;
 import com.minardwu.see.event.SetUserInfoEvent;
@@ -140,7 +141,7 @@ public class Friend {
                             Log.v("deleteFriend",avObject.toString());
                             JSONObject jsonObject = new JSONObject(avObject.toString());
                             Log.v("deleteFriend",jsonObject.getString("objectId"));
-                            String temp_objectId = jsonObject.getString("objectId");
+                            final String temp_objectId = jsonObject.getString("objectId");
                             AVQuery.doCloudQueryInBackground("delete from Friend where objectId='"+temp_objectId+"'", new CloudQueryCallback<AVCloudQueryResult>() {
                                 @Override
                                 public void done(AVCloudQueryResult avCloudQueryResult, AVException e) {

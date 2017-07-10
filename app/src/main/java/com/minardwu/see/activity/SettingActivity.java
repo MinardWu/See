@@ -300,6 +300,7 @@ public class SettingActivity extends BaseActivity {
                     multipleAdapter.updataItemAvatar(listView,1,"");
                     isHaveFriend = false;
                     Config.resetFriend();
+                    Config.changeFriend = true;
                 }else{
                     dialog_friend.dismiss();
                     Toast.makeText(MyApplication.getAppContext(), "操作失败了", Toast.LENGTH_SHORT).show();
