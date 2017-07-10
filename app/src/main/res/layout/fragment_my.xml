@@ -14,4 +14,15 @@
         android:verticalSpacing="1dp">
     </GridView>
 
+    <include
+        android:id="@+id/emptyview"
+        layout="@layout/emptyview_myphoto"/>
+
+    <Button
+        android:id="@+id/btn_load"
+        android:layout_centerInParent="true"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/btn_load" />
+
 </FrameLayout>

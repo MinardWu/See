@@ -104,9 +104,11 @@ public class OptionsActivity extends BaseActivity {
     }
 
     //在消息页面添加好友后返回OptionsActivity，重新获取好友信息
+    //在设置页面设置头像后重新更新头像
     @Override
     protected void onResume() {
         super.onResume();
+        multipleAdapter.updataItemAvatar(listView,0,Config.me.getAvatar());
 //        Toast.makeText(OptionsActivity.this, Config.you.getUserid(), Toast.LENGTH_SHORT).show();
         if(!Config.you.getUserid().equals("0")){
             GetUserInfo.getUserInfoByUserId(Config.me.getFriendid());

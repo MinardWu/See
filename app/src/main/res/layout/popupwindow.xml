@@ -4,10 +4,15 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <ListView
+    <com.minardwu.see.widget.PopListview
         android:id="@+id/lv_popup"
+        android:divider="@null"
+        android:dividerHeight="16dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="32dp"
+        android:paddingRight="16dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </ListView>
+        android:layout_height="96dp">
+    </com.minardwu.see.widget.PopListview>
 
 </LinearLayout>

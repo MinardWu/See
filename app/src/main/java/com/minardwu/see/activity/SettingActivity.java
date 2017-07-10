@@ -1,11 +1,8 @@
 package com.minardwu.see.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +24,7 @@ import com.minardwu.see.entity.MultipleView;
 import com.minardwu.see.event.SetUserInfoEvent;
 import com.minardwu.see.net.Friend;
 import com.minardwu.see.net.SetUserInfo;
-import com.minardwu.see.net.UploadImgHelper;
+import com.minardwu.see.net.UploadAvatarHelper;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.greenrobot.eventbus.EventBus;
@@ -61,7 +58,6 @@ public class SettingActivity extends BaseActivity {
     private boolean isHaveFriend;
     public static int CAMERA_REQUEST_CODE = 1;
     public static int GALLERY_REQUEST_CODE = 2;
-    public static int IMAGEZOOM_REQUEST_CODE = 3;
 
 
     @Override
@@ -224,6 +220,8 @@ public class SettingActivity extends BaseActivity {
                 AVUser.logOut();
                 Config.me = null;
                 Config.you = null;
+                Config.myPhotos.clear();
+                Config.yourPhotos.clear();
                 Config.myTempAvatarUrl = "";
                 Config.yourTempAvatarUrl = "";
                 finish();
@@ -317,6 +315,6 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        UploadImgHelper.uploadAvatar(requestCode,data);
+        UploadAvatarHelper.uploadAvatar(requestCode,resultCode,data,SettingActivity.this);
     }
 }

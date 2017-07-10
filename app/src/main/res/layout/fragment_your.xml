@@ -4,14 +4,40 @@
     android:layout_height="match_parent"
     tools:context="com.minardwu.see.fragment.YourFragment">
 
-    <GridView
-        android:id="@+id/gv_your"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:stretchMode="columnWidth"
-        android:numColumns="3"
-        android:horizontalSpacing="1dp"
-        android:verticalSpacing="1dp">
-    </GridView>
+        android:layout_height="match_parent">
+
+        <GridView
+            android:id="@+id/gv_your"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchMode="columnWidth"
+            android:numColumns="3"
+            android:horizontalSpacing="1dp"
+            android:verticalSpacing="1dp">
+        </GridView>
+
+        <include
+            android:id="@+id/emptyview"
+            layout="@layout/emptyview_yourphoto"/>
+
+        <TextView
+            android:text="快去寻找他/她吧"
+            android:layout_centerInParent="true"
+            android:id="@+id/tv_nofriend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_load"
+            android:layout_centerInParent="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/btn_load" />
+
+    </RelativeLayout>
+
+
 
 </FrameLayout>

@@ -4,33 +4,39 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVUser;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.minardwu.see.R;
 import com.minardwu.see.adapter.MyFragmentPagerAdapter;
+import com.minardwu.see.adapter.PopupwindowItemAdapter;
 import com.minardwu.see.base.ActivityController;
 import com.minardwu.see.base.Config;
 import com.minardwu.see.entity.Photo;
+import com.minardwu.see.entity.PopupwindowItem;
 import com.minardwu.see.entity.User;
-import com.minardwu.see.event.GetFriendEvent;
 import com.minardwu.see.event.GetUserPhotoEvent;
+import com.minardwu.see.event.ResultCodeEvent;
 import com.minardwu.see.fragment.MyFragment;
 import com.minardwu.see.fragment.YourFragment;
 import com.minardwu.see.net.Friend;
 import com.minardwu.see.net.PhotoService;
+import com.minardwu.see.net.UploadPhotoHelper;
+import com.minardwu.see.widget.PopListview;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -45,18 +51,26 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
     private YourFragment yourFragment;
     private MyFragment myFragment;
     private List<Fragment> fragmentList;
+    private Toolbar toolbar;
     private RadioButton rb_your, rb_my;
     private ImageView iv_user, iv_add;
     private View popupView;
     private PopupWindow mPopupWindow;
 
+    private int currentItem = 0;
+    public static int CAMERA_REQUEST_CODE = 1;
+    public static int GALLERY_REQUEST_CODE = 2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         ActivityController.addActivity(this);//MainActivity没有继承BaseActivity，故要手动添加
+
         initView();
         initPopupWindow();
+
         EventBus.getDefault().register(this);
 
         Friend.getFriendid();
@@ -66,10 +80,11 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
         Config.you = new User();
         Config.myPhotos = new ArrayList<Photo>();
         Config.yourPhotos = new ArrayList<Photo>();
-
     }
 
     private void initView() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         rb_your = (RadioButton) findViewById(R.id.rbtn_your);
         rb_my = (RadioButton) findViewById(R.id.rbtn_my);
         iv_user = (ImageView) findViewById(R.id.ibtn_toolbar_user);
@@ -90,6 +105,7 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
         fragmentList.add(yourFragment);
         fragmentList.add(myFragment);
         viewPager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList));
+        viewPager.setCurrentItem(currentItem);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
@@ -100,10 +116,12 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
                     case 0:
                         rb_your.setChecked(true);
                         rb_my.setChecked(false);
+                        currentItem = 0;
                         break;
                     case 1:
                         rb_your.setChecked(false);
                         rb_my.setChecked(true);
+                        currentItem = 1;
                         break;
                 }
             }
@@ -116,16 +134,36 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
     }
 
     private void initPopupWindow() {
+        List<PopupwindowItem> popupwindowItemList = new ArrayList<PopupwindowItem>();
+        popupwindowItemList.add(new PopupwindowItem(R.drawable.au,"拍照"));
+        popupwindowItemList.add(new PopupwindowItem(R.drawable.au,"相册"));
         popupView = getLayoutInflater().inflate(R.layout.popupwindow, null);
-        ListView listView = (ListView) popupView.findViewById(R.id.lv_popup);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,new String[]{"拍照","相册"});
-        listView.setAdapter(arrayAdapter);
-        mPopupWindow = new PopupWindow(popupView, 130, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        PopListview listView = (PopListview) popupView.findViewById(R.id.lv_popup);
+        PopupwindowItemAdapter adapter = new PopupwindowItemAdapter(this,R.layout.listview_popitem,popupwindowItemList);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                switch (position){
+                    case 0:
+                        mPopupWindow.dismiss();
+                        Intent intent0 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(intent0, CAMERA_REQUEST_CODE);
+                        break;
+                    case 1:
+                        mPopupWindow.dismiss();
+                        Intent intent1 = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent1.setType("image/*");
+                        startActivityForResult(intent1, GALLERY_REQUEST_CODE);
+                        break;
+                }
+            }
+        });
+        mPopupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
         mPopupWindow.setFocusable(true);
         mPopupWindow.setTouchable(true);
         mPopupWindow.setOutsideTouchable(true);
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
-                R.drawable.popupwindow_9);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.popupwindow_9);
         mPopupWindow.setBackgroundDrawable(new BitmapDrawable(bitmap));
     }
 
@@ -136,58 +174,65 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
                 startActivity(new Intent(MainActivity.this,OptionsActivity.class));
                 break;
             case R.id.ibtn_toolbar_add:
-                mPopupWindow.showAsDropDown(view);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    mPopupWindow.showAsDropDown(toolbar,0,0,Gravity.RIGHT);
+                }
                 break;
             case R.id.rbtn_your:
                 viewPager.setCurrentItem(0);
+                currentItem = 0;
                 break;
             case R.id.rbtn_my:
                 viewPager.setCurrentItem(1);
+                currentItem = 1;
                 break;
         }
     }
 
+
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onGetUserPhotoEvent(GetUserPhotoEvent event){
+//        if(event.getUserid().equals(AVUser.getCurrentUser().getObjectId())){
+//            if(event.getList().size()!=0){
+//                Config.myPhotos = event.getList();
+//                Config.myPhotos.get(0).setState(1);
+//                //Toast.makeText(MainActivity.this, "自己有照片", Toast.LENGTH_SHORT).show();
+//                onResume();
+//            }else {
+////                Toast.makeText(MainActivity.this, "自己还没有照片哦", Toast.LENGTH_SHORT).show();
+//            }
+//        }else if(event.getUserid().equals(Config.you.getUserid())){
+//            if(event.getList().size()!=0){
+//                Config.yourPhotos = event.getList();
+//                Config.yourPhotos.get(0).setState(1);
+//                //Toast.makeText(MainActivity.this, "他有照片", Toast.LENGTH_SHORT).show();
+//                onResume();
+//            }else {
+////                Toast.makeText(MainActivity.this, "他还没有照片哦", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    };
+
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onGetFriendEvent(GetFriendEvent event){
-        if(!event.getResult().equals("0")){
-            Config.me.setFriendid(event.getResult());
-            Config.you.setUserid(event.getResult());
-            PhotoService.getPhoto(Config.me.getFriendid());
+    public void onResultCodeEvent(ResultCodeEvent event){
+        if(event.getResult()==1){
+            PhotoService.getPhoto(AVUser.getCurrentUser().getObjectId());
         }else {
-            Config.me.setFriendid("0");
-            Config.you.setUserid("0");
-            Toast.makeText(MainActivity.this, "还没有好友哦", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "上传失败", Toast.LENGTH_SHORT).show();
         }
+
     };
 
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onGetUserPhotoEvent(GetUserPhotoEvent event){
-        if(event.getUserid().equals(AVUser.getCurrentUser().getObjectId())){
-            if(event.getList().size()!=0){
-                Config.myPhotos = event.getList();
-                Config.myPhotos.get(0).setState(1);
-                //Toast.makeText(MainActivity.this, "自己有照片", Toast.LENGTH_SHORT).show();
-                onResume();
-            }else {
-                Toast.makeText(MainActivity.this, "自己还没有照片哦", Toast.LENGTH_SHORT).show();
-            }
-        }else if(event.getUserid().equals(Config.you.getUserid())){
-            if(event.getList().size()!=0){
-                Config.yourPhotos = event.getList();
-                Config.yourPhotos.get(0).setState(1);
-                //Toast.makeText(MainActivity.this, "他有照片", Toast.LENGTH_SHORT).show();
-                onResume();
-            }else {
-                Toast.makeText(MainActivity.this, "他还没有照片哦", Toast.LENGTH_SHORT).show();
-            }
-        }
-    };
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UploadPhotoHelper.uploadPhoto(requestCode,resultCode,data,MainActivity.this);
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
-        initView();
+        //initView();
     }
 
     @Override
@@ -195,6 +240,8 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
+
 }
 
 

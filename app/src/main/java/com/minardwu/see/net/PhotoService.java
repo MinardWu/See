@@ -21,6 +21,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,18 +32,15 @@ import java.util.List;
 public class PhotoService {
 
     public static void uploadPhoto(final String path) {
-
         new Thread(){
             @Override
             public void run() {
-                AVFile file = new AVFile("mi.png","https://avatars3.githubusercontent.com/u/11813425?v=3&s=460", new HashMap<String, Object>());
-//        AVFile file = null;
-//        try {
-//            file = AVFile.withAbsoluteLocalPath(System.currentTimeMillis() + ".jpg", path);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-
+                AVFile file = null;
+                try {
+                    file = AVFile.withAbsoluteLocalPath(System.currentTimeMillis() + ".jpg", path);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
                 AVObject avObject = new AVObject("Photo");
                 avObject.put("userid", AVUser.getCurrentUser().getObjectId());
                 avObject.put("photo", file);
@@ -51,9 +49,11 @@ public class PhotoService {
                     public void done(AVException e) {
                         if(e==null){
                             Log.d("uploadPhoto","success");
+                            EventBus.getDefault().post(new ResultCodeEvent(1));
                         }else{
                             Log.d("uploadPhoto","fail");
                             Log.d("uploadPhoto",e.getMessage());
+                            EventBus.getDefault().post(new ResultCodeEvent(-1));
                         }
                     }
                 });

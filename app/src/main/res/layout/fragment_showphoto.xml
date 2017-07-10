@@ -40,6 +40,7 @@
         <ListView
             android:id="@+id/lv_photo_buttom"
             android:visibility="invisible"
+            android:divider="@null"
             android:background="#fff"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"

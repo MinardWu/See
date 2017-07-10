@@ -23,10 +23,10 @@
             <ImageView
                 android:id="@+id/ibtn_toolbar_user"
                 android:layout_width="0dp"
-                android:layout_height="20dp"
+                android:layout_height="24dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/icon_user" />
+                android:src="@drawable/au" />
 
             <info.hoang8f.android.segmented.SegmentedGroup
                 xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
@@ -64,7 +64,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/icon_add" />
+                android:src="@drawable/by" />
 
         </LinearLayout>
 

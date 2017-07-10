@@ -87,6 +87,8 @@
                 android:id="@+id/btn_search_add"
                 android:background="@drawable/btn_rect_enable"
                 android:layout_marginLeft="64dp"
+                android:padding="8dp"
+                android:minHeight="0dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

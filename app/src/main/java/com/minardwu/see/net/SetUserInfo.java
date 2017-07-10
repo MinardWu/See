@@ -29,7 +29,6 @@ public class SetUserInfo {
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                AVFile file = null;
                 try {
                     file = AVFile.withAbsoluteLocalPath(System.currentTimeMillis() + ".jpg", path);
