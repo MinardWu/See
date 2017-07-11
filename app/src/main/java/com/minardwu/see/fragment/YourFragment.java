@@ -83,6 +83,7 @@ public class YourFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRefreshStatusEvent(RefreshStatusEvent event){
         if(event.getResult()==1){
+            Toast.makeText(getContext(), "11111", Toast.LENGTH_SHORT).show();
             photoAdapter.notifyDataSetChanged();
         }
     };

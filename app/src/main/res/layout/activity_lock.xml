@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    tools:context="com.minardwu.see.activity.LockActivity">
+
+    <com.minardwu.see.widget.UnderView
+        android:id="@+id/underview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/iv_lock"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            fresco:failureImage="@drawable/splash"
+            fresco:placeholderImage="@drawable/splash"/>
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:text="7:30"
+            android:textSize="56sp"
+            android:typeface="sans"
+            android:textColor="@color/white"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="48dp"
+            android:layout_marginLeft="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:text="5月15日 星期三"
+            android:textColor="@color/white"
+            android:layout_alignLeft="@+id/tv_time"
+            android:layout_below="@+id/tv_time"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_info"
+            android:text=""
+            android:textColor="@color/white"
+            android:layout_alignLeft="@+id/tv_date"
+            android:layout_below="@+id/tv_date"
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.minardwu.see.widget.CustomTextView
+            android:id="@+id/tv_slip"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp"
+            android:layout_alignParentBottom="true"
+            android:text=">>> 滑动解锁"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

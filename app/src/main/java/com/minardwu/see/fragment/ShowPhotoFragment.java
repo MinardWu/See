@@ -22,6 +22,7 @@ import com.minardwu.see.base.Config;
 import com.minardwu.see.base.MyApplication;
 import com.minardwu.see.entity.Photo;
 import com.minardwu.see.event.DeletePhotoEvent;
+import com.minardwu.see.event.PageChangeEvent;
 import com.minardwu.see.event.RefreshStatusEvent;
 import com.minardwu.see.event.SetShowPhotoEvent;
 import com.minardwu.see.net.PhotoService;
@@ -50,6 +51,7 @@ public class ShowPhotoFragment extends Fragment {
 
     private SimpleDraweeView iv_photo;
     private TextView tv_photoinfo;
+    private View rl_info;
 
     public ShowPhotoFragment(int type, Photo photo) {
         this.type = type;
@@ -87,6 +89,10 @@ public class ShowPhotoFragment extends Fragment {
         listView = (ListView) view.findViewById(R.id.lv_photo_buttom);
         listView.setAdapter(listTextAdapter);
 
+        rl_info = view.findViewById(R.id.rl_info);
+        if(photo.getPhotoInfo().equals("empty")){
+            rl_info.setVisibility(View.GONE);
+        }
         tv_photoinfo = (TextView) view.findViewById(R.id.tv_photoinfo);
         tv_photoinfo.setText(photo.getPhotoInfo());
         iv_photo = (SimpleDraweeView) view.findViewById(R.id.iv_photo);
@@ -210,9 +216,24 @@ public class ShowPhotoFragment extends Fragment {
         }
     };
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onPageChangeEvent(PageChangeEvent event){
+        if(event.getResult()==1){
+            listView.setVisibility(View.INVISIBLE);
+            listView.setAnimation(get_out);
+            show = false;
+        }
+    };
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    public void hideBottomList(){
+        listView.setVisibility(View.INVISIBLE);
+        listView.setAnimation(get_out);
+        show = false;
     }
 }

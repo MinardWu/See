@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -36,6 +37,8 @@ import com.minardwu.see.fragment.YourFragment;
 import com.minardwu.see.net.Friend;
 import com.minardwu.see.net.PhotoService;
 import com.minardwu.see.net.UploadPhotoHelper;
+import com.minardwu.see.service.LockService;
+import com.minardwu.see.util.AlarmHelper;
 import com.minardwu.see.widget.PopListview;
 
 import org.greenrobot.eventbus.EventBus;
@@ -44,6 +47,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends FragmentActivity implements  View.OnClickListener {
 
@@ -58,6 +63,8 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
     private PopupWindow mPopupWindow;
 
     private boolean firstIn = true;
+    private boolean readyForExit = false;
+    private Timer timer = new Timer(true);
     private int currentItem = 0;
     public static int CAMERA_REQUEST_CODE = 1;
     public static int GALLERY_REQUEST_CODE = 2;
@@ -66,6 +73,8 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        AlarmHelper.startService(this,LockService.class,5);
 
         ActivityController.addActivity(this);//MainActivity没有继承BaseActivity，故要手动添加
 
@@ -234,7 +243,30 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
+    }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exitByClick();
+        }
+        return false;
+    }
+
+    private void exitByClick() {
+        if (readyForExit == false) {
+            readyForExit = true;
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            //如果2秒钟内没有按下返回键，readyForExit右变为false则启动定时器取消掉刚才执行的任务
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    readyForExit = false;
+                }
+            }, 2000);
+        } else {
+            finish();
+        }
     }
 
     @Override

@@ -23,9 +23,9 @@ import java.util.TimerTask;
 
 public class SplashActivity extends AppCompatActivity {
 
-    SimpleDraweeView splashPic;
-    Timer timer;
-    AVUser currentUser;
+    private SimpleDraweeView splashPic;
+    private Timer timer;
+    private AVUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

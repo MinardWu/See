@@ -9,7 +9,10 @@ import com.minardwu.see.R;
 import com.minardwu.see.adapter.MyFragmentPagerAdapter;
 import com.minardwu.see.base.Config;
 import com.minardwu.see.entity.Photo;
+import com.minardwu.see.event.PageChangeEvent;
 import com.minardwu.see.fragment.ShowPhotoFragment;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,5 +44,27 @@ public class ShowPhotoActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList));
         viewPager.setCurrentItem(position);
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            //页面跳转完后调用
+            @Override
+            public void onPageSelected(int position) {
+                EventBus.getDefault().post(new PageChangeEvent(1));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
