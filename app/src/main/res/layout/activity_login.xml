@@ -17,7 +17,7 @@
         android:layout_gravity="center_horizontal"
         android:background="@mipmap/ic_launcher"
         android:layout_width="120dp"
-        android:layout_height="85dp" />
+        android:layout_height="120dp" />
 
     <LinearLayout
         android:gravity="center"
