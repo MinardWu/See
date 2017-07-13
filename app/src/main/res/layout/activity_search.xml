@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.minardwu.see.activity.SearchActivity">
 
@@ -11,32 +12,39 @@
         android:id="@+id/toolbar_search"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary" >
+        android:background="#fff"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp">
 
-        <!--<LinearLayout-->
-            <!--android:orientation="horizontal"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content">-->
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <!--<ImageView-->
-                <!--android:id="@+id/iv_toolbar_back"-->
-                <!--android:layout_width="25dp"-->
-                <!--android:layout_height="25dp"-->
-                <!--android:layout_marginLeft="20dp"-->
-                <!--android:src="@drawable/icon_back" />-->
+            <ImageView
+                android:id="@+id/iv_toolbar_back"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/icon_back" />
 
-            <!--<android.support.v7.widget.SearchView-->
-                <!--android:id="@+id/sv"-->
-                <!--android:layout_weight="1"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:iconifiedByDefault="false"-->
-                <!--android:queryHint="请输入搜索内容" />-->
+            <android.support.v7.widget.SearchView
+                android:id="@+id/sv"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:iconifiedByDefault="false"
+                android:queryHint="请输入搜索内容" />
 
-
-        <!--</LinearLayout>-->
+        </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
+
+    <!--<ListView-->
+        <!--android:id="@+id/lv_search"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"/>-->
 
 
     <RelativeLayout
@@ -51,22 +59,16 @@
 
         <LinearLayout
             android:visibility="gone"
+            android:orientation="vertical"
+            android:gravity="center"
             android:id="@+id/ll_search_result"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
-            android:layout_marginLeft="64dp"
-            android:layout_marginRight="64dp"
-            android:gravity="center">
+            android:layout_height="match_parent">
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/iv_search_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="16dp"
+                android:layout_width="168dp"
+                android:layout_height="168dp"
                 fresco:failureImage="@drawable/icon_user"
                 fresco:placeholderImage="@drawable/icon_user"
                 fresco:roundAsCircle="true"
@@ -77,16 +79,15 @@
                 android:id="@+id/tv_search_username"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
-                android:gravity="center"
+                android:layout_marginTop="16dp"
                 android:text="user"
                 android:textColor="@color/black"
-                android:textSize="16dp" />
+                android:textSize="16sp" />
 
             <Button
                 android:text="添加"
                 android:id="@+id/btn_search_add"
                 android:background="@drawable/btn_rect_enable"
-                android:layout_marginLeft="64dp"
                 android:padding="8dp"
                 android:minHeight="0dp"
                 android:layout_width="wrap_content"

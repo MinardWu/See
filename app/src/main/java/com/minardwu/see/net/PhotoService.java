@@ -151,22 +151,24 @@ public class PhotoService {
             @Override
             public void done(AVObject avObject, AVException e) {
                 if(e==null){
-                    try {
-                        Log.d("getShowPhoto","success");
-                        JSONObject jsonObject = new JSONObject(avObject.toString());
-                        JSONObject serverData = jsonObject.getJSONObject("serverData");
-                        JSONObject photo = serverData.getJSONObject("photo");
-                        String photoid = jsonObject.getString("objectId");
-                        String userid = serverData.getString("userid");
-                        String photourl = photo.getString("url");
-                        String photoinfo = serverData.getString("photoinfo");
-                        Log.v("getShowPhoto",photoid);
-                        Log.v("getShowPhoto",userid);
-                        Log.v("getShowPhoto",photourl);
-                        Log.v("getShowPhoto",photoinfo);
-                        EventBus.getDefault().post(new GetShowPhotoEvent(new Photo(photoid,userid,photourl,photoinfo,1)));
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
+                    if(avObject!=null){
+                        try {
+                            Log.d("getShowPhoto","success");
+                            JSONObject jsonObject = new JSONObject(avObject.toString());
+                            JSONObject serverData = jsonObject.getJSONObject("serverData");
+                            JSONObject photo = serverData.getJSONObject("photo");
+                            String photoid = jsonObject.getString("objectId");
+                            String userid = serverData.getString("userid");
+                            String photourl = photo.getString("url");
+                            String photoinfo = serverData.getString("photoinfo");
+                            Log.v("getShowPhoto",photoid);
+                            Log.v("getShowPhoto",userid);
+                            Log.v("getShowPhoto",photourl);
+                            Log.v("getShowPhoto",photoinfo);
+                            EventBus.getDefault().post(new GetShowPhotoEvent(new Photo(photoid,userid,photourl,photoinfo,1)));
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
                     }
                 }else {
                     Log.d("getShowPhoto","fail");

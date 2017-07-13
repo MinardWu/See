@@ -1,25 +1,22 @@
 package com.minardwu.see.activity;
 
 import android.net.Uri;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.avos.avoscloud.AVUser;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.minardwu.see.R;
-import com.minardwu.see.base.BaseActivity;
 import com.minardwu.see.base.Config;
 import com.minardwu.see.entity.User;
 import com.minardwu.see.event.GetUserInfoEvent;
@@ -33,6 +30,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 public class SearchActivity extends AppCompatActivity {
 
+    private Toolbar toolbar;
+    private ImageView iv_back;
     private SearchView searchView;
     private TextView tv_info;
     private SimpleDraweeView iv_avatar;
@@ -42,18 +41,22 @@ public class SearchActivity extends AppCompatActivity {
 
     private User searchUser;
 
+//    private String[] history = {"aaa", "bbb", "ccc", "airsaid"};
+//    private ListView listView;
+//    private ArrayAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_search);
-        setSupportActionBar(toolbar);
         initView();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         EventBus.getDefault().register(this);
     }
 
     private void initView() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar_search);
+        setSupportActionBar(toolbar);
+
         tv_info = (TextView) findViewById(R.id.tv_search_info);
         iv_avatar = (SimpleDraweeView) findViewById(R.id.iv_search_image);
         tv_username = (TextView) findViewById(R.id.tv_search_username);
@@ -67,13 +70,21 @@ public class SearchActivity extends AppCompatActivity {
                 News.sendNews(searchUser.getUserid());
             }
         });
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_search, menu);
-        final MenuItem item = menu.findItem(R.id.search);
-        searchView = (SearchView) MenuItemCompat.getActionView(item);
+        iv_back = (ImageView) findViewById(R.id.iv_toolbar_back);
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+//        listView = (ListView) findViewById(R.id.lv_search);
+//        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, history);
+//        listView.setAdapter(adapter);
+//        listView.setTextFilterEnabled(true);
+
+        searchView = (SearchView) findViewById(R.id.sv);
         searchView.setQueryHint("输入用户名称搜索");
         searchView.setIconified(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -95,11 +106,17 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;
+//                if (!TextUtils.isEmpty(newText)){
+//                    //mListView.setFilterText(newText);使用这种方法的话会弹出一个PuopWindow
+//                    adapter.getFilter().filter(newText.toString());
+//                }else{
+//                    listView.clearTextFilter();
+//                }
+                return true;
             }
         });
-        return true;
     }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGetUserInfoEvent(GetUserInfoEvent event){
@@ -132,16 +149,6 @@ public class SearchActivity extends AppCompatActivity {
         }
     };
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id){
-            case android.R.id.home:
-                this.finish();
-            default:break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     protected void onDestroy() {

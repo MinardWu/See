@@ -39,7 +39,7 @@
                 segmentedgroup:sc_border_width="0.5dp"
                 segmentedgroup:sc_checked_text_color="#fff"
                 segmentedgroup:sc_corner_radius="30dp"
-                segmentedgroup:sc_tint_color="#435356">
+                segmentedgroup:sc_tint_color="#727373">
 
                 <RadioButton
                     android:id="@+id/rbtn_your"
