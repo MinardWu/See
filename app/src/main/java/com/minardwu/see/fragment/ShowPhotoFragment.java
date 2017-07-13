@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,11 @@ public class ShowPhotoFragment extends Fragment {
     private TextView tv_photoinfo;
     private View rl_info;
 
+    private boolean isVisible;//fragment是否可见，用来实现LazyViewPager(因为ViewPager有预加载下一个fragment，会重复注册EventBus)
+    private boolean isFirstShow = true;//fragment是否第一次加载，如果是才注册EventBus，防止重复注册
+    private boolean isRegister = false;//用于判断是否注册过，防止还没注册就执行解除注册
+
+
     public ShowPhotoFragment(int type, Photo photo) {
         this.type = type;
         this.photo = photo;
@@ -61,7 +67,6 @@ public class ShowPhotoFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
     }
 
     @Nullable
@@ -180,6 +185,35 @@ public class ShowPhotoFragment extends Fragment {
         });
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(getUserVisibleHint()) {
+            isVisible = true;
+            onVisible();
+        } else {
+            isVisible = false;
+            onInvisible();
+        }
+    }
+
+    private void onVisible() {
+        //当fragmen为可见且是第一次出现时才注册
+        if(isFirstShow){
+            EventBus.getDefault().register(this);
+            isRegister = true;
+        }
+        isFirstShow = false;
+    }
+
+    private void onInvisible() {
+        if(isRegister){
+            EventBus.getDefault().unregister(this);
+            isRegister = false;
+        }
+    }
+
+
     @Subscribe(threadMode = ThreadMode.POSTING)
     public void onSetShowPhotoEvent(SetShowPhotoEvent event){
         if(event.getResult()==1){
@@ -228,7 +262,6 @@ public class ShowPhotoFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
     public void hideBottomList(){

@@ -12,17 +12,12 @@ import com.minardwu.see.activity.LockActivity;
 
 public class LockService extends Service {
 
-//    private ScreenOnReceiver screenOnReceiver;
     private ScreenOffReceiver screenOffReceiver;
 
     @Override
     public void onCreate() {
         super.onCreate();
         Log.v("LockService","onCreate");
-//        screenOnReceiver=new ScreenOnReceiver();
-//        IntentFilter screenOnFilter=new IntentFilter();
-//        screenOnFilter.addAction("android.intent.action.SCREEN_ON");
-//        registerReceiver(screenOnReceiver, screenOnFilter);
         screenOffReceiver=new ScreenOffReceiver();
         IntentFilter screenOffFilter=new IntentFilter();
         screenOffFilter.addAction("android.intent.action.SCREEN_OFF");
@@ -31,27 +26,10 @@ public class LockService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.v("RestartReceiver","onStartCommand");
+        Log.v("LockService","onStartCommand");
         return Service.START_STICKY;
     }
 
-//    //监听屏幕变亮的广播接收器，变亮就屏蔽系统锁屏
-//    private class ScreenOnReceiver extends BroadcastReceiver {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            String action=intent.getAction();
-//            if(action.equals("android.intent.action.SCREEN_ON")){
-//                Log.e("NowScreenState", "on");
-////                KeyguardManager keyguardManager = (KeyguardManager)context.getSystemService(Context.KEYGUARD_SERVICE);
-////                KeyguardManager.KeyguardLock lock = keyguardManager.newKeyguardLock("");
-////                lock.disableKeyguard();
-//                Intent screnenOffIntent=new Intent(context,LockActivity.class);
-//                screnenOffIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(screnenOffIntent);
-//            }
-//        }
-//
-//    }
 
     //监听屏幕变暗的广播接收器，变暗就启动应用锁屏界面activity
     private class ScreenOffReceiver extends BroadcastReceiver{
@@ -76,6 +54,7 @@ public class LockService extends Service {
         Intent intent = new Intent();
         intent.setAction("android.intent.action.RESTART");
         intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+        intent.putExtra("resart","LockService");
         sendBroadcast(intent);
     }
 

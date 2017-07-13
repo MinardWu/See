@@ -1,5 +1,7 @@
 package com.minardwu.see.entity;
 
+import android.util.Log;
+
 /**
  * Created by Administrator on 2017/6/23.
  */
@@ -57,5 +59,19 @@ public class Photo {
 
     public void setState(int state) {
         this.state = state;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Photo temp = (Photo) obj;
+        if(this == obj) {
+            return true;
+        } else if((obj == null) || (obj.getClass() != this.getClass())) {
+            return false;
+        } else if(this.photoid.equals(temp.getPhotoid())){
+            return true;
+        }else {
+            return false;
+        }
     }
 }

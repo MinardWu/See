@@ -36,7 +36,6 @@
         <activity android:name=".base.BaseActivity" />
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.OptionsActivity" />
-
         <activity
             android:name=".activity.LockActivity"
             android:excludeFromRecents="true"
@@ -66,10 +65,20 @@
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.ShowPhotoActivity"></activity>
+        <activity android:name=".activity.ShowPhotoActivity" />
+
+        <receiver
+            android:name=".receiver.RestartReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="999">
+                <action android:name="android.intent.action.RESTART" />
+            </intent-filter>
+        </receiver>
 
         <service
             android:name=".service.LockService"
@@ -80,14 +89,11 @@
             </intent-filter>
         </service>
 
-        <receiver
-            android:name=".receiver.RestartReceiver"
+        <service
+            android:name=".service.GetShowPhotoService"
             android:enabled="true"
-            android:exported="true">
-            <intent-filter android:priority="999">
-                <action android:name="android.intent.action.RESTART" />
-            </intent-filter>
-        </receiver>
+            android:exported="true"></service>
+
     </application>
 
 </manifest>

@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -30,13 +31,16 @@ import com.minardwu.see.base.Config;
 import com.minardwu.see.entity.Photo;
 import com.minardwu.see.entity.PopupwindowItem;
 import com.minardwu.see.entity.User;
+import com.minardwu.see.event.GetShowPhotoEvent;
 import com.minardwu.see.event.GetUserPhotoEvent;
+import com.minardwu.see.event.NewPhotoEvent;
 import com.minardwu.see.event.ResultCodeEvent;
 import com.minardwu.see.fragment.MyFragment;
 import com.minardwu.see.fragment.YourFragment;
 import com.minardwu.see.net.Friend;
 import com.minardwu.see.net.PhotoService;
 import com.minardwu.see.net.UploadPhotoHelper;
+import com.minardwu.see.service.GetShowPhotoService;
 import com.minardwu.see.service.LockService;
 import com.minardwu.see.util.AlarmHelper;
 import com.minardwu.see.widget.PopListview;
@@ -75,7 +79,6 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
         setContentView(R.layout.activity_main);
 
         AlarmHelper.startService(this,LockService.class,5);
-
         ActivityController.addActivity(this);//MainActivity没有继承BaseActivity，故要手动添加
 
         initView();
@@ -231,6 +234,29 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
             Toast.makeText(MainActivity.this, "上传失败", Toast.LENGTH_SHORT).show();
         }
 
+    };
+
+    //获取showPhoto
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onGetShowPhotoEvent(GetShowPhotoEvent event) {
+        Photo showPhoto = event.getPhoto();
+        if(Config.yourPhotos.contains(showPhoto)){//如果showPhoto不是新增的，改变state
+            Log.v("getShowPhoto","contains");
+            for(Photo tempPhoto:Config.yourPhotos){
+                if(tempPhoto.getPhotoid().equals(showPhoto.getPhotoid())){
+                    tempPhoto.setState(1);
+                }else{
+                    tempPhoto.setState(0);
+                }
+            }
+        }else {//如果showPhoto是新增的，则添加到Config.yourPhotos中
+            Log.v("getShowPhoto","nocontains");
+            for(Photo tempPhoto:Config.yourPhotos){
+                tempPhoto.setState(0);
+            }
+            Config.yourPhotos.add(0,showPhoto);
+            EventBus.getDefault().post(new NewPhotoEvent(1));//通知YourFragment刷新界面
+        }
     };
 
     @Override

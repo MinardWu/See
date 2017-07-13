@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -13,6 +14,8 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.minardwu.see.R;
 import com.minardwu.see.base.Config;
 import com.minardwu.see.entity.Photo;
+import com.minardwu.see.event.GetShowPhotoEvent;
+import com.minardwu.see.event.NewPhotoEvent;
 import com.minardwu.see.event.ResultCodeEvent;
 import com.minardwu.see.widget.UnderView;
 
@@ -52,14 +55,15 @@ public class LockActivity extends AppCompatActivity {
         tv_info = (TextView) findViewById(R.id.tv_info);
         simpleDraweeView = (SimpleDraweeView) findViewById(R.id.iv_lock);
 
-
-        for(Photo tempPhoto:Config.yourPhotos)
+        for(Photo tempPhoto:Config.yourPhotos){
             if(tempPhoto.getState()==1){
                 simpleDraweeView.setImageURI(Uri.parse(tempPhoto.getPhotoUrl()));
                 if(!tempPhoto.getPhotoInfo().equals("empty")){
                     tv_info.setText(tempPhoto.getPhotoInfo());
                 }
             }
+        }
+
         underView =  (UnderView) findViewById(R.id.underview);
         underView.setView(view);
 
@@ -81,17 +85,6 @@ public class LockActivity extends AppCompatActivity {
 
         handler = new Handler();
         handler.post(updateRunnable);
-
-//        timer = new Timer(true);
-//        timer.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm-MM月dd日 E", Locale.CHINESE);
-//                String date[] = simpleDateFormat.format(new Date()).split("-");
-//                tv_time.setText(date[0]);
-//                tv_date.setText(date[1]);
-//            }
-//        },10000);
 
     }
 
@@ -120,11 +113,27 @@ public class LockActivity extends AppCompatActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(ResultCodeEvent event) {
+    public void onResultCodeEvent(ResultCodeEvent event) {
         if(event.getResult()==1){
             finish();
         }
     };
+
+    //好友发布新的照片后，在屏幕暗的时候也能刷新壁纸（不能只在onCreat设置UI）
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNewPhotoEvent(NewPhotoEvent event){
+        if(event.getResult()==1){
+            for(Photo tempPhoto:Config.yourPhotos){
+                if(tempPhoto.getState()==1){
+                    simpleDraweeView.setImageURI(Uri.parse(tempPhoto.getPhotoUrl()));
+                    if(!tempPhoto.getPhotoInfo().equals("empty")){
+                        tv_info.setText(tempPhoto.getPhotoInfo());
+                    }
+                }
+            }
+        }
+    };
+
 
     @Override
     protected void onDestroy() {

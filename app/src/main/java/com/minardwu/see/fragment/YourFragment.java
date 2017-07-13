@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +23,12 @@ import com.minardwu.see.base.Config;
 import com.minardwu.see.entity.Photo;
 import com.minardwu.see.event.GetFriendEvent;
 import com.minardwu.see.event.GetUserPhotoEvent;
+import com.minardwu.see.event.NewPhotoEvent;
 import com.minardwu.see.event.RefreshStatusEvent;
 import com.minardwu.see.net.Friend;
 import com.minardwu.see.net.PhotoService;
+import com.minardwu.see.service.GetShowPhotoService;
+import com.minardwu.see.util.AlarmHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -80,14 +84,23 @@ public class YourFragment extends Fragment {
         return view;
     }
 
+    //自己设置新的showPhoto后刷新UI
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRefreshStatusEvent(RefreshStatusEvent event){
         if(event.getResult()==1){
-            Toast.makeText(getContext(), "11111", Toast.LENGTH_SHORT).show();
             photoAdapter.notifyDataSetChanged();
         }
     };
 
+    //好友发布新的照片后刷新UI
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNewPhotoEvent(NewPhotoEvent event){
+        if(event.getResult()==1){
+            photoAdapter.notifyDataSetChanged();
+        }
+    };
+
+    //查询用户是否有好友
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGetFriendEvent(GetFriendEvent event){
         if(event.getResult().equals("0")){//没有好友
@@ -104,9 +117,11 @@ public class YourFragment extends Fragment {
             gridView.setVisibility(View.VISIBLE);
             tv_nofriend.setVisibility(View.GONE);
             PhotoService.getPhoto(Config.you.getUserid());
+            AlarmHelper.startService(getContext(),GetShowPhotoService.class,5);
         }
     };
 
+    //获取好友照片
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGetUserPhotoEvent(GetUserPhotoEvent event){
         if(event.getUserid().equals(Config.you.getUserid())){
@@ -116,6 +131,9 @@ public class YourFragment extends Fragment {
                 Config.yourPhotos.clear();
                 Config.yourPhotos.addAll(event.getList());
                 Config.yourPhotos.get(0).setState(1);
+                for(Photo tempPhoto:Config.yourPhotos){
+                    Log.v("LockActivityggfragmeny",tempPhoto.getPhotoid()+" "+tempPhoto.getState());
+                }
                 photoAdapter.notifyDataSetChanged();
             }else {
                 gridView.setVisibility(View.VISIBLE);

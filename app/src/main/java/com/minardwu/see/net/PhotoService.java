@@ -1,6 +1,7 @@
 package com.minardwu.see.net;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.avos.avoscloud.AVCloudQueryResult;
 import com.avos.avoscloud.AVException;
@@ -12,8 +13,10 @@ import com.avos.avoscloud.CloudQueryCallback;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.GetCallback;
 import com.avos.avoscloud.SaveCallback;
+import com.minardwu.see.base.MyApplication;
 import com.minardwu.see.entity.Photo;
 import com.minardwu.see.event.DeletePhotoEvent;
+import com.minardwu.see.event.GetShowPhotoEvent;
 import com.minardwu.see.event.GetUserPhotoEvent;
 import com.minardwu.see.event.ResultCodeEvent;
 import com.minardwu.see.event.SetShowPhotoEvent;
@@ -59,38 +62,6 @@ public class PhotoService {
                     }
                 });
 
-            }
-        }.start();
-    }
-
-    public static void uploadPhotoAndShow(final String path) {
-        new Thread(){
-            @Override
-            public void run() {
-                AVFile file = new AVFile("mingln.png","https://avatars3.githubusercontent.com/u/11813425?v=3&s=460", new HashMap<String, Object>());
-//                AVFile file = null;
-//                try {
-//                    file = AVFile.withAbsoluteLocalPath(System.currentTimeMillis() + ".jpg", path);
-//                } catch (FileNotFoundException e) {
-//                    e.printStackTrace();
-//                }
-
-                final AVObject avObject = new AVObject("Photo");
-                avObject.put("userid", AVUser.getCurrentUser().getObjectId());
-                avObject.put("photo", file);
-                avObject.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(AVException e) {
-                        if(e==null){
-                            Log.d("uploadPhotoAndShow","success");
-                            Log.d("uploadPhotoAndShow",avObject.getObjectId());
-                            setShowPhoto(avObject.getObjectId());
-                        }else{
-                            Log.d("uploadPhotoAndShow","fail");
-                            Log.d("uploadPhotoAndShow",e.getMessage());
-                        }
-                    }
-                });
             }
         }.start();
     }
@@ -185,8 +156,15 @@ public class PhotoService {
                         JSONObject jsonObject = new JSONObject(avObject.toString());
                         JSONObject serverData = jsonObject.getJSONObject("serverData");
                         JSONObject photo = serverData.getJSONObject("photo");
-                        Log.v("getShowPhoto",jsonObject.getString("objectId"));
-                        Log.v("getShowPhoto",photo.getString("url"));
+                        String photoid = jsonObject.getString("objectId");
+                        String userid = serverData.getString("userid");
+                        String photourl = photo.getString("url");
+                        String photoinfo = serverData.getString("photoinfo");
+                        Log.v("getShowPhoto",photoid);
+                        Log.v("getShowPhoto",userid);
+                        Log.v("getShowPhoto",photourl);
+                        Log.v("getShowPhoto",photoinfo);
+                        EventBus.getDefault().post(new GetShowPhotoEvent(new Photo(photoid,userid,photourl,photoinfo,1)));
                     } catch (JSONException e1) {
                         e1.printStackTrace();
                     }

@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.minardwu.see.R;
 import com.minardwu.see.adapter.MyFragmentPagerAdapter;
@@ -42,6 +43,7 @@ public class ShowPhotoActivity extends AppCompatActivity {
                 fragmentList.add(new ShowPhotoFragment(type,photo));
         }
         viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPager.setOffscreenPageLimit(0);
         viewPager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList));
         viewPager.setCurrentItem(position);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -61,6 +63,10 @@ public class ShowPhotoActivity extends AppCompatActivity {
 
             }
         });
+        for(Photo tempphoto:Config.yourPhotos){
+            Log.v("dsafhiusdfa",tempphoto.getPhotoid()+"-->"+tempphoto.getState()+"");
+        }
+
     }
 
     @Override
