@@ -9,24 +9,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.minardwu.see.R;
-import com.minardwu.see.entity.PopupwindowItem;
+import com.minardwu.see.entity.NormalItem;
 
 import java.util.List;
 
 /**
  * Created by MinardWu on 2017/7/10.
  */
-public class PopupwindowItemAdapter extends ArrayAdapter<PopupwindowItem> {
+public class NormalItemAdapter extends ArrayAdapter<NormalItem> {
 
     int mresource;
-    public PopupwindowItemAdapter(Context context, int resource, List<PopupwindowItem> objects) {
+    public NormalItemAdapter(Context context, int resource, List<NormalItem> objects) {
         super(context, resource, objects);
         mresource = resource;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        PopupwindowItem item = getItem(position);
+        NormalItem item = getItem(position);
         convertView = LayoutInflater.from(getContext()).inflate(mresource,null);
         ImageView iv = (ImageView) convertView.findViewById(R.id.iv_popicon);
         TextView tv = (TextView) convertView.findViewById(R.id.tv_poptext);

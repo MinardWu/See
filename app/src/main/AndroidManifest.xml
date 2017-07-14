@@ -49,6 +49,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.CameraActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+        </activity>
 
         <!-- 实时通信模块、推送都要使用 PushService -->
         <service android:name="com.avos.avoscloud.PushService" />
@@ -88,12 +93,12 @@
                 <action android:name="com.minardwu.LockService" />
             </intent-filter>
         </service>
-
         <service
             android:name=".service.GetShowPhotoService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
+        <activity android:name=".activity.PostPhotoActivity"></activity>
     </application>
 
 </manifest>

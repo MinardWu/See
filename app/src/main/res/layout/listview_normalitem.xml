@@ -1,41 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="2dp"
+        android:id="@+id/iv_popicon"
+        android:layout_width="24dp"
+        android:layout_height="24dp" />
 
     <TextView
-        android:id="@+id/tv_item_title"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="2dp"
+        android:id="@+id/tv_poptext"
+        android:layout_marginLeft="24dp"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_alignParentLeft="true"
-        android:gravity="center"
-        android:text="title"
+        android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:textSize="16dp" />
+        android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/tv_item_value"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="16dp"
-        android:gravity="center"
-        android:text="value"
-        android:textColor="@color/et_hint"
-        android:textSize="14dp" />
-
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/iv_image"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="16dp"
-        fresco:failureImage="@drawable/icon_user"
-        fresco:placeholderImage="@drawable/icon_user"
-        fresco:roundAsCircle="true"
-        fresco:roundingBorderColor="@color/main"
-        fresco:roundingBorderWidth="0.5dp" />
-
-</RelativeLayout>
+</LinearLayout>

@@ -32,12 +32,12 @@ public class UserInfoItemAdapter extends ArrayAdapter<UserInfoItem> {
         View view = LayoutInflater.from(getContext()).inflate(resource_id,null);
         TextView userinfo_title = (TextView) view.findViewById(R.id.tv_item_title);
         TextView userinfo_value = (TextView) view.findViewById(R.id.tv_item_value);
-        SimpleDraweeView simpleDraweeView = (SimpleDraweeView) view.findViewById(R.id.iv_image);
+        //SimpleDraweeView simpleDraweeView = (SimpleDraweeView) view.findViewById(R.id.iv_image);
         if(position == 0){
             userinfo_value.setVisibility(View.GONE);
-            simpleDraweeView.setImageURI(Uri.parse(userInfoItem.getAvatarUrl()));
+            //simpleDraweeView.setImageURI(Uri.parse(userInfoItem.getAvatarUrl()));
         }else {
-            simpleDraweeView.setVisibility(View.GONE);
+            //simpleDraweeView.setVisibility(View.GONE);
         }
         userinfo_title.setText(userInfoItem.getItemTitle());
         userinfo_value.setText(userInfoItem.getItemVaule());

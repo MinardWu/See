@@ -1,23 +1,18 @@
 package com.minardwu.see.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -25,14 +20,13 @@ import android.widget.Toast;
 import com.avos.avoscloud.AVUser;
 import com.minardwu.see.R;
 import com.minardwu.see.adapter.MyFragmentPagerAdapter;
-import com.minardwu.see.adapter.PopupwindowItemAdapter;
+import com.minardwu.see.adapter.NormalItemAdapter;
 import com.minardwu.see.base.ActivityController;
 import com.minardwu.see.base.Config;
 import com.minardwu.see.entity.Photo;
-import com.minardwu.see.entity.PopupwindowItem;
+import com.minardwu.see.entity.NormalItem;
 import com.minardwu.see.entity.User;
 import com.minardwu.see.event.GetShowPhotoEvent;
-import com.minardwu.see.event.GetUserPhotoEvent;
 import com.minardwu.see.event.NewPhotoEvent;
 import com.minardwu.see.event.ResultCodeEvent;
 import com.minardwu.see.fragment.MyFragment;
@@ -40,10 +34,8 @@ import com.minardwu.see.fragment.YourFragment;
 import com.minardwu.see.net.Friend;
 import com.minardwu.see.net.PhotoService;
 import com.minardwu.see.net.UploadPhotoHelper;
-import com.minardwu.see.service.GetShowPhotoService;
 import com.minardwu.see.service.LockService;
 import com.minardwu.see.util.AlarmHelper;
-import com.minardwu.see.widget.PopListview;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -53,6 +45,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import me.drakeet.materialdialog.MaterialDialog;
 
 public class MainActivity extends FragmentActivity implements  View.OnClickListener {
 
@@ -65,6 +59,7 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
     private ImageView iv_user, iv_add;
     private View popupView;
     private PopupWindow mPopupWindow;
+    private MaterialDialog dialog_add;
 
     private boolean firstIn = true;
     private boolean readyForExit = false;
@@ -82,7 +77,7 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
         ActivityController.addActivity(this);//MainActivity没有继承BaseActivity，故要手动添加
 
         initView();
-        initPopupWindow();
+        initDialog();
 
         EventBus.getDefault().register(this);
 
@@ -146,38 +141,31 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
         });
     }
 
-    private void initPopupWindow() {
-        List<PopupwindowItem> popupwindowItemList = new ArrayList<PopupwindowItem>();
-        popupwindowItemList.add(new PopupwindowItem(R.drawable.au,"拍照"));
-        popupwindowItemList.add(new PopupwindowItem(R.drawable.au,"相册"));
-        popupView = getLayoutInflater().inflate(R.layout.popupwindow, null);
-        PopListview listView = (PopListview) popupView.findViewById(R.id.lv_popup);
-        PopupwindowItemAdapter adapter = new PopupwindowItemAdapter(this,R.layout.listview_popitem,popupwindowItemList);
+    private void initDialog() {
+        List<NormalItem> list = new ArrayList<NormalItem>();
+        list.add(new NormalItem(R.drawable.au,"拍照"));
+        list.add(new NormalItem(R.drawable.au,"相册"));
+        NormalItemAdapter adapter = new NormalItemAdapter(this,R.layout.listview_normalitem,list);
+        ListView listView = new ListView(MainActivity.this);
+        listView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        listView.setPadding(0, 0, 0, -35);
+        listView.setDividerHeight(0);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                switch (position){
-                    case 0:
-                        mPopupWindow.dismiss();
-                        Intent intent0 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(intent0, CAMERA_REQUEST_CODE);
-                        break;
-                    case 1:
-                        mPopupWindow.dismiss();
-                        Intent intent1 = new Intent(Intent.ACTION_GET_CONTENT);
-                        intent1.setType("image/*");
-                        startActivityForResult(intent1, GALLERY_REQUEST_CODE);
-                        break;
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                dialog_add.dismiss();
+                if (position == 0) {
+                    Intent intent0 = new Intent(MainActivity.this,CameraActivity.class);
+                    startActivity(intent0);
+                } else if (position == 1) {
+                    Intent intent1 = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent1.setType("image/*");
+                    startActivityForResult(intent1, GALLERY_REQUEST_CODE);
                 }
             }
         });
-        mPopupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
-        mPopupWindow.setFocusable(true);
-        mPopupWindow.setTouchable(true);
-        mPopupWindow.setOutsideTouchable(true);
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.popupwindow_9);
-        mPopupWindow.setBackgroundDrawable(new BitmapDrawable(bitmap));
+        dialog_add = new MaterialDialog(MainActivity.this).setContentView(listView);
     }
 
     @Override
@@ -187,9 +175,7 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
                 startActivity(new Intent(MainActivity.this,OptionsActivity.class));
                 break;
             case R.id.ibtn_toolbar_add:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    mPopupWindow.showAsDropDown(toolbar,0,0,Gravity.RIGHT);
-                }
+                dialog_add.show();
                 break;
             case R.id.rbtn_your:
                 viewPager.setCurrentItem(0);
@@ -203,37 +189,12 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
     }
 
 
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void onGetUserPhotoEvent(GetUserPhotoEvent event){
-//        if(event.getUserid().equals(AVUser.getCurrentUser().getObjectId())){
-//            if(event.getList().size()!=0){
-//                Config.myPhotos = event.getList();
-//                Config.myPhotos.get(0).setState(1);
-//                //Toast.makeText(MainActivity.this, "自己有照片", Toast.LENGTH_SHORT).show();
-//                onResume();
-//            }else {
-////                Toast.makeText(MainActivity.this, "自己还没有照片哦", Toast.LENGTH_SHORT).show();
-//            }
-//        }else if(event.getUserid().equals(Config.you.getUserid())){
-//            if(event.getList().size()!=0){
-//                Config.yourPhotos = event.getList();
-//                Config.yourPhotos.get(0).setState(1);
-//                //Toast.makeText(MainActivity.this, "他有照片", Toast.LENGTH_SHORT).show();
-//                onResume();
-//            }else {
-////                Toast.makeText(MainActivity.this, "他还没有照片哦", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    };
-
+    //上传图片成功后重新获取自己的照片
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onResultCodeEvent(ResultCodeEvent event){
         if(event.getResult()==1){
             PhotoService.getPhoto(AVUser.getCurrentUser().getObjectId());
-        }else {
-            Toast.makeText(MainActivity.this, "上传失败", Toast.LENGTH_SHORT).show();
         }
-
     };
 
     //获取showPhoto
@@ -264,7 +225,6 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
         UploadPhotoHelper.uploadPhoto(requestCode,resultCode,data,MainActivity.this);
     }
-
 
     @Override
     protected void onResume() {

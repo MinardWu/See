@@ -11,14 +11,18 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.minardwu.see.activity.CameraActivity;
 import com.minardwu.see.activity.MainActivity;
+import com.minardwu.see.activity.PostPhotoActivity;
 import com.minardwu.see.activity.SettingActivity;
 import com.minardwu.see.base.MyApplication;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 /**
  * Created by MinardWu on 2017/7/4.
@@ -48,7 +52,7 @@ public class UploadPhotoHelper {
                 } else {
                     Log.v("uploadPhoto","开始保存上传");
                     Bitmap bitmap = extras.getParcelable("data");
-                    savePhotoAndUpload(bitmap);
+                    savePhotoAndUpload(bitmap,"不会再被用到这个方法了");
                 }
             }
         } else if (requestCode == GALLERY_REQUEST_CODE) {
@@ -65,7 +69,15 @@ public class UploadPhotoHelper {
                 Log.v("uploadPhoto","imageUri!=null");
                 try {
                     Bitmap bitmap = BitmapFactory.decodeStream(MyApplication.getAppContext().getContentResolver().openInputStream(imageUri));
-                    savePhotoAndUpload(bitmap);
+                    //将bitmap转化为byte[]
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                    byte[] byteArray = baos.toByteArray();
+                    //跳转到发布界面
+                    Intent intent = new Intent(mcontext, PostPhotoActivity.class);
+                    intent.putExtra("bytes", byteArray);
+                    intent.putExtra("rotate", false);
+                    ((MainActivity)mcontext).startActivity(intent);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -78,7 +90,7 @@ public class UploadPhotoHelper {
     }
 
     //保存bitmap并上传，无论是拍照还是裁剪图片最后得到的都是一个bitmap
-    private static Uri savePhotoAndUpload(Bitmap bitmap) {
+    public static Uri savePhotoAndUpload(Bitmap bitmap,String info) {
         File fileDir = new File(dirPath);
         if (!fileDir.exists()) {
             fileDir.mkdir();
@@ -89,7 +101,7 @@ public class UploadPhotoHelper {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
             fileOutputStream.flush();
             fileOutputStream.close();
-            PhotoService.uploadPhoto(filePath);
+            PhotoService.uploadPhoto(filePath,info);
             return Uri.fromFile(img);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -103,7 +115,7 @@ public class UploadPhotoHelper {
     }
 
     //打开图片裁剪页面
-    private static void cutImage(Uri uri) {
+    public static void cutImage(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");

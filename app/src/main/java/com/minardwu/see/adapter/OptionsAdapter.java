@@ -36,7 +36,7 @@ public class OptionsAdapter extends ArrayAdapter<Options>{
             convertView = LayoutInflater.from(getContext()).inflate(resource_id,null);
             viewHolder.option_title = (TextView) convertView.findViewById(R.id.tv_item_title);
             viewHolder.option_value = (TextView) convertView.findViewById(R.id.tv_item_value);
-            viewHolder.simpleDraweeView = (SimpleDraweeView) convertView.findViewById(R.id.iv_image);
+            //viewHolder.simpleDraweeView = (SimpleDraweeView) convertView.findViewById(R.id.iv_image);
             convertView.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder) convertView.getTag();

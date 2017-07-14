@@ -16,7 +16,7 @@
     <color name="gray">#404040</color>
     <color name="red">#e51c23</color>
     <color name="et_text">#49585b</color>
-    <color name="et_hint">#707070</color>
+    <color name="et_hint">#aba8a8</color>
     <color name="btn_color_enable">#435356</color>
     <color name="btn_color_unable">#a7afaf</color>
 </resources>

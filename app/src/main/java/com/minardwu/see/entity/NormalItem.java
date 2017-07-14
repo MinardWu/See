@@ -3,12 +3,12 @@ package com.minardwu.see.entity;
 /**
  * Created by MinardWu on 2017/7/10.
  */
-public class PopupwindowItem {
+public class NormalItem {
 
     private int icon;
     private String item;
 
-    public PopupwindowItem(int icon, String item) {
+    public NormalItem(int icon, String item) {
         this.icon = icon;
         this.item = item;
     }

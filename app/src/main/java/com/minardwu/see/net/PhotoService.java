@@ -35,7 +35,7 @@ import java.util.List;
  */
 public class PhotoService {
 
-    public static void uploadPhoto(final String path) {
+    public static void uploadPhoto(final String path, final String info) {
         new Thread(){
             @Override
             public void run() {
@@ -48,6 +48,7 @@ public class PhotoService {
                 AVObject avObject = new AVObject("Photo");
                 avObject.put("userid", AVUser.getCurrentUser().getObjectId());
                 avObject.put("photo", file);
+                avObject.put("photoinfo", info);
                 avObject.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(AVException e) {
