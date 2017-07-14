@@ -61,10 +61,10 @@
             <ImageView
                 android:id="@+id/ibtn_toolbar_add"
                 android:layout_width="0dp"
-                android:layout_height="20dp"
+                android:layout_height="24dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/by" />
+                android:src="@drawable/eye" />
 
         </LinearLayout>
 

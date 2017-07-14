@@ -54,6 +54,8 @@ public class OptionsActivity extends BaseActivity {
         mlist.add(new MultipleView(0,"我的资料","",Config.myTempAvatarUrl));
         mlist.add(new MultipleView(1,"消息","会有谁呢",""));
         mlist.add(new MultipleView(1,"搜索","又在哪呢",""));
+        mlist.add(new MultipleView(1,"版本","1.0.0",""));
+        mlist.add(new MultipleView(1,"意见反馈","有何高见",""));
     }
 
     private void initView() {
@@ -69,6 +71,10 @@ public class OptionsActivity extends BaseActivity {
                     startActivity(new Intent(OptionsActivity.this,NewsActivity.class));
                 } else if(position == 2){
                     startActivity(new Intent(OptionsActivity.this,SearchActivity.class));
+                }else if(position == 3){
+                    Toast.makeText(OptionsActivity.this, "已是最新版本", Toast.LENGTH_SHORT).show();
+                }else if(position == 2){
+                    Toast.makeText(OptionsActivity.this, "意见反馈", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -1,5 +1,6 @@
 package com.minardwu.see.activity;
 
+import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import com.minardwu.see.R;
 import com.minardwu.see.event.ResultCodeEvent;
 import com.minardwu.see.net.UploadPhotoHelper;
 import com.minardwu.see.util.FileUtil;
+import com.minardwu.see.widget.ProgressDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -31,6 +33,7 @@ public class PostPhotoActivity extends AppCompatActivity implements View.OnClick
     private TextView tv_post;
     private EditText et_photoinfo;
     private MaterialDialog dialog_exit;
+    private Dialog dialog;
 
     private byte[] bytes;
     private boolean rotate;
@@ -51,6 +54,8 @@ public class PostPhotoActivity extends AppCompatActivity implements View.OnClick
 
         simpleDraweeView = (SimpleDraweeView) findViewById(R.id.iv_previewphoto);
         et_photoinfo = (EditText) findViewById(R.id.et_photoinfo);
+
+        dialog = ProgressDialog.createLoadingDialog(this);
 
         dialog_exit = new MaterialDialog(PostPhotoActivity.this);
         dialog_exit.setTitle("是否退出编辑");
@@ -89,7 +94,12 @@ public class PostPhotoActivity extends AppCompatActivity implements View.OnClick
                 dialog_exit.show();
                 break;
             case R.id.tv_post:
-                UploadPhotoHelper.savePhotoAndUpload(finalBitmap,et_photoinfo.getText().toString());
+                if(et_photoinfo.getText().toString().length()==0){
+                    UploadPhotoHelper.savePhotoAndUpload(finalBitmap,"empty");
+                }else {
+                    UploadPhotoHelper.savePhotoAndUpload(finalBitmap,et_photoinfo.getText().toString());
+                }
+                dialog.show();
                 break;
         }
     }
@@ -105,6 +115,7 @@ public class PostPhotoActivity extends AppCompatActivity implements View.OnClick
     //发布图片结果
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onResultCodeEvent(ResultCodeEvent event) {
+        dialog.dismiss();
         if(event.getResult()==1){
             Toast.makeText(PostPhotoActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
             finish();

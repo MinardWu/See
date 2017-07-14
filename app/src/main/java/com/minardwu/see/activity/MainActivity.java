@@ -143,8 +143,8 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
 
     private void initDialog() {
         List<NormalItem> list = new ArrayList<NormalItem>();
-        list.add(new NormalItem(R.drawable.au,"拍照"));
-        list.add(new NormalItem(R.drawable.au,"相册"));
+        list.add(new NormalItem(R.drawable.camera,"拍照"));
+        list.add(new NormalItem(R.drawable.gallery,"从相册选择"));
         NormalItemAdapter adapter = new NormalItemAdapter(this,R.layout.listview_normalitem,list);
         ListView listView = new ListView(MainActivity.this);
         listView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));

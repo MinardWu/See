@@ -231,24 +231,24 @@ public class ShowPhotoFragment extends Fragment {
         }
     };
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onDeletePhotoEvent(DeletePhotoEvent event){
-        if(event.getResult()==1){
-            Toast.makeText(getContext(),"删除成功", Toast.LENGTH_SHORT).show();
-            Config.deletePhoto = true;//标记，以便在YourFragment中更新视图
-            for(Photo tempphoto:Config.yourPhotos)
-                if(tempphoto.getPhotoid().equals(event.getPhotoid()))
-                    if(tempphoto.getState()==1){//如果是目前设置为展示的图片，将其删除之后还要设置第一个为展示
-                        Config.yourPhotos.remove(tempphoto);
-                        Config.yourPhotos.get(0).setState(1);
-                    }else {//若不是展示的图片则直接删除就行
-                        Config.yourPhotos.remove(tempphoto);
-                    }
-            //跳转回YourFragment
-        }else {
-            Toast.makeText(getContext(),"删除失败", Toast.LENGTH_SHORT).show();
-        }
-    };
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onDeletePhotoEvent(DeletePhotoEvent event){
+//        if(event.getResult()==1){
+//            Toast.makeText(getContext(),"删除成功", Toast.LENGTH_SHORT).show();
+//            Config.deletePhoto = true;//标记，以便在YourFragment中更新视图
+//            for(Photo tempphoto:Config.yourPhotos)
+//                if(tempphoto.getPhotoid().equals(event.getPhotoid()))
+//                    if(tempphoto.getState()==1){//如果是目前设置为展示的图片，将其删除之后还要设置第一个为展示
+//                        Config.yourPhotos.remove(tempphoto);
+//                        Config.yourPhotos.get(0).setState(1);
+//                    }else {//若不是展示的图片则直接删除就行
+//                        Config.yourPhotos.remove(tempphoto);
+//                    }
+//            //跳转回YourFragment
+//        }else {
+//            Toast.makeText(getContext(),"删除失败", Toast.LENGTH_SHORT).show();
+//        }
+//    };
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onPageChangeEvent(PageChangeEvent event){
