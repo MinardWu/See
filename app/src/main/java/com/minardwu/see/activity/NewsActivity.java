@@ -38,7 +38,7 @@ public class NewsActivity extends BaseActivity {
     private MaterialDialog dialog_handle_news;
 
     private String newFriendId;
-    private NewsEntity tempNewsEntity;
+    private NewsEntity clickNewsEntity;
 
 
     @Override
@@ -60,7 +60,8 @@ public class NewsActivity extends BaseActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                tempNewsEntity = list.get(i);
+                int position = i;
+                clickNewsEntity = list.get(i);
                 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(NewsActivity.this, android.R.layout.simple_list_item_1);
                 arrayAdapter.add("忽略");
                 arrayAdapter.add("同意");
@@ -75,10 +76,12 @@ public class NewsActivity extends BaseActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         if (position == 0) {
-                            News.deleteNews(tempNewsEntity.getNewsid());
+                            News.deleteNews(clickNewsEntity.getNewsid());
+                            list.remove(position);
+                            newsAdapter.notifyDataSetChanged();
                             dialog_handle_news.dismiss();
                         } else if (position == 1) {
-                            newFriendId = tempNewsEntity.getUserid();
+                            newFriendId = clickNewsEntity.getUserid();
                             Friend.addFriendWithCheck(AVUser.getCurrentUser().getObjectId(),newFriendId);
                             dialog_handle_news.dismiss();
                         }
@@ -111,7 +114,12 @@ public class NewsActivity extends BaseActivity {
         int result = event.getResult();
         if(result==1){
             Toast.makeText(NewsActivity.this, "添加好友成功", Toast.LENGTH_SHORT).show();
-            News.deleteNews(tempNewsEntity.getNewsid());
+            News.deleteNews(clickNewsEntity.getNewsid());
+            for(int i=0;i<list.size();i++){
+                if(list.get(i).equals(clickNewsEntity))
+                    list.remove(i);
+            }
+            newsAdapter.notifyDataSetChanged();
             Config.you.setUserid(newFriendId);
             Config.changeFriend = true;
         }else {
