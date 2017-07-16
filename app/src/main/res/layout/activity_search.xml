@@ -6,6 +6,7 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="#fff"
     tools:context="com.minardwu.see.activity.SearchActivity">
 
     <android.support.v7.widget.Toolbar

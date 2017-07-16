@@ -178,12 +178,11 @@ public class Friend {
         query.getFirstInBackground(new GetCallback<AVObject>() {
             @Override
             public void done(AVObject avObject, AVException e) {
-                if(avObject==null){
-                    EventBus.getDefault().post(new GetFriendEvent("0"));
-                }else {
                     if(e==null){
                         Log.d("getFriendid","success");
-                        if(avObject!=null){
+                        if(avObject==null){
+                            EventBus.getDefault().post(new GetFriendEvent("0"));
+                        }else {
                             Log.d("getFriendid",avObject.toString());
                             try {
                                 JSONObject jsonObject = new JSONObject(avObject.toString());
@@ -193,14 +192,13 @@ public class Friend {
                             } catch (JSONException e1) {
                                 e1.printStackTrace();
                             }
-                        }else {
-                            EventBus.getDefault().post(new GetFriendEvent("0"));
                         }
                     }else{
                         Log.d("getFriendid","fail");
                         Log.d("getFriendid",e.getMessage());
+                        EventBus.getDefault().post(new GetFriendEvent("error"));
                     }
-                }
+
             }
         });
     }

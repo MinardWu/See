@@ -9,7 +9,6 @@ public class User {
     private String username;
     private String avatar;
     private int sex;
-    private String friendid;
 
     private String newsid;//这个属性只在获取消息时临时用到
 
@@ -43,14 +42,6 @@ public class User {
 
     public void setSex(int sex) {
         this.sex = sex;
-    }
-
-    public String getFriendid() {
-        return friendid;
-    }
-
-    public void setFriendid(String friendid) {
-        this.friendid = friendid;
     }
 
     public String getNewsid() {

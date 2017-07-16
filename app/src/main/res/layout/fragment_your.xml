@@ -36,6 +36,15 @@
             android:layout_height="50dp"
             android:background="@drawable/btn_load" />
 
+        <TextView
+            android:id="@+id/tv_nonet"
+            android:text="出错了，点击重新加载"
+            android:layout_below="@+id/btn_load"
+            android:layout_marginTop="12dp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
     </RelativeLayout>
 
 

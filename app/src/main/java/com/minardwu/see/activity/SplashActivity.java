@@ -75,9 +75,9 @@ public class SplashActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGetFriendEvent(GetFriendEvent event){
         if(event.getResult()!=null){
-            Config.me.setFriendid(event.getResult());
+            Config.you.setUserid(event.getResult());
         }else {
-            Config.me.setFriendid("0");
+            Config.you.setUserid("0");
         }
         //获取完数据马上跳转
         startActivity(new Intent(SplashActivity.this,MainActivity.class));

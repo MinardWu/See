@@ -112,7 +112,6 @@ public class NewsActivity extends BaseActivity {
         if(result==1){
             Toast.makeText(NewsActivity.this, "添加好友成功", Toast.LENGTH_SHORT).show();
             News.deleteNews(tempNewsEntity.getNewsid());
-            Config.me.setFriendid(newFriendId);
             Config.you.setUserid(newFriendId);
             Config.changeFriend = true;
         }else {

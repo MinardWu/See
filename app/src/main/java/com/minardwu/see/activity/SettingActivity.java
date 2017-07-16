@@ -69,7 +69,7 @@ public class SettingActivity extends BaseActivity {
     }
 
     private void initData() {
-        if(Config.me.getFriendid().equals("0")){
+        if(Config.you.getUserid().equals("0")){
             isHaveFriend = false;
         }else {
             isHaveFriend = true;
@@ -222,8 +222,6 @@ public class SettingActivity extends BaseActivity {
                 Config.you = null;
                 Config.myPhotos.clear();
                 Config.yourPhotos.clear();
-                Config.myTempAvatarUrl = "";
-                Config.yourTempAvatarUrl = "";
                 finish();
                 ActivityController.finishAllActivity();
                 startActivity(new Intent(SettingActivity.this,LoginActivity.class));
@@ -248,7 +246,7 @@ public class SettingActivity extends BaseActivity {
             case 0:
                 if(event.getResult()==1){
                     Toast.makeText(MyApplication.getAppContext(), "头像上传成功", Toast.LENGTH_SHORT).show();
-                    multipleAdapter.updataItemAvatar(listView,0,Config.me.getAvatar());
+                    multipleAdapter.updataItemImg(listView,0,Config.me.getAvatar());
                 }else if(event.getResult()==-1){
                     Toast.makeText(MyApplication.getAppContext(), "头像上传失败", Toast.LENGTH_SHORT).show();
                 }
@@ -272,7 +270,6 @@ public class SettingActivity extends BaseActivity {
                     startActivity(new Intent(SettingActivity.this,LoginActivity.class));
                 }else if(event.getResult()==-1){
                     et_oldPassword.setError("初始密码错误");
-                    Toast.makeText(MyApplication.getAppContext(), "初始密码错误", Toast.LENGTH_SHORT).show();
                 }else if(event.getResult()==-2){
                     Toast.makeText(MyApplication.getAppContext(), "修改密码失败", Toast.LENGTH_SHORT).show();
                 }
@@ -296,11 +293,11 @@ public class SettingActivity extends BaseActivity {
                 if(event.getResult()==1){
                     dialog_friend.dismiss();
                     Toast.makeText(MyApplication.getAppContext(), "删除好友成功", Toast.LENGTH_SHORT).show();
-                    multipleAdapter.updataItemTitle(listView,1,"无好友");
-                    multipleAdapter.updataItemAvatar(listView,1,"");
-                    isHaveFriend = false;
                     Config.resetFriend();
                     Config.changeFriend = true;
+                    multipleAdapter.updataItemTitle(listView,1,"无好友");
+                    multipleAdapter.updataItemImg(listView,1,"");
+                    isHaveFriend = false;
                 }else{
                     dialog_friend.dismiss();
                     Toast.makeText(MyApplication.getAppContext(), "操作失败了", Toast.LENGTH_SHORT).show();

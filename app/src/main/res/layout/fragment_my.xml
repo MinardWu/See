@@ -4,25 +4,42 @@
     android:layout_height="match_parent"
     tools:context=".fragment.MyFragment">
 
-    <GridView
-        android:id="@+id/gv_my"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:stretchMode="columnWidth"
-        android:numColumns="3"
-        android:horizontalSpacing="1dp"
-        android:verticalSpacing="1dp">
-    </GridView>
+        android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/emptyview"
-        layout="@layout/emptyview_myphoto"/>
+        <GridView
+            android:id="@+id/gv_my"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchMode="columnWidth"
+            android:numColumns="3"
+            android:horizontalSpacing="1dp"
+            android:verticalSpacing="1dp">
+        </GridView>
 
-    <Button
-        android:id="@+id/btn_load"
-        android:layout_centerInParent="true"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/btn_load" />
+        <include
+            android:id="@+id/emptyview"
+            layout="@layout/emptyview_myphoto"/>
+
+        <Button
+            android:id="@+id/btn_load"
+            android:layout_centerInParent="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/btn_load" />
+
+        <TextView
+            android:id="@+id/tv_nonet"
+            android:text="出错了，点击重新加载"
+            android:layout_below="@+id/btn_load"
+            android:layout_marginTop="12dp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+
 
 </FrameLayout>

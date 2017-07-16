@@ -36,6 +36,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class YourFragment extends Fragment {
@@ -46,8 +48,10 @@ public class YourFragment extends Fragment {
     private View emptyview;
     private TextView tv_nofriend;
     private Button btn_load;
+    private TextView tv_nonet;
     private View view;
     private Animation animation;
+    private Timer loadDataTimer = new Timer(true);
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,9 +63,28 @@ public class YourFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_your, container, false);
         tv_nofriend = (TextView) view.findViewById(R.id.tv_nofriend);
-        btn_load = (Button) view.findViewById(R.id.btn_load);
+        tv_nonet = (TextView) view.findViewById(R.id.tv_nonet);
+
         animation = AnimationUtils.loadAnimation(getContext(), R.anim.rotate);
+        btn_load = (Button) view.findViewById(R.id.btn_load);
+        btn_load.setEnabled(false);
         btn_load.startAnimation(animation);
+        btn_load.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tv_nonet.setVisibility(View.GONE);
+                btn_load.setEnabled(false);
+                btn_load.startAnimation(animation);
+                //一秒之后才开始重新获取数据（好让尝试重新加载动画可以显示一会╮(╯▽╰)╭）
+                loadDataTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        Friend.getFriendid();
+                    }
+                },1400);
+            }
+        });
+
         gridView = (GridView) view.findViewById(R.id.gv_your);
         emptyview = view.findViewById(R.id.emptyview);
         gridView.setEmptyView(emptyview);
@@ -81,6 +104,7 @@ public class YourFragment extends Fragment {
         gridView.setVisibility(View.GONE);
         emptyview.setVisibility(View.GONE);
         tv_nofriend.setVisibility(View.GONE);
+        tv_nonet.setVisibility(View.GONE);
         return view;
     }
 
@@ -104,15 +128,18 @@ public class YourFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGetFriendEvent(GetFriendEvent event){
         if(event.getResult().equals("0")){//没有好友
-            Config.me.setFriendid("0");
             Config.you.setUserid("0");
             btn_load.clearAnimation();
             btn_load.setVisibility(View.GONE);
             gridView.setVisibility(View.GONE);
             emptyview.setVisibility(View.GONE);
             tv_nofriend.setVisibility(View.VISIBLE);
+        }else if(event.getResult().equals("error")){//获取出错，如没网
+            //Toast.makeText(getContext(), "网络出错了", Toast.LENGTH_SHORT).show();
+            tv_nonet.setVisibility(View.VISIBLE);
+            btn_load.clearAnimation();
+            btn_load.setEnabled(true);
         }else {//有好友则继续获取图片
-            Config.me.setFriendid(event.getResult());
             Config.you.setUserid(event.getResult());
             gridView.setVisibility(View.VISIBLE);
             tv_nofriend.setVisibility(View.GONE);
@@ -131,9 +158,6 @@ public class YourFragment extends Fragment {
                 Config.yourPhotos.clear();
                 Config.yourPhotos.addAll(event.getList());
                 Config.yourPhotos.get(0).setState(1);
-                for(Photo tempPhoto:Config.yourPhotos){
-                    Log.v("LockActivityggfragmeny",tempPhoto.getPhotoid()+" "+tempPhoto.getState());
-                }
                 photoAdapter.notifyDataSetChanged();
             }else {
                 gridView.setVisibility(View.VISIBLE);
@@ -141,6 +165,11 @@ public class YourFragment extends Fragment {
                 btn_load.clearAnimation();
                 btn_load.setVisibility(View.GONE);
             }
+        }else if(event.getUserid().equals("error")){
+            //Toast.makeText(getContext(), "网络出错了", Toast.LENGTH_SHORT).show();
+            tv_nonet.setVisibility(View.VISIBLE);
+            btn_load.clearAnimation();
+            btn_load.setEnabled(true);
         }
     };
 

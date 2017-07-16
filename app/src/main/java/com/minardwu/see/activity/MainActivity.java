@@ -36,6 +36,7 @@ import com.minardwu.see.net.PhotoService;
 import com.minardwu.see.net.UploadPhotoHelper;
 import com.minardwu.see.service.LockService;
 import com.minardwu.see.util.AlarmHelper;
+import com.minardwu.see.util.PermissionUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -60,35 +61,57 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
     private View popupView;
     private PopupWindow mPopupWindow;
     private MaterialDialog dialog_add;
+    private MaterialDialog dialog_permission_go;
+    private MaterialDialog dialog_permission_cancel;
 
     private boolean firstIn = true;
     private boolean readyForExit = false;
-    private Timer timer = new Timer(true);
+    private Timer exitTimer = new Timer(true);
     private int currentItem = 0;
     public static int CAMERA_REQUEST_CODE = 1;
     public static int GALLERY_REQUEST_CODE = 2;
+
+    private Timer loadDataTimer = new Timer(true);
+
+    PermissionUtil permissionUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        EventBus.getDefault().register(this);
+
         AlarmHelper.startService(this,LockService.class,5);
         ActivityController.addActivity(this);//MainActivity没有继承BaseActivity，故要手动添加
 
         initView();
-        initDialog();
+        initAddPhotoDialog();
+        initPermissionDialog();
 
-        EventBus.getDefault().register(this);
+        //一秒之后才开始获取数据（好让加载动画可以显示一会╮(╯▽╰)╭）
+        loadDataTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Friend.getFriendid();
+                PhotoService.getPhoto(AVUser.getCurrentUser().getObjectId());
+            }
+        },1000);
 
-        Friend.getFriendid();
-        PhotoService.getPhoto(AVUser.getCurrentUser().getObjectId());
+
+        if(Config.firstIn){//如果还没有赋予权限
+            dialog_permission_go.show();
+            Config.firstIn = false;
+        }
 
         Config.me = new User();
         Config.you = new User();
+        Config.you.setUserid("0");
         Config.myPhotos = new ArrayList<Photo>();
         Config.yourPhotos = new ArrayList<Photo>();
     }
+
+
 
     private void initView() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -141,7 +164,7 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
         });
     }
 
-    private void initDialog() {
+    private void initAddPhotoDialog() {
         List<NormalItem> list = new ArrayList<NormalItem>();
         list.add(new NormalItem(R.drawable.camera,"拍照"));
         list.add(new NormalItem(R.drawable.gallery,"从相册选择"));
@@ -166,6 +189,36 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
             }
         });
         dialog_add = new MaterialDialog(MainActivity.this).setContentView(listView);
+    }
+
+    private void initPermissionDialog() {
+        dialog_permission_go = new MaterialDialog(this);
+        dialog_permission_cancel = new MaterialDialog(this);
+
+        dialog_permission_go.setMessage("为了应用的正常使用，需要前往将“锁屏显示”权限设置为允许，是否前往设置？");
+        dialog_permission_go.setPositiveButton("前往设置", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                permissionUtil = new PermissionUtil(MainActivity.this);
+                permissionUtil.gotoMiuiPermission();
+                dialog_permission_go.dismiss();
+            }
+        });
+        dialog_permission_go.setNegativeButton("下次再说             ", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog_permission_go.dismiss();
+                dialog_permission_cancel.show();
+            }
+        });
+
+        dialog_permission_cancel.setMessage("需要时您可前往“选项”->“权限设置”中开启权限");
+        dialog_permission_cancel.setPositiveButton("知道了", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog_permission_cancel.dismiss();
+            }
+        });
     }
 
     @Override
@@ -244,7 +297,7 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
             readyForExit = true;
             Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
             //如果2秒钟内没有按下返回键，readyForExit右变为false则启动定时器取消掉刚才执行的任务
-            timer.schedule(new TimerTask() {
+            exitTimer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     readyForExit = false;
@@ -260,7 +313,6 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
-
 
 }
 

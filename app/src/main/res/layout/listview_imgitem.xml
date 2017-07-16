@@ -21,8 +21,8 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="16dp"
-        fresco:failureImage="@drawable/au"
-        fresco:placeholderImage="@drawable/au"
+        fresco:failureImage="@drawable/icon_failure"
+        fresco:placeholderImage="@drawable/icon_placeholder"
         fresco:roundAsCircle="true"
         fresco:roundingBorderColor="@color/main"
         fresco:roundingBorderWidth="0.5dp" />

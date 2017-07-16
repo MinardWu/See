@@ -44,10 +44,12 @@ public class RegisterActivity extends AppCompatActivity implements TextWatcher {
         et_comfirmpsd.addTextChangedListener(this);
 
         btn_register.setEnabled(false);
+        btn_register.setTextColor(0xffbababa);
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 btn_register.setEnabled(false);
+                btn_register.setText("注册中...");
                 Register.register(et_username.getText().toString(),et_password.getText().toString());
             }
         });
@@ -60,16 +62,20 @@ public class RegisterActivity extends AppCompatActivity implements TextWatcher {
             Toast.makeText(this,"注册成功",Toast.LENGTH_LONG).show();
             startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
             this.finish();
-        }else if(event.getResult()==-1){
-            et_username.setError("用户名已存在");
-            Toast.makeText(this,"用户名已存在",Toast.LENGTH_LONG).show();
-        }else if(event.getResult()==-2){
-            et_comfirmpsd.setError("该手机号已被占用");
-            Toast.makeText(this,"该手机号已被占用",Toast.LENGTH_LONG).show();
-        }else if(event.getResult()==-3){
-            Toast.makeText(this,"注册出错了",Toast.LENGTH_LONG).show();
+        }else{
+            btn_register.setText("注册");
+            btn_register.setEnabled(true);
+            btn_register.setTextColor(0xff000000);
+            if(event.getResult()==-1){
+                et_username.setError("用户名已存在");
+                Toast.makeText(this,"用户名已存在",Toast.LENGTH_LONG).show();
+            }else if(event.getResult()==-2){
+                et_comfirmpsd.setError("该手机号已被占用");
+                Toast.makeText(this,"该手机号已被占用",Toast.LENGTH_LONG).show();
+            }else if(event.getResult()==-3){
+                Toast.makeText(this,"注册出错了",Toast.LENGTH_LONG).show();
+            }
         }
-        btn_register.setEnabled(true);
     };
 
 
@@ -86,11 +92,13 @@ public class RegisterActivity extends AppCompatActivity implements TextWatcher {
                 && et_comfirmpsd.getText().toString().length() != 0) {
             if(et_password.getText().toString().equals(et_comfirmpsd.getText().toString())){
                 btn_register.setEnabled(true);
+                btn_register.setTextColor(0xff000000);
             }else {
                 et_comfirmpsd.setError("两次密码不一致");
             }
         } else {
             btn_register.setEnabled(false);
+            btn_register.setTextColor(0xffbababa);
         }
     }
 

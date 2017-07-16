@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.minardwu.see.R;
+import com.minardwu.see.base.Config;
+import com.minardwu.see.base.MyApplication;
 import com.minardwu.see.entity.MultipleView;
 import com.minardwu.see.entity.Options;
 
@@ -74,7 +76,11 @@ public class MultipleAdapter extends BaseAdapter {
                     imgViewHolder = (ImgViewHolder) convertView.getTag();
                 }
                 imgViewHolder.tv_title.setText(multipleViewList.get(position).getItemTitle());
-                imgViewHolder.simpleDraweeView.setImageURI(Uri.parse(multipleViewList.get(position).getAvatarUrl()+""));
+                if(position==1 && Config.you.getUserid().equals("0")){
+                    imgViewHolder.simpleDraweeView.setImageURI(Uri.parse("res://"+ MyApplication.getAppContext().getPackageName()+"/" + R.drawable.icon_nofriend));
+                }else {
+                    imgViewHolder.simpleDraweeView.setImageURI(Uri.parse(multipleViewList.get(position).getAvatarUrl()+""));
+                }
                 break;
             case 1:
                 if(convertView == null){
@@ -94,11 +100,11 @@ public class MultipleAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void updataItemAvatar(ListView listView, int position, String avatar){
+    public void updataItemImg(ListView listView, int position, String url){
         int index = position - listView.getFirstVisiblePosition();//求出index，index即为要更新的item相对当前可见画面第一项的位置
         if(index>=0 && index<listView.getChildCount()){//判断item是否在可见画面(getChildCount获得当前页面的item数，getCount获得总的item数)
             MultipleView multipleView = (MultipleView) getItem(position);
-            multipleView.setAvatarUrl(avatar);
+            multipleView.setAvatarUrl(url);
             View newItem = listView.getChildAt(index);
             getView(position,newItem,listView);
         }

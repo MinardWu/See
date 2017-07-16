@@ -104,6 +104,7 @@ public class PhotoService {
                 }else {
                     Log.d("getPhoto","fail");
                     Log.v("getPhoto",e.getMessage());
+                    EventBus.getDefault().post(new GetUserPhotoEvent("error",photoList));
                 }
             }
         });

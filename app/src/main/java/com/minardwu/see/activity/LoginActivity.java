@@ -49,12 +49,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         tv_forgetPassword.setOnClickListener(this);
 
         btn_login.setEnabled(false);
+        btn_login.setTextColor(0xffbababa);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_login:
+                btn_login.setText("登录中...");
                 btn_login.setEnabled(false);
                 Login.login(et_username.getText().toString(),et_password.getText().toString());
                 break;
@@ -72,16 +74,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if(event.getResult()==1){
             startActivity(new Intent(LoginActivity.this,MainActivity.class));
             this.finish();
-        }else if(event.getResult()==-1){
-            et_password.setError("密码错误");
+        }else{
+            btn_login.setText("登录");
             btn_login.setEnabled(true);
-        }else if(event.getResult()==-2){
-            et_username.setError("该用户不存在");
-            btn_login.setEnabled(true);
-        }else if(event.getResult()==-3){
-            Toast.makeText(this,"登陆出错了",Toast.LENGTH_LONG).show();
-            btn_login.setEnabled(true);
+            if(event.getResult()==-1){
+                et_password.setError("密码错误");
+            }else if(event.getResult()==-2){
+                et_username.setError("该用户不存在");
+            }else if(event.getResult()==-3){
+                Toast.makeText(this,"登陆出错了",Toast.LENGTH_LONG).show();
+            }
         }
+
     };
 
     @Override
@@ -94,8 +98,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void afterTextChanged(Editable editable) {
         if (et_username.getText().toString().length() != 0 && et_password.getText().toString().length() != 0) {
             btn_login.setEnabled(true);
+            btn_login.setTextColor(0xff000000);
         } else {
             btn_login.setEnabled(false);
+            btn_login.setTextColor(0xffbababa);
         }
     }
 

@@ -11,13 +11,12 @@
     android:background="@color/white"
     tools:context="com.minardwu.see.activity.LoginActivity">
 
-
     <ImageView
         android:layout_marginBottom="50dp"
         android:layout_gravity="center_horizontal"
-        android:background="@mipmap/ic_launcher"
-        android:layout_width="120dp"
-        android:layout_height="120dp" />
+        android:background="@drawable/icon_logo"
+        android:layout_width="100dp"
+        android:layout_height="80dp" />
 
     <LinearLayout
         android:gravity="center"
@@ -31,9 +30,9 @@
             android:layout_height="wrap_content"
             android:hint="用户名"
             android:singleLine="true"
-            app:met_baseColor="@color/et_hint"
-            app:met_floatingLabel="highlight"
-            app:met_primaryColor="@color/main" />
+            app:met_baseColor="#353535"
+            app:met_primaryColor="#000"
+            app:met_floatingLabel="highlight" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/et_password"
@@ -41,36 +40,50 @@
             android:layout_height="wrap_content"
             android:hint="密码"
             android:imeOptions="actionDone"
+            android:inputType="textPassword"
             android:paddingBottom="30dp"
             android:singleLine="true"
-            app:met_baseColor="@color/et_hint"
-            app:met_floatingLabel="highlight"
-            app:met_primaryColor="@color/main" />
+            app:met_baseColor="#353535"
+            app:met_primaryColor="#000"
+            app:met_floatingLabel="highlight"/>
 
-        <Button
-            android:id="@+id/btn_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <RelativeLayout
             android:layout_marginTop="30dp"
-            android:background="@drawable/btn_radius_clickable"
-            android:text="登录"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tv_noaccount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="还没账号？" />
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_rect_enable"
+                android:text="登录"
+                android:textColor="#bababa"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_forgetPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="忘记密码？" />
+            <TextView
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/btn_login"
+                android:id="@+id/tv_noaccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="还没账号？" />
+
+            <TextView
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/btn_login"
+                android:id="@+id/tv_forgetPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="忘记密码？" />
+
+        </RelativeLayout>
+
+
+
     </LinearLayout>
 
 </LinearLayout>
