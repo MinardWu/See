@@ -17,6 +17,7 @@ import com.minardwu.see.R;
 import com.minardwu.see.event.ResultCodeEvent;
 import com.minardwu.see.net.UploadPhotoHelper;
 import com.minardwu.see.util.FileUtil;
+import com.minardwu.see.widget.CustomTextView;
 import com.minardwu.see.widget.ProgressDialog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -25,12 +26,13 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
-public class PostPhotoActivity extends AppCompatActivity implements View.OnClickListener {
+public class PostPhotoActivity extends AppCompatActivity{
 
     private Toolbar toolbar;
     private SimpleDraweeView simpleDraweeView;
-    private TextView tv_cancle;
-    private TextView tv_post;
+//    private TextView tv_cancle;
+//    private TextView tv_post;
+    private CustomTextView tv_send;
     private EditText et_photoinfo;
     private MaterialDialog dialog_exit;
     private Dialog dialog;
@@ -47,13 +49,27 @@ public class PostPhotoActivity extends AppCompatActivity implements View.OnClick
 
         EventBus.getDefault().register(this);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        tv_cancle = (TextView) findViewById(R.id.tv_cancle);
-        tv_post = (TextView) findViewById(R.id.tv_post);
+//        toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        tv_cancle = (TextView) findViewById(R.id.tv_cancle);
+//        tv_post = (TextView) findViewById(R.id.tv_post);
 
         simpleDraweeView = (SimpleDraweeView) findViewById(R.id.iv_previewphoto);
         et_photoinfo = (EditText) findViewById(R.id.et_photoinfo);
+        tv_send = (CustomTextView) findViewById(R.id.tv_send);
+
+        tv_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tv_send.setEnabled(false);
+                if(et_photoinfo.getText().toString().length()==0){
+                    UploadPhotoHelper.savePhotoAndUpload(finalBitmap,"empty");
+                }else {
+                    UploadPhotoHelper.savePhotoAndUpload(finalBitmap,et_photoinfo.getText().toString());
+                }
+                dialog.show();
+            }
+        });
 
         dialog = ProgressDialog.createLoadingDialog(this);
 
@@ -83,26 +99,26 @@ public class PostPhotoActivity extends AppCompatActivity implements View.OnClick
         }
 
         simpleDraweeView.setImageBitmap(finalBitmap);
-        tv_cancle.setOnClickListener(this);
-        tv_post.setOnClickListener(this);
+//        tv_cancle.setOnClickListener(this);
+//        tv_post.setOnClickListener(this);
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.tv_cancle:
-                dialog_exit.show();
-                break;
-            case R.id.tv_post:
-                if(et_photoinfo.getText().toString().length()==0){
-                    UploadPhotoHelper.savePhotoAndUpload(finalBitmap,"empty");
-                }else {
-                    UploadPhotoHelper.savePhotoAndUpload(finalBitmap,et_photoinfo.getText().toString());
-                }
-                dialog.show();
-                break;
-        }
-    }
+//    @Override
+//    public void onClick(View view) {
+//        switch (view.getId()){
+//            case R.id.tv_cancle:
+//                dialog_exit.show();
+//                break;
+//            case R.id.tv_post:
+//                if(et_photoinfo.getText().toString().length()==0){
+//                    UploadPhotoHelper.savePhotoAndUpload(finalBitmap,"empty");
+//                }else {
+//                    UploadPhotoHelper.savePhotoAndUpload(finalBitmap,et_photoinfo.getText().toString());
+//                }
+//                dialog.show();
+//                break;
+//        }
+//    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

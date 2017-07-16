@@ -60,6 +60,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback, 
 		mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 		mSurfaceHolder.addCallback(this);
 
+		btn_shutter.setEnabled(true);
 		btn_shutter.setOnClickListener(this);
 		btn_delete.setOnClickListener(this);
 		btn_save.setOnClickListener(this);
@@ -115,6 +116,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback, 
 		switch (view.getId()){
 			case R.id.btn_shutter:
 				if(isPreviewing && (camera != null)){
+					btn_shutter.setEnabled(false);
 					camera.takePicture(null, null, new Camera.PictureCallback() {
 						@Override
 						public void onPictureTaken(byte[] bytes, Camera camera) {

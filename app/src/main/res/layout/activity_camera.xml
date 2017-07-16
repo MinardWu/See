@@ -18,8 +18,8 @@
         <ImageButton
             android:visibility="invisible"
             android:id="@+id/btn_delete"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="76dp"
+            android:layout_height="76dp"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="48dp"
@@ -39,8 +39,8 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="48dp"
             android:id="@+id/btn_save"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:background="@drawable/icon_btn_save" />
 
     </RelativeLayout>

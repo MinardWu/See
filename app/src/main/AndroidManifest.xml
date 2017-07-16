@@ -97,7 +97,9 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".activity.PostPhotoActivity" />
+        <activity
+            android:name=".activity.PostPhotoActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity android:name=".activity.PostAdviceActivity"></activity>
     </application>
 

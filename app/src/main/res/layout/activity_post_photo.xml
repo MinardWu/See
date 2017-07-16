@@ -1,80 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#fff"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_preview"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     tools:context="com.minardwu.see.activity.PostPhotoActivity">
-
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:background="@drawable/toolbar_style"
-        app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tv_cancle"
-                android:text="取消"
-                android:textSize="16sp"
-                android:layout_marginLeft="12dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:text="发布页"
-                android:textSize="20sp"
-                android:layout_centerInParent="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/tv_post"
-                android:text="发送"
-                android:textSize="16sp"
-                android:layout_marginRight="12dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-
-        </RelativeLayout>
-
-    </android.support.v7.widget.Toolbar>
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/iv_previewphoto"
         fresco:failureImage="@drawable/splash"
         fresco:placeholderImage="@drawable/splash"
-        android:scaleType="centerInside"
-        android:layout_marginLeft="8dp"
-        android:layout_width="128dp"
-        android:layout_height="128dp" />
+        android:scaleType="fitXY"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:text="7:30"
+        android:textSize="56sp"
+        android:typeface="sans"
+        android:textColor="@color/white"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="48dp"
+        android:layout_marginLeft="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:text="5月15日 星期三"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:layout_alignLeft="@+id/tv_time"
+        android:layout_below="@+id/tv_time"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="2dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <EditText
+        android:layout_alignLeft="@+id/tv_date"
+        android:layout_below="@+id/tv_date"
+        android:textSize="16sp"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="-10dp"
         android:id="@+id/et_photoinfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="还有什么想说的..."
-        android:textColorHint="@color/et_hint"
+        android:textColor="#fff"
+        android:textColorHint="#e4e2e2"
         android:textCursorDrawable="@null"
-        android:gravity="top"
-        android:minLines="3"
-        android:maxLines="3"
-        android:scrollbars="vertical"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
         android:background="@drawable/et_postphoto"/>
 
+    <com.minardwu.see.widget.CustomTextView
+        android:id="@+id/tv_send"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:layout_alignParentBottom="true"
+        android:text=">>> 点击发送"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp" />
 
-</LinearLayout>
+
+</RelativeLayout>
