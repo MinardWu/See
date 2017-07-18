@@ -137,6 +137,12 @@ public class SettingActivity extends BaseActivity {
                                 Friend.deleteFriend(AVUser.getCurrentUser().getObjectId());
                             }
                         });
+                        dialog_friend.setNegativeButton("取消", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog_friend.dismiss();
+                            }
+                        });
                         dialog_friend.show();
                     }else {
                         Toast.makeText(SettingActivity.this, "快去寻找吧", Toast.LENGTH_SHORT).show();
@@ -179,8 +185,8 @@ public class SettingActivity extends BaseActivity {
                     dialog_edit_psd.setView(view_edit_password).show();
                 } else if (position == 4) {
                     ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(SettingActivity.this, android.R.layout.simple_list_item_1);
-                    arrayAdapter.add("妹子");
-                    arrayAdapter.add("汉子");
+                    arrayAdapter.add("女");
+                    arrayAdapter.add("男");
                     ListView listView = new ListView(SettingActivity.this);
                     listView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                     float scale = getResources().getDisplayMetrics().density;

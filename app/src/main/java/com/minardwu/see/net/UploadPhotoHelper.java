@@ -120,11 +120,11 @@ public class UploadPhotoHelper {
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");
         //宽高比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectX", 1080);
+        intent.putExtra("aspectX", 1920);
         //图片宽高
-        intent.putExtra("outputX", 200);
-        intent.putExtra("outputY", 200);
+        intent.putExtra("outputX", 1080);
+        intent.putExtra("outputY", 1920);
         //发送图片位置
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
