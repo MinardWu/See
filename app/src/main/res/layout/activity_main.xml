@@ -26,7 +26,7 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/au" />
+                android:src="@drawable/icon_user" />
 
             <info.hoang8f.android.segmented.SegmentedGroup
                 xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
