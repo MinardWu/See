@@ -55,6 +55,7 @@
         android:textCursorDrawable="@null"
         android:imeOptions="actionDone"
         android:singleLine="true"
+        android:maxLength="18"
         android:background="@drawable/et_postphoto"/>
 
     <com.minardwu.see.widget.CustomTextView
