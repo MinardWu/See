@@ -16,7 +16,7 @@ public class MyApplication extends Application {
 
     public static Context context;
     private  String dirPath = Environment.getExternalStorageDirectory() + "/light";
-
+    public static boolean firstIn;
 
     @Override
     public void onCreate() {
@@ -29,6 +29,7 @@ public class MyApplication extends Application {
         if (!fileDir.exists()) {
             fileDir.mkdir();
         }
+        firstIn = true;
     }
 
     public static Context getAppContext(){

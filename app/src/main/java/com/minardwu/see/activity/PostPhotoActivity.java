@@ -17,6 +17,7 @@ import com.minardwu.see.R;
 import com.minardwu.see.event.ResultCodeEvent;
 import com.minardwu.see.net.UploadPhotoHelper;
 import com.minardwu.see.util.FileUtil;
+import com.minardwu.see.util.FontUtil;
 import com.minardwu.see.widget.CustomTextView;
 import com.minardwu.see.widget.ProgressDialog;
 
@@ -36,6 +37,7 @@ public class PostPhotoActivity extends AppCompatActivity{
     private EditText et_photoinfo;
     private MaterialDialog dialog_exit;
     private Dialog dialog;
+    private TextView tv_time;
 
     private byte[] bytes;
     private boolean rotate;
@@ -54,9 +56,12 @@ public class PostPhotoActivity extends AppCompatActivity{
 //        tv_cancle = (TextView) findViewById(R.id.tv_cancle);
 //        tv_post = (TextView) findViewById(R.id.tv_post);
 
+        tv_time = (TextView) findViewById(R.id.tv_time);
         simpleDraweeView = (SimpleDraweeView) findViewById(R.id.iv_previewphoto);
         et_photoinfo = (EditText) findViewById(R.id.et_photoinfo);
         tv_send = (CustomTextView) findViewById(R.id.tv_send);
+
+        tv_time.setTypeface(FontUtil.getSegoeUISemilight());
 
         tv_send.setOnClickListener(new View.OnClickListener() {
             @Override

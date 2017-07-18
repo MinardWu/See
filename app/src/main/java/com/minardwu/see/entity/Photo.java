@@ -2,6 +2,8 @@ package com.minardwu.see.entity;
 
 import android.util.Log;
 
+import java.util.Date;
+
 /**
  * Created by Administrator on 2017/6/23.
  */
@@ -11,13 +13,15 @@ public class Photo {
     private String userid;
     private String photoUrl;
     private String photoInfo;
+    private Date date;
     private int state;
 
-    public Photo(String photoid, String userid, String photoUrl, String photoInfo,int state) {
+    public Photo(String photoid, String userid, String photoUrl, String photoInfo,Date date,int state) {
         this.photoid = photoid;
         this.userid = userid;
         this.photoUrl = photoUrl;
         this.photoInfo = photoInfo;
+        this.date = date;
         this.state = state;
     }
 
@@ -51,6 +55,14 @@ public class Photo {
 
     public void setPhotoInfo(String photoInfo) {
         this.photoInfo = photoInfo;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public int getState() {

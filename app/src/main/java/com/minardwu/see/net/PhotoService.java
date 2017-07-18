@@ -1,5 +1,6 @@
 package com.minardwu.see.net;
 
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -90,11 +92,13 @@ public class PhotoService {
                                 String userid = serverData.getString("userid");
                                 String photourl = photo.getString("url");
                                 String photoinfo = serverData.getString("photoinfo");
+                                Date date = avObject.getDate("createdAt");
                                 Log.v("getPhoto",photoid);
                                 Log.v("getPhoto",userid);
                                 Log.v("getPhoto",photourl);
                                 Log.v("getPhoto",photoinfo);
-                                photoList.add(new Photo(photoid,userid,photourl,photoinfo,0));
+                                Log.v("getPhoto",avObject.getDate("createdAt").toString());
+                                photoList.add(new Photo(photoid,userid,photourl,photoinfo,date,0));
                             } catch (JSONException e1) {
                                 Log.v("getPhoto",e1.getMessage());
                             }
@@ -163,11 +167,12 @@ public class PhotoService {
                             String userid = serverData.getString("userid");
                             String photourl = photo.getString("url");
                             String photoinfo = serverData.getString("photoinfo");
+                            Date date = avObject.getDate("createdAt");
                             Log.v("getShowPhoto",photoid);
                             Log.v("getShowPhoto",userid);
                             Log.v("getShowPhoto",photourl);
                             Log.v("getShowPhoto",photoinfo);
-                            EventBus.getDefault().post(new GetShowPhotoEvent(new Photo(photoid,userid,photourl,photoinfo,1)));
+                            EventBus.getDefault().post(new GetShowPhotoEvent(new Photo(photoid,userid,photourl,photoinfo,date,1)));
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }

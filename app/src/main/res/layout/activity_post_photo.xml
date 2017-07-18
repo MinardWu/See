@@ -18,7 +18,7 @@
 
     <TextView
         android:id="@+id/tv_time"
-        android:text="7:30"
+        android:text="17:20"
         android:textSize="56sp"
         android:typeface="sans"
         android:textColor="@color/white"

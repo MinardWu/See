@@ -27,8 +27,6 @@ public class Config {
     public static boolean changeFriend = false;
     public static boolean deletePhoto = false;
 
-    public static boolean firstIn = true;
-
     public static void resetFriend(){
         you.setUserid("0");
         you.setUsername("");

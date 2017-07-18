@@ -8,8 +8,10 @@
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/iv_splash"
+        android:scaleType="fitXY"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/splash"
         fresco:failureImage="@drawable/splash"
         fresco:placeholderImage="@drawable/splash"/>
 

@@ -23,6 +23,7 @@ import com.minardwu.see.adapter.MyFragmentPagerAdapter;
 import com.minardwu.see.adapter.NormalItemAdapter;
 import com.minardwu.see.base.ActivityController;
 import com.minardwu.see.base.Config;
+import com.minardwu.see.base.MyApplication;
 import com.minardwu.see.entity.Photo;
 import com.minardwu.see.entity.NormalItem;
 import com.minardwu.see.entity.User;
@@ -99,9 +100,9 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
         },1000);
 
 
-        if(Config.firstIn){//如果还没有赋予权限
-            dialog_permission_go.show();
-            Config.firstIn = false;
+        if(MyApplication.firstIn){//如果还没有赋予权限
+            //dialog_permission_go.show();
+            MyApplication.firstIn = false;
         }
 
         Config.me = new User();

@@ -1,5 +1,7 @@
 package com.minardwu.see.activity;
 
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
@@ -17,6 +19,7 @@ import com.minardwu.see.entity.Photo;
 import com.minardwu.see.event.GetShowPhotoEvent;
 import com.minardwu.see.event.NewPhotoEvent;
 import com.minardwu.see.event.ResultCodeEvent;
+import com.minardwu.see.util.FontUtil;
 import com.minardwu.see.widget.UnderView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -55,6 +58,9 @@ public class LockActivity extends AppCompatActivity {
         tv_info = (TextView) findViewById(R.id.tv_info);
         simpleDraweeView = (SimpleDraweeView) findViewById(R.id.iv_lock);
 
+
+        tv_time.setTypeface(FontUtil.getSegoeUISemilight());
+
         for(Photo tempPhoto:Config.yourPhotos){
             if(tempPhoto.getState()==1){
                 simpleDraweeView.setImageURI(Uri.parse(tempPhoto.getPhotoUrl()));
@@ -91,7 +97,7 @@ public class LockActivity extends AppCompatActivity {
     Runnable updateRunnable = new Runnable() {
         @Override
         public void run() {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm-MM月dd日 E", Locale.CHINESE);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm-MM月dd日 E", Locale.CHINESE);
             String date[] = simpleDateFormat.format(new Date()).split("-");
             tv_time.setText(date[0]);
             tv_date.setText(date[1]);
@@ -102,6 +108,8 @@ public class LockActivity extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         int key = event.getKeyCode();
         switch (key) {
+            case KeyEvent.KEYCODE_HOME:
+                return true;
             case KeyEvent.KEYCODE_BACK: {
                 return true;
             }

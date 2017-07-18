@@ -15,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 
 import com.minardwu.see.R;
+import com.minardwu.see.base.Config;
 import com.minardwu.see.util.CameraUtil;
 ;
 
@@ -46,9 +47,9 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback, 
 		DisplayMetrics dm = getResources().getDisplayMetrics();
 		float w_screen = dm.widthPixels;
 		float h_screen = dm.heightPixels;
-//		float W = w_screen;
-//		float H = h_screen;
-		previewRate = h_screen/w_screen;
+		float W = w_screen;
+		float H = h_screen;
+		previewRate = H/W;
 
 		surfaceView = (SurfaceView) findViewById(R.id.camera_surfaceview);
 		btn_shutter = (ImageButton)findViewById(R.id.btn_shutter);

@@ -5,10 +5,10 @@
 
     <TextView
         android:id="@+id/tv_buttom"
-        android:textColor="#000"
+        android:textColor="#706d6d"
         android:textSize="16sp"
-        android:layout_marginTop="22dp"
-        android:layout_marginBottom="22dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginLeft="24dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

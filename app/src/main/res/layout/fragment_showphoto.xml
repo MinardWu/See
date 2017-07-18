@@ -16,6 +16,42 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <RelativeLayout
+            android:background="#c0000000"
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="64dp">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_marginLeft="24dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_photoback"
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:text="1995年5月15日 15:44"
+                android:textSize="16sp"
+                android:textColor="#f2f0f0"
+                android:layout_marginLeft="24dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/iv_more"
+                android:layout_marginRight="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_more1"
+                android:layout_width="30dp"
+                android:layout_height="26dp" />
+
+        </RelativeLayout>
+
 
         <RelativeLayout
             android:background="#c0000000"
