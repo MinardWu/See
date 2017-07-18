@@ -79,8 +79,7 @@ public class PostPhotoActivity extends AppCompatActivity{
         dialog = ProgressDialog.createLoadingDialog(this);
 
         dialog_exit = new MaterialDialog(PostPhotoActivity.this);
-        dialog_exit.setTitle("是否退出编辑");
-        dialog_exit.setMessage("");
+        dialog_exit.setMessage("是否退出编辑");
         dialog_exit.setNegativeButton("取消", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
