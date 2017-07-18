@@ -26,7 +26,7 @@
                 android:id="@+id/iv_back"
                 android:layout_marginLeft="24dp"
                 android:layout_centerVertical="true"
-                android:src="@drawable/icon_photoback"
+                android:src="@drawable/icon_back_photofragment"
                 android:layout_width="20dp"
                 android:layout_height="20dp" />
 

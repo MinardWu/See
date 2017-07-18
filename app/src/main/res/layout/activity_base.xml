@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:text="See"
-                android:textColor="@color/text"
+                android:textColor="#000"
                 android:textSize="20dp" />
 
         </RelativeLayout>
