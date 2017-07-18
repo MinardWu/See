@@ -49,8 +49,7 @@ public class PostAdviceActivity extends AppCompatActivity implements View.OnClic
         dialog = ProgressDialog.createLoadingDialog(this);
 
         dialog_exit = new MaterialDialog(PostAdviceActivity.this);
-        dialog_exit.setTitle("是否退出编辑");
-        dialog_exit.setMessage("");
+        dialog_exit.setMessage("是否退出编辑");
         dialog_exit.setNegativeButton("取消", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
