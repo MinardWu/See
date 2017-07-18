@@ -84,9 +84,9 @@ public class SettingActivity extends BaseActivity {
         list.add(new MultipleView(1,"昵称",Config.me.getUsername(),""));
         list.add(new MultipleView(1,"密码","不给你看",""));
         if(Config.me.getSex()==0){
-            list.add(new MultipleView(1,"性别","妹子",""));
+            list.add(new MultipleView(1,"性别","女",""));
         }else if(Config.me.getSex()==1){
-            list.add(new MultipleView(1,"性别","汉子",""));
+            list.add(new MultipleView(1,"性别","男",""));
         }
     }
 
@@ -222,6 +222,7 @@ public class SettingActivity extends BaseActivity {
                 Config.you = null;
                 Config.myPhotos.clear();
                 Config.yourPhotos.clear();
+                Config.newsList.clear();
                 finish();
                 ActivityController.finishAllActivity();
                 startActivity(new Intent(SettingActivity.this,LoginActivity.class));
@@ -280,9 +281,9 @@ public class SettingActivity extends BaseActivity {
                 if(event.getResult()==1){
                     Toast.makeText(MyApplication.getAppContext(), "修改成功", Toast.LENGTH_SHORT).show();
                     if(Config.me.getSex()==0){
-                        multipleAdapter.updataItemValue(listView,4,"妹子");
+                        multipleAdapter.updataItemValue(listView,4,"女");
                     }else if(Config.me.getSex()==1){
-                        multipleAdapter.updataItemValue(listView,4,"汉子");
+                        multipleAdapter.updataItemValue(listView,4,"男");
                     }
                 }else if(event.getResult()==-1){
                     Toast.makeText(MyApplication.getAppContext(), "修改出错了", Toast.LENGTH_SHORT).show();

@@ -1,5 +1,6 @@
 package com.minardwu.see.service;
 
+import android.app.Activity;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.minardwu.see.activity.LockActivity;
+import com.minardwu.see.base.ActivityController;
 
 public class LockService extends Service {
 
@@ -38,9 +40,12 @@ public class LockService extends Service {
             String action=intent.getAction();
             if(action.equals("android.intent.action.SCREEN_OFF")){
                 Log.e("NowScreenState", "off");
-                Intent screnenOffIntent=new Intent(context,LockActivity.class);
-                screnenOffIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-                startActivity(screnenOffIntent);
+                if(!ActivityController.lockActivityIsActive){
+                    Intent screnenOffIntent=new Intent(context,LockActivity.class);
+                    screnenOffIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                    startActivity(screnenOffIntent);
+                    ActivityController.lockActivityIsActive = true;
+                }
             }
         }
     }

@@ -1,9 +1,9 @@
 package com.minardwu.see.base;
 
 import android.content.Context;
-import android.view.Display;
 import android.view.WindowManager;
 
+import com.minardwu.see.entity.NewsEntity;
 import com.minardwu.see.entity.Photo;
 import com.minardwu.see.entity.User;
 
@@ -19,6 +19,8 @@ public class Config {
     public static User you;
     public static List<Photo> myPhotos = new ArrayList<Photo>();
     public static List<Photo> yourPhotos= new ArrayList<Photo>();
+
+    public static List<NewsEntity> newsList= new ArrayList<NewsEntity>();
 
     public static final WindowManager wm = (WindowManager) MyApplication.getAppContext().getSystemService(Context.WINDOW_SERVICE);
     public static final int screenWidth = wm.getDefaultDisplay().getWidth();

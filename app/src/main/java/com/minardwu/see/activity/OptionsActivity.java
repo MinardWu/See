@@ -14,6 +14,8 @@ import com.minardwu.see.base.BaseActivity;
 import com.minardwu.see.base.Config;
 import com.minardwu.see.entity.MultipleView;
 import com.minardwu.see.entity.User;
+import com.minardwu.see.event.DeleteNewsEvent;
+import com.minardwu.see.event.DeletePhotoEvent;
 import com.minardwu.see.event.GetUserInfoEvent;
 import com.minardwu.see.net.GetUserInfo;
 import com.minardwu.see.util.PermissionUtil;
@@ -48,7 +50,11 @@ public class OptionsActivity extends BaseActivity {
     private void initData() {
         mlist= new ArrayList<MultipleView>();
         mlist.add(new MultipleView(0,"我的资料","",Config.me.getAvatar()));
-        mlist.add(new MultipleView(1,"消息","会有谁呢",""));
+        if(Config.newsList.size()==0){
+            mlist.add(new MultipleView(1,"消息","no news",""));
+        }else {
+            mlist.add(new MultipleView(1,"消息","have news",""));
+        }
         mlist.add(new MultipleView(1,"搜索","又在哪呢",""));
         mlist.add(new MultipleView(1,"版本","1.0.0",""));
         mlist.add(new MultipleView(1,"权限设置","点击前往",""));
@@ -95,6 +101,18 @@ public class OptionsActivity extends BaseActivity {
             Config.you.setUsername(user.getUsername());
             Config.you.setSex(user.getSex());
             Config.you.setAvatar(user.getAvatar());
+        }
+    };
+
+    //在消息界面进行操作后更新选项界面的消息条目
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDeleteNewsEvent(DeleteNewsEvent event){
+        if(event.getResult()==1){
+            if(Config.newsList.size()==0){
+                multipleAdapter.updataItemValue(listView,1,"no news");
+            }else {
+                multipleAdapter.updataItemValue(listView,1,"have news");
+            }
         }
     };
 

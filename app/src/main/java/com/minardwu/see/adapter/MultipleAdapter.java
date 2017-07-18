@@ -1,6 +1,7 @@
 package com.minardwu.see.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,6 +77,7 @@ public class MultipleAdapter extends BaseAdapter {
                     imgViewHolder = (ImgViewHolder) convertView.getTag();
                 }
                 imgViewHolder.tv_title.setText(multipleViewList.get(position).getItemTitle());
+                //这里为设置页面的好友项做特殊处理
                 if(position==1 && Config.you.getUserid().equals("0")){
                     imgViewHolder.simpleDraweeView.setImageURI(Uri.parse("res://"+ MyApplication.getAppContext().getPackageName()+"/" + R.drawable.icon_nofriend));
                 }else {
@@ -93,7 +95,16 @@ public class MultipleAdapter extends BaseAdapter {
                     textViewHolder = (TextViewHolder) convertView.getTag();
                 }
                 textViewHolder.tv_title.setText(multipleViewList.get(position).getItemTitle());
-                textViewHolder.tv_value.setText(multipleViewList.get(position).getItemVaule());
+                //这里为选项页面的消息项做特殊处理
+                if(position==1 && multipleViewList.get(position).getItemVaule().equals("have news")){
+                    textViewHolder.tv_value.setText(Config.newsList.size()+"条消息");
+                    textViewHolder.tv_value.setTextColor(0xFFFF7474);
+                }else if(position==1 && multipleViewList.get(position).getItemVaule().equals("no news")){
+                    textViewHolder.tv_value.setText("暂无消息");
+                    textViewHolder.tv_value.setTextColor(0xFF969292);
+                }else {
+                    textViewHolder.tv_value.setText(multipleViewList.get(position).getItemVaule());
+                }
                 break;
         }
 

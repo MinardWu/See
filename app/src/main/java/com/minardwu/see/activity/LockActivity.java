@@ -14,7 +14,9 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.minardwu.see.R;
+import com.minardwu.see.base.ActivityController;
 import com.minardwu.see.base.Config;
+import com.minardwu.see.base.MyApplication;
 import com.minardwu.see.entity.Photo;
 import com.minardwu.see.event.GetShowPhotoEvent;
 import com.minardwu.see.event.NewPhotoEvent;
@@ -44,6 +46,7 @@ public class LockActivity extends AppCompatActivity {
 
     private Timer timer;
     private Handler handler;
+    private boolean getPhoto = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,11 +66,17 @@ public class LockActivity extends AppCompatActivity {
 
         for(Photo tempPhoto:Config.yourPhotos){
             if(tempPhoto.getState()==1){
+                getPhoto = true;
                 simpleDraweeView.setImageURI(Uri.parse(tempPhoto.getPhotoUrl()));
                 if(!tempPhoto.getPhotoInfo().equals("empty")){
                     tv_info.setText(tempPhoto.getPhotoInfo());
                 }
             }
+        }
+
+        //设置失败图
+        if(!getPhoto){
+            simpleDraweeView.setImageURI(Uri.parse("res://"+ MyApplication.getAppContext().getPackageName()+"/" + R.drawable.wallpaper));
         }
 
         underView =  (UnderView) findViewById(R.id.underview);
@@ -108,14 +117,10 @@ public class LockActivity extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         int key = event.getKeyCode();
         switch (key) {
-            case KeyEvent.KEYCODE_HOME:
+            case KeyEvent.KEYCODE_BACK:
                 return true;
-            case KeyEvent.KEYCODE_BACK: {
+            case KeyEvent.KEYCODE_MENU:
                 return true;
-            }
-            case KeyEvent.KEYCODE_MENU:{
-                return true;
-            }
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -146,6 +151,7 @@ public class LockActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ActivityController.lockActivityIsActive = false;
         EventBus.getDefault().unregister(this);
         handler.removeCallbacks(updateRunnable);
     }

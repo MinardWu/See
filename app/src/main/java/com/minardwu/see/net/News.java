@@ -10,8 +10,11 @@ import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.CloudQueryCallback;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.SaveCallback;
+import com.minardwu.see.base.Config;
 import com.minardwu.see.entity.NewsEntity;
 import com.minardwu.see.entity.User;
+import com.minardwu.see.event.DeleteNewsEvent;
+import com.minardwu.see.event.DeletePhotoEvent;
 import com.minardwu.see.event.GetNewsEvent;
 import com.minardwu.see.event.GetUserInfoEvent;
 import com.minardwu.see.event.SendOrReadNewsEvent;
@@ -35,9 +38,7 @@ public class News {
         firstQuery.whereEqualTo("from",AVUser.getCurrentUser().getObjectId());
         final AVQuery<AVObject> secondQuery = new AVQuery<>("News");
         secondQuery.whereEqualTo("to",targetid);
-        final AVQuery<AVObject> thirdQuery = new AVQuery<>("News");
-        thirdQuery.whereEqualTo("status",1);
-        AVQuery<AVObject> query = AVQuery.and(Arrays.asList(firstQuery, secondQuery,thirdQuery));
+        AVQuery<AVObject> query = AVQuery.and(Arrays.asList(firstQuery, secondQuery));
         query.findInBackground(new FindCallback<AVObject>() {
             @Override
             public void done(List<AVObject> list, AVException e) {
@@ -59,6 +60,7 @@ public class News {
                                 }else{
                                     Log.d("sendNews","fail");
                                     Log.d("sendNews",e.getMessage());
+                                    EventBus.getDefault().post(new SendOrReadNewsEvent(-4));
                                 }
                             }
                         });
@@ -128,15 +130,22 @@ public class News {
         });
     }
 
-    public static void deleteNews(String newsId){
+    public static void deleteNews(final String newsId){
         AVQuery.doCloudQueryInBackground("delete from News where objectId='"+newsId+"'", new CloudQueryCallback<AVCloudQueryResult>() {
             @Override
             public void done(AVCloudQueryResult avCloudQueryResult, AVException e) {
                 if(e==null){
                     Log.d("deleteNews","success");
+                    for(int i = 0; i< Config.newsList.size(); i++){
+                        if(Config.newsList.get(i).getNewsid().equals(newsId)) {
+                            Config.newsList.remove(i);
+                        }
+                    }
+                    EventBus.getDefault().post(new DeleteNewsEvent(1));
                 }else{
                     Log.d("deleteNews","fail");
                     Log.d("deleteNews",e.getMessage());
+                    EventBus.getDefault().post(new DeleteNewsEvent(-1));
                 }
             }
         });

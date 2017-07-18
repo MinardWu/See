@@ -12,6 +12,7 @@ import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.GetCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.minardwu.see.base.Config;
+import com.minardwu.see.event.AddFriendEvent;
 import com.minardwu.see.event.GetFriendEvent;
 import com.minardwu.see.event.ResultCodeEvent;
 import com.minardwu.see.event.SetUserInfoEvent;
@@ -65,7 +66,7 @@ public class Friend {
                                     }else {
                                         Log.v("deleteFriend","delete fail");
                                         Log.v("deleteFriend",e.getMessage());
-                                        EventBus.getDefault().post(new ResultCodeEvent(-3));
+                                        EventBus.getDefault().post(new AddFriendEvent(-3));
                                     }
                                 }
                             });
@@ -106,16 +107,16 @@ public class Friend {
                         public void done(AVException e) {
                             if(e==null){
                                 Log.v("addFriend","two step success");
-                                EventBus.getDefault().post(new ResultCodeEvent(1));
+                                EventBus.getDefault().post(new AddFriendEvent(1));
                             }else {
                                 Log.v("addFriend","two step fail");
                                 Log.v("addFriend",e.getMessage().toString());
-                                EventBus.getDefault().post(new ResultCodeEvent(-2));
+                                EventBus.getDefault().post(new AddFriendEvent(-2));
                             }
                         }
                     });
                 }else {
-                    EventBus.getDefault().post(new ResultCodeEvent(-1));
+                    EventBus.getDefault().post(new AddFriendEvent(-1));
                     Log.v("addFriend","one step fail");
                     Log.v("addFriend",e.getMessage().toString());
                 }

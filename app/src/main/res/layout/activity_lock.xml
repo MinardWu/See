@@ -16,13 +16,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/iv_lock"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            fresco:failureImage="@drawable/splash"
-            fresco:placeholderImage="@drawable/splash"/>
+            fresco:actualImageScaleType="fitXY"
+            fresco:failureImage="@drawable/wallpaper"
+            fresco:placeholderImage="@drawable/wallpaper"/>
 
         <TextView
             android:id="@+id/tv_time"

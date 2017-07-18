@@ -188,6 +188,7 @@ public class YourFragment extends Fragment {
                     tv_nofriend.setVisibility(View.VISIBLE);
                 }else {
                     //更换或添加新好友，把之前好友图片隐藏，只显示加载按钮
+                    Config.yourPhotos.clear();
                     gridView.setVisibility(View.GONE);
                     tv_nofriend.setVisibility(View.GONE);
                     btn_load.setVisibility(View.VISIBLE);

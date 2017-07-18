@@ -27,4 +27,12 @@ public class ActivityController {
                 activity.finish();
     }
 
+    public static boolean lockActivityIsActive = false;
+    public static Activity lockActivity;
+
+    public static void finishLockActivity(){
+        lockActivity.finish();
+        lockActivityIsActive = false;
+    }
+
 }
