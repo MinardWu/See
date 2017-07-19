@@ -51,7 +51,9 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 currentUser = AVUser.getCurrentUser();
                 if (currentUser != null) {
-
+                    Config.newsList.clear();
+                    News news = new News();
+                    news.getNews();
                 }
             }
         },1000);
@@ -70,10 +72,6 @@ public class SplashActivity extends AppCompatActivity {
                 }
             }
         },3000);
-
-        Config.newsList.clear();
-        News news = new News();
-        news.getNews();
 
     }
 

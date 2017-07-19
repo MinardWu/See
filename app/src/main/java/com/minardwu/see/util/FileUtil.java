@@ -14,6 +14,7 @@ public class FileUtil {
 	private static final File parentPath = Environment.getExternalStorageDirectory();
 	private static final String DST_FOLDER_NAME = "PlayCamera";
 	private static String storagePath = "";
+	public static byte[] bytes;
 
 	public static Bitmap getRotateBitmap(Bitmap b, float rotateDegree){
 		Matrix matrix = new Matrix();
@@ -46,6 +47,5 @@ public class FileUtil {
 			e.printStackTrace();
 		}
 	}
-
 
 }

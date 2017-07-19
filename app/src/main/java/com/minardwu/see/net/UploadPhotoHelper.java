@@ -16,6 +16,7 @@ import com.minardwu.see.activity.MainActivity;
 import com.minardwu.see.activity.PostPhotoActivity;
 import com.minardwu.see.activity.SettingActivity;
 import com.minardwu.see.base.MyApplication;
+import com.minardwu.see.util.FileUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -61,8 +62,23 @@ public class UploadPhotoHelper {
                 return;
             } else {
                 Log.v("uploadPhoto","选择照片正常");
+                Log.v("uploadPhotsadasdo","1");
                 Uri uri = data.getData();
                 cutImage(uri);
+//                Bitmap bitmap = null;
+//                try {
+//                    bitmap = BitmapFactory.decodeStream(MyApplication.getAppContext().getContentResolver().openInputStream(uri));
+//                } catch (FileNotFoundException e) {
+//                    e.printStackTrace();
+//                }
+//                //将bitmap转化为byte[]
+//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+//                FileUtil.bytes = baos.toByteArray();
+//                //跳转到发布界面
+//                Intent intent = new Intent(mcontext, PostPhotoActivity.class);
+//                intent.putExtra("from", "gallery");
+//                ((MainActivity)mcontext).startActivity(intent);
             }
         } else if (requestCode == IMAGEZOOM_REQUEST_CODE) {
             if (imageUri!=null) {
@@ -72,11 +88,10 @@ public class UploadPhotoHelper {
                     //将bitmap转化为byte[]
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-                    byte[] byteArray = baos.toByteArray();
+                    FileUtil.bytes = baos.toByteArray();
                     //跳转到发布界面
                     Intent intent = new Intent(mcontext, PostPhotoActivity.class);
-                    intent.putExtra("bytes", byteArray);
-                    intent.putExtra("rotate", false);
+                    intent.putExtra("from", "gallery");
                     ((MainActivity)mcontext).startActivity(intent);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -120,8 +135,8 @@ public class UploadPhotoHelper {
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");
         //宽高比例
-        intent.putExtra("aspectX", 1080);
-        intent.putExtra("aspectX", 1920);
+        intent.putExtra("aspectX", 6);
+        intent.putExtra("aspectX", 10);
         //图片宽高
         intent.putExtra("outputX", 1080);
         intent.putExtra("outputY", 1920);

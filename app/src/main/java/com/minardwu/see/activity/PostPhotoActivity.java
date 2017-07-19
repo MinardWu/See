@@ -40,7 +40,7 @@ public class PostPhotoActivity extends AppCompatActivity{
     private TextView tv_time;
 
     private byte[] bytes;
-    private boolean rotate;
+    private String from;
     private Bitmap bitmap ;
     private Bitmap finalBitmap;
 
@@ -93,14 +93,19 @@ public class PostPhotoActivity extends AppCompatActivity{
             }
         });
 
-        bytes = getIntent().getByteArrayExtra("bytes");
-        rotate = getIntent().getBooleanExtra("rotate",true);
-        bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-        if(rotate){
-            finalBitmap = FileUtil.getRotateBitmap(bitmap, 90.0f);
-        }else {
-            finalBitmap = bitmap;
+        from = getIntent().getStringExtra("from");
+        if(from.equals("gallery")){
+            bytes = FileUtil.bytes;
+        }else if(from.equals("camera")){
+            bytes = getIntent().getByteArrayExtra("bytes");
         }
+        bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        if(from.equals("gallery")){
+            finalBitmap = bitmap;
+        }else if(from.equals("camera")){
+            finalBitmap = FileUtil.getRotateBitmap(bitmap, 90.0f);
+        }
+
 
         simpleDraweeView.setImageBitmap(finalBitmap);
 //        tv_cancle.setOnClickListener(this);

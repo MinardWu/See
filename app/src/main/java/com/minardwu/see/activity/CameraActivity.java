@@ -135,8 +135,8 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback, 
 				break;
 			case R.id.btn_save:
 				Intent intent = new Intent(CameraActivity.this, PostPhotoActivity.class);
+				intent.putExtra("from", "camera");
 				intent.putExtra("bytes", byteArray);
-				intent.putExtra("rotate", true);
 				startActivity(intent);
 				finish();
 				break;
