@@ -95,22 +95,6 @@ public class ShowPhotoFragment extends Fragment {
     }
 
     private void initView() {
-        list = new ArrayList<String>();
-        if(type==0){
-            list.clear();
-            list.add("预览效果");
-            list.add("设为壁纸");
-            list.add("删除照片");
-        }else if(type==1){
-            list.clear();
-            list.add("预览效果");
-        }
-        ListTextAdapter listTextAdapter = new ListTextAdapter(MyApplication.getAppContext(),R.layout.listview_photobuttom,list);
-        listView = (ListView) view.findViewById(R.id.lv_photo_buttom);
-        listView.setAdapter(listTextAdapter);
-        listView.setVisibility(View.GONE);
-        show = false;
-
         rl_info = view.findViewById(R.id.rl_info);
         if(photo.getPhotoInfo().equals("empty")){
             rl_info.setVisibility(View.GONE);
@@ -119,6 +103,23 @@ public class ShowPhotoFragment extends Fragment {
         tv_time = (TextView) view.findViewById(R.id.tv_time);
         iv_back = (ImageView) view.findViewById(R.id.iv_back);
         iv_more = (ImageView) view.findViewById(R.id.iv_more);
+
+        list = new ArrayList<String>();
+        if(type==0){
+            iv_more.setVisibility(View.VISIBLE);
+            list.clear();
+            list.add("预览效果");
+            list.add("设为壁纸");
+            list.add("删除照片");
+        }else if(type==1){
+            iv_more.setVisibility(View.GONE);
+            list.clear();
+        }
+        ListTextAdapter listTextAdapter = new ListTextAdapter(MyApplication.getAppContext(),R.layout.listview_photobuttom,list);
+        listView = (ListView) view.findViewById(R.id.lv_photo_buttom);
+        listView.setAdapter(listTextAdapter);
+        listView.setVisibility(View.GONE);
+        show = false;
 
         SimpleDateFormat format=new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
         String time=format.format(photo.getDate());
@@ -159,8 +160,6 @@ public class ShowPhotoFragment extends Fragment {
                             Intent intent = new Intent(getContext(), PreviewActivity.class);
                             intent.putExtra("photoid",photo.getPhotoid());
                             startActivity(intent);
-                        }else if(type==1){
-
                         }
                         listView.setVisibility(View.INVISIBLE);
                         listView.setAnimation(get_out);

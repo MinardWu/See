@@ -1,6 +1,7 @@
 package com.minardwu.see.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -105,10 +106,13 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
             }
         },1000);
 
-
-        if(MyApplication.firstIn){//如果还没有赋予权限
-            //dialog_permission_go.show();
-            MyApplication.firstIn = false;
+        SharedPreferences sp = getSharedPreferences("firstIn",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        boolean firstIn = sp.getBoolean("flag",true);
+        if(firstIn){
+            dialog_permission_go.show();
+            editor.putBoolean("flag",false);
+            editor.commit();
         }
 
         Config.me = new User();

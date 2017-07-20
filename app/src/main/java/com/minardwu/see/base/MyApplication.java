@@ -48,7 +48,6 @@ public class MyApplication extends Application {
         //版本号
         versionName = getVersionName();
 
-        firstIn = true;
     }
 
     public static Context getAppContext(){
