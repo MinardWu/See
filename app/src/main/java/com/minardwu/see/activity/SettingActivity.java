@@ -87,6 +87,8 @@ public class SettingActivity extends BaseActivity {
             list.add(new MultipleView(1,"性别","女",""));
         }else if(Config.me.getSex()==1){
             list.add(new MultipleView(1,"性别","男",""));
+        }else if(Config.me.getSex()==-1){
+            list.add(new MultipleView(1,"性别","未知",""));
         }
     }
 
