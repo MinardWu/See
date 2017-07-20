@@ -67,12 +67,12 @@ public class PostPhotoActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 tv_send.setEnabled(false);
+                dialog.show();
                 if(et_photoinfo.getText().toString().length()==0){
                     UploadPhotoHelper.savePhotoAndUpload(finalBitmap,"empty");
                 }else {
                     UploadPhotoHelper.savePhotoAndUpload(finalBitmap,et_photoinfo.getText().toString());
                 }
-                dialog.show();
             }
         });
 
@@ -146,6 +146,7 @@ public class PostPhotoActivity extends AppCompatActivity{
             finish();
         }else {
             Toast.makeText(PostPhotoActivity.this, "发布失败", Toast.LENGTH_SHORT).show();
+            tv_send.setEnabled(true);
         }
     };
 
