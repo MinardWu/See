@@ -231,8 +231,8 @@ public class SettingActivity extends BaseActivity {
                 Config.myPhotos.clear();
                 Config.yourPhotos.clear();
                 Config.newsList.clear();
-                finish();
                 ActivityController.finishAllActivity();
+                finish();
                 startActivity(new Intent(SettingActivity.this,LoginActivity.class));
             }
         });
