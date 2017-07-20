@@ -34,6 +34,7 @@ import com.minardwu.see.fragment.MyFragment;
 import com.minardwu.see.fragment.YourFragment;
 import com.minardwu.see.net.Friend;
 import com.minardwu.see.net.PhotoService;
+import com.minardwu.see.net.SaveInstallationId;
 import com.minardwu.see.net.UploadPhotoHelper;
 import com.minardwu.see.service.LockService;
 import com.minardwu.see.util.AlarmHelper;
@@ -81,11 +82,16 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //注册EventBus
         EventBus.getDefault().register(this);
-
+        //开启锁屏服务
         AlarmHelper.startService(this,LockService.class,5);
-        ActivityController.addActivity(this);//MainActivity没有继承BaseActivity，故要手动添加
+        //MainActivity没有继承BaseActivity，故要手动添加
+        ActivityController.addActivity(this);
+        //注册账号的InstallationId，推送使用
+        SaveInstallationId.save();
 
+        //初始化ui
         initView();
         initAddPhotoDialog();
         initPermissionDialog();

@@ -26,6 +26,8 @@ import com.minardwu.see.net.News;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +48,8 @@ public class NewsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initView();
         EventBus.getDefault().register(this);
+        initView();
     }
 
     private void initView() {

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,6 +16,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVInstallation;
+import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVPush;
+import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.FindCallback;
+import com.avos.avoscloud.SendCallback;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.minardwu.see.R;
 import com.minardwu.see.base.Config;
@@ -23,10 +32,15 @@ import com.minardwu.see.event.GetUserInfoEvent;
 import com.minardwu.see.event.SendOrReadNewsEvent;
 import com.minardwu.see.net.GetUserInfo;
 import com.minardwu.see.net.News;
+import com.minardwu.see.net.PushNews;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -140,6 +154,8 @@ public class SearchActivity extends AppCompatActivity {
             Toast.makeText(SearchActivity.this, "请求发送成功", Toast.LENGTH_SHORT).show();
             btn_add.setEnabled(false);
             btn_add.setText("请求已发送");
+            //推送消息
+            PushNews.push(searchUser.getUserid());
         } else if(event.getResult()==-1){
             Toast.makeText(SearchActivity.this, "你之前已发送过请求了哦", Toast.LENGTH_SHORT).show();
             btn_add.setEnabled(false);
