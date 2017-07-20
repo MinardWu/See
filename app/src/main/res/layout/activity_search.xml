@@ -70,7 +70,7 @@
                 android:id="@+id/iv_search_image"
                 android:layout_width="168dp"
                 android:layout_height="168dp"
-                fresco:failureImage="@drawable/icon_user"
+                fresco:failureImage="@drawable/avatar"
                 fresco:placeholderImage="@drawable/icon_placeholder"
                 fresco:roundAsCircle="true"
                 fresco:roundingBorderColor="@color/main"

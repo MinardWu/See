@@ -89,6 +89,9 @@ public class ShowPhotoActivity extends AppCompatActivity {
                     fragmentList.remove(i);
             }
             adapter.notifyDataSetChanged();
+            if(fragmentList.size()==0){
+                finish();
+            }
             //更新数据
             Config.deletePhoto = true;//标记，以便在YourFragment中更新视图
             for(Photo tempphoto:Config.yourPhotos)

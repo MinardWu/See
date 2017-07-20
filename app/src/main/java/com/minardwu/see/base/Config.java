@@ -1,6 +1,8 @@
 package com.minardwu.see.base;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.view.WindowManager;
 
 import com.minardwu.see.entity.NewsEntity;

@@ -12,6 +12,7 @@ import com.minardwu.see.R;
 import com.minardwu.see.adapter.MultipleAdapter;
 import com.minardwu.see.base.BaseActivity;
 import com.minardwu.see.base.Config;
+import com.minardwu.see.base.MyApplication;
 import com.minardwu.see.entity.MultipleView;
 import com.minardwu.see.entity.User;
 import com.minardwu.see.event.DeleteNewsEvent;
@@ -56,7 +57,7 @@ public class OptionsActivity extends BaseActivity {
             mlist.add(new MultipleView(1,"消息","have news",""));
         }
         mlist.add(new MultipleView(1,"搜索","又在哪呢",""));
-        mlist.add(new MultipleView(1,"版本","1.0.0",""));
+        mlist.add(new MultipleView(1,"版本", MyApplication.versionName,""));
         mlist.add(new MultipleView(1,"权限设置","点击前往",""));
         mlist.add(new MultipleView(1,"意见反馈","有何高见",""));
     }

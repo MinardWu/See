@@ -11,7 +11,7 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="16dp"
-        fresco:failureImage="@drawable/icon_user"
+        fresco:failureImage="@drawable/avatar"
         fresco:placeholderImage="@drawable/icon_placeholder"
         fresco:roundAsCircle="true"
         fresco:roundingBorderColor="@color/main"

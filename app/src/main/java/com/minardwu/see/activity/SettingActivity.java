@@ -82,7 +82,7 @@ public class SettingActivity extends BaseActivity {
             list.add(new MultipleView(0,"无好友","",Config.you.getAvatar()));
         }
         list.add(new MultipleView(1,"昵称",Config.me.getUsername(),""));
-        list.add(new MultipleView(1,"密码","嘘~",""));
+        list.add(new MultipleView(1,"密码","勿视",""));
         if(Config.me.getSex()==0){
             list.add(new MultipleView(1,"性别","女",""));
         }else if(Config.me.getSex()==1){
@@ -263,7 +263,7 @@ public class SettingActivity extends BaseActivity {
                     Toast.makeText(MyApplication.getAppContext(), "修改昵称成功", Toast.LENGTH_SHORT).show();
                     multipleAdapter.updataItemValue(listView,2,Config.me.getUsername());
                 }else if(event.getResult()==-1){
-                    Toast.makeText(MyApplication.getAppContext(), "用户名已存在", Toast.LENGTH_SHORT).show();
+                    et_newname.setError("用户名已存在");
                 }else if(event.getResult()==-2){
                     Toast.makeText(MyApplication.getAppContext(), "修改昵称失败", Toast.LENGTH_SHORT).show();
                 }

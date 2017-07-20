@@ -2,15 +2,15 @@ package com.minardwu.see.base;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Environment;
-import android.util.Log;
 
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.PushService;
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.minardwu.see.activity.NewsActivity;
+import com.minardwu.see.R;
 import com.minardwu.see.activity.SplashActivity;
-import com.minardwu.see.net.SaveInstallationId;
 
 import java.io.File;
 
@@ -20,8 +20,9 @@ import java.io.File;
 public class MyApplication extends Application {
 
     public static Context context;
-    private  String dirPath = Environment.getExternalStorageDirectory() + "/light";
     public static boolean firstIn;
+    public static String versionName;
+    private  String dirPath = Environment.getExternalStorageDirectory() + "/light";
 
     @Override
     public void onCreate() {
@@ -44,10 +45,27 @@ public class MyApplication extends Application {
         if (!fileDir.exists()) {
             fileDir.mkdir();
         }
+        //版本号
+        versionName = getVersionName();
+
         firstIn = true;
     }
 
     public static Context getAppContext(){
         return context;
     };
+
+    public String getVersionName() {
+        try {
+            PackageManager manager = this.getPackageManager();
+            PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
+            String versionName = info.versionName;
+            return versionName;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "1.0.0";
+        }
+    }
+
+
 }
