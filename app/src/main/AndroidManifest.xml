@@ -4,6 +4,7 @@
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
@@ -17,8 +18,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!-- 基础模块 END -->
 
+    <!-- 基础模块 END -->
     <application
         android:name=".base.MyApplication"
         android:allowBackup="true"
@@ -29,6 +30,7 @@
 
         <!-- 实时通信模块、推送都要使用 PushService -->
         <service android:name="com.avos.avoscloud.PushService" />
+
         <receiver android:name="com.avos.avoscloud.AVBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -38,7 +40,6 @@
         </receiver>
         <!-- 反馈组件（需要加入以下声明）START -->
         <activity android:name="com.avos.avoscloud.feedback.ThreadActivity" />
-
 
         <activity android:name=".base.BaseActivity" />
         <activity android:name=".activity.MainActivity" />
@@ -68,6 +69,7 @@
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -76,8 +78,19 @@
             android:name=".activity.PostPhotoActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".activity.PostAdviceActivity" />
-        <activity android:name=".activity.PreviewActivity"></activity>
+        <activity android:name=".activity.PreviewActivity" />
 
+
+        <!-- 开机启动锁屏服务的广播 -->
+        <receiver
+            android:name=".receiver.BootCompletedReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <!-- 重启服务的广播 -->
         <receiver
             android:name=".receiver.RestartReceiver"
             android:enabled="true"
@@ -87,6 +100,8 @@
             </intent-filter>
         </receiver>
 
+
+        <!-- 锁屏服务 -->
         <service
             android:name=".service.LockService"
             android:enabled="true"
@@ -95,10 +110,12 @@
                 <action android:name="com.minardwu.LockService" />
             </intent-filter>
         </service>
+        <!-- 实时更新服务 -->
         <service
             android:name=".service.GetShowPhotoService"
             android:enabled="true"
             android:exported="true" />
+
 
     </application>
 

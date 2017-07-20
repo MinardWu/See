@@ -22,7 +22,9 @@
             android:layout_height="match_parent"
             fresco:actualImageScaleType="fitXY"
             fresco:failureImage="@drawable/wallpaper"
-            fresco:placeholderImage="@drawable/wallpaper"/>
+            fresco:failureImageScaleType="fitXY"
+            fresco:placeholderImage="@drawable/wallpaper"
+            fresco:placeholderImageScaleType="fitXY" />
 
         <TextView
             android:id="@+id/tv_time"

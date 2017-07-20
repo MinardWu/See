@@ -44,9 +44,7 @@ public class LockActivity extends AppCompatActivity {
     private SimpleDraweeView simpleDraweeView;
     private UnderView underView;
 
-    private Timer timer;
     private Handler handler;
-    private boolean getPhoto = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,22 +59,15 @@ public class LockActivity extends AppCompatActivity {
         tv_info = (TextView) findViewById(R.id.tv_info);
         simpleDraweeView = (SimpleDraweeView) findViewById(R.id.iv_lock);
 
-
         tv_time.setTypeface(FontUtil.getSegoeUISemilight());
 
         for(Photo tempPhoto:Config.yourPhotos){
             if(tempPhoto.getState()==1){
-                getPhoto = true;
                 simpleDraweeView.setImageURI(Uri.parse(tempPhoto.getPhotoUrl()));
                 if(!tempPhoto.getPhotoInfo().equals("empty")){
                     tv_info.setText(tempPhoto.getPhotoInfo());
                 }
             }
-        }
-
-        //设置失败图
-        if(!getPhoto){
-            simpleDraweeView.setImageURI(Uri.parse("res://"+ MyApplication.getAppContext().getPackageName()+"/" + R.drawable.wallpaper));
         }
 
         underView =  (UnderView) findViewById(R.id.underview);
@@ -110,7 +101,7 @@ public class LockActivity extends AppCompatActivity {
             String date[] = simpleDateFormat.format(new Date()).split("-");
             tv_time.setText(date[0]);
             tv_date.setText(date[1]);
-            handler.postDelayed(updateRunnable,300);
+            handler.postDelayed(updateRunnable,10000);
         }
     };
 
