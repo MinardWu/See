@@ -8,9 +8,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+        <ImageView
+            android:id="@+id/iv_nophoto"
+            android:src="@drawable/icon_no_photo"
             android:layout_centerInParent="true"
-            android:text="他/她还没有拍摄照片哦"
+            android:layout_width="80dp"
+            android:layout_height="80dp" />
+
+        <TextView
+            android:layout_marginTop="16dp"
+            android:text="对方还没有拍摄照片哦"
+            android:layout_below="@+id/iv_nophoto"
+            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

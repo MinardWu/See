@@ -95,7 +95,9 @@ public class ShowPhotoActivity extends AppCompatActivity {
                 if(tempphoto.getPhotoid().equals(event.getPhotoid()))
                     if(tempphoto.getState()==1){//如果是目前设置为展示的图片，将其删除之后还要设置第一个为展示
                         Config.yourPhotos.remove(tempphoto);
-                        Config.yourPhotos.get(0).setState(1);
+                        if(Config.yourPhotos.size()!=0){
+                            Config.yourPhotos.get(0).setState(1);
+                        }
                     }else {//若不是展示的图片则直接删除就行
                         Config.yourPhotos.remove(tempphoto);
                     }

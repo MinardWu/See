@@ -82,7 +82,7 @@ public class SettingActivity extends BaseActivity {
             list.add(new MultipleView(0,"无好友","",Config.you.getAvatar()));
         }
         list.add(new MultipleView(1,"昵称",Config.me.getUsername(),""));
-        list.add(new MultipleView(1,"密码","不给你看",""));
+        list.add(new MultipleView(1,"密码","嘘~",""));
         if(Config.me.getSex()==0){
             list.add(new MultipleView(1,"性别","女",""));
         }else if(Config.me.getSex()==1){

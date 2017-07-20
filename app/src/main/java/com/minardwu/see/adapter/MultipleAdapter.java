@@ -1,13 +1,11 @@
 package com.minardwu.see.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -16,7 +14,6 @@ import com.minardwu.see.R;
 import com.minardwu.see.base.Config;
 import com.minardwu.see.base.MyApplication;
 import com.minardwu.see.entity.MultipleView;
-import com.minardwu.see.entity.Options;
 
 import java.util.List;
 
@@ -79,7 +76,7 @@ public class MultipleAdapter extends BaseAdapter {
                 imgViewHolder.tv_title.setText(multipleViewList.get(position).getItemTitle());
                 //这里为设置页面的好友项做特殊处理
                 if(position==1 && Config.you.getUserid().equals("0")){
-                    imgViewHolder.simpleDraweeView.setImageURI(Uri.parse("res://"+ MyApplication.getAppContext().getPackageName()+"/" + R.drawable.icon_nofriend));
+                    imgViewHolder.simpleDraweeView.setImageURI(Uri.parse("res://"+ MyApplication.getAppContext().getPackageName()+"/" + R.drawable.icon_no_friend));
                 }else {
                     imgViewHolder.simpleDraweeView.setImageURI(Uri.parse(multipleViewList.get(position).getAvatarUrl()+""));
                 }
