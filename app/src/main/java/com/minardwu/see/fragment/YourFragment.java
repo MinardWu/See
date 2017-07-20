@@ -13,6 +13,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,11 +46,12 @@ public class YourFragment extends Fragment {
     private GridView gridView;
     private List<Photo> list;
     private PhotoAdapter photoAdapter;
+    private View view;
     private View emptyview;
+    private RelativeLayout rl_nofriend;
     private TextView tv_nofriend;
     private Button btn_load;
     private TextView tv_nonet;
-    private View view;
     private Animation animation;
     private Timer loadDataTimer = new Timer(true);
 
@@ -62,6 +64,7 @@ public class YourFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_your, container, false);
+        rl_nofriend = (RelativeLayout) view.findViewById(R.id.rl_nofriend);
         tv_nofriend = (TextView) view.findViewById(R.id.tv_nofriend);
         tv_nonet = (TextView) view.findViewById(R.id.tv_nonet);
 
@@ -103,7 +106,7 @@ public class YourFragment extends Fragment {
         });
         gridView.setVisibility(View.GONE);
         emptyview.setVisibility(View.GONE);
-        tv_nofriend.setVisibility(View.GONE);
+        rl_nofriend.setVisibility(View.GONE);
         tv_nonet.setVisibility(View.GONE);
         return view;
     }
@@ -133,7 +136,7 @@ public class YourFragment extends Fragment {
             btn_load.setVisibility(View.GONE);
             gridView.setVisibility(View.GONE);
             emptyview.setVisibility(View.GONE);
-            tv_nofriend.setVisibility(View.VISIBLE);
+            rl_nofriend.setVisibility(View.VISIBLE);
         }else if(event.getResult().equals("error")){//获取出错，如没网
             //Toast.makeText(getContext(), "网络出错了", Toast.LENGTH_SHORT).show();
             tv_nonet.setVisibility(View.VISIBLE);
@@ -142,7 +145,7 @@ public class YourFragment extends Fragment {
         }else {//有好友则继续获取图片
             Config.you.setUserid(event.getResult());
             gridView.setVisibility(View.VISIBLE);
-            tv_nofriend.setVisibility(View.GONE);
+            rl_nofriend.setVisibility(View.GONE);
             PhotoService.getPhoto(Config.you.getUserid());
             AlarmHelper.startService(getContext(),GetShowPhotoService.class,5);
         }
@@ -185,12 +188,12 @@ public class YourFragment extends Fragment {
                     //删除原好友
                     gridView.setVisibility(View.GONE);
                     emptyview.setVisibility(View.GONE);
-                    tv_nofriend.setVisibility(View.VISIBLE);
+                    rl_nofriend.setVisibility(View.VISIBLE);
                 }else {
                     //更换或添加新好友，把之前好友图片隐藏，只显示加载按钮
                     Config.yourPhotos.clear();
                     gridView.setVisibility(View.GONE);
-                    tv_nofriend.setVisibility(View.GONE);
+                    rl_nofriend.setVisibility(View.GONE);
                     btn_load.setVisibility(View.VISIBLE);
                     btn_load.startAnimation(animation);
                     PhotoService.getPhoto(Config.you.getUserid());

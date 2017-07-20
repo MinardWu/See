@@ -22,12 +22,28 @@
             android:id="@+id/emptyview"
             layout="@layout/emptyview_yourphoto"/>
 
-        <TextView
-            android:text="快去寻找他/她吧"
-            android:layout_centerInParent="true"
-            android:id="@+id/tv_nofriend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <RelativeLayout
+            android:id="@+id/rl_nofriend"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_nofriend"
+                android:layout_centerInParent="true"
+                android:src="@drawable/icon_no_friend"
+                android:layout_width="70dp"
+                android:layout_height="70dp" />
+
+            <TextView
+                android:id="@+id/tv_nofriend"
+                android:text="快去寻找吧"
+                android:layout_marginTop="16dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/iv_nofriend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
 
         <Button
             android:id="@+id/btn_load"

@@ -76,7 +76,7 @@ public class MultipleAdapter extends BaseAdapter {
                 imgViewHolder.tv_title.setText(multipleViewList.get(position).getItemTitle());
                 //这里为设置页面的好友项做特殊处理
                 if(position==1 && Config.you.getUserid().equals("0")){
-                    imgViewHolder.simpleDraweeView.setImageURI(Uri.parse("res://"+ MyApplication.getAppContext().getPackageName()+"/" + R.drawable.icon_no_friend));
+                    imgViewHolder.simpleDraweeView.setImageURI(Uri.parse("res://"+ MyApplication.getAppContext().getPackageName()+"/" + R.drawable.icon_nofriendavatar));
                 }else {
                     imgViewHolder.simpleDraweeView.setImageURI(Uri.parse(multipleViewList.get(position).getAvatarUrl()+""));
                 }
