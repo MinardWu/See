@@ -3,8 +3,10 @@ package com.minardwu.see.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVUser;
@@ -19,6 +21,7 @@ import com.minardwu.see.event.DeleteNewsEvent;
 import com.minardwu.see.event.DeletePhotoEvent;
 import com.minardwu.see.event.GetUserInfoEvent;
 import com.minardwu.see.net.GetUserInfo;
+import com.minardwu.see.util.FontUtil;
 import com.minardwu.see.util.PermissionUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -33,6 +36,8 @@ public class OptionsActivity extends BaseActivity {
     private List<MultipleView> mlist;
     private ListView listView;
     private MultipleAdapter multipleAdapter;
+    private TextView tv_logo;
+    private TextView tv_versionname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +62,22 @@ public class OptionsActivity extends BaseActivity {
             mlist.add(new MultipleView(1,"消息","have news",""));
         }
         mlist.add(new MultipleView(1,"搜索","又在哪呢",""));
-        mlist.add(new MultipleView(1,"版本", MyApplication.versionName,""));
+        mlist.add(new MultipleView(2,"","",""));
+        mlist.add(new MultipleView(1,"版本", "检查更新",""));
         mlist.add(new MultipleView(1,"权限设置","点击前往",""));
+        mlist.add(new MultipleView(2,"","",""));
         mlist.add(new MultipleView(1,"意见反馈","有何高见",""));
     }
 
     private void initView() {
+        tv_logo = (TextView) findViewById(R.id.tv_logo);
+        tv_versionname = (TextView) findViewById(R.id.tv_versionname);
+        tv_logo.setTypeface(FontUtil.getLogoTypeFace());
+        tv_versionname.setText("V"+MyApplication.versionName);
+        tv_versionname.setTypeface(FontUtil.getLogoTypeFace());
+
         listView = (ListView) findViewById(R.id.lv_options);
+        listView.addFooterView(new ViewStub(this));//添加这个是为了让最后的一个item的分割线显示
         multipleAdapter = new MultipleAdapter(this,mlist);
         listView.setAdapter(multipleAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -75,12 +89,12 @@ public class OptionsActivity extends BaseActivity {
                     startActivity(new Intent(OptionsActivity.this,NewsActivity.class));
                 }else if(position == 2){
                     startActivity(new Intent(OptionsActivity.this,SearchActivity.class));
-                }else if(position == 3){
-                    Toast.makeText(OptionsActivity.this, "已是最新版本", Toast.LENGTH_SHORT).show();
                 }else if(position == 4){
+                    Toast.makeText(OptionsActivity.this, "已是最新版本", Toast.LENGTH_SHORT).show();
+                }else if(position == 5){
                     PermissionUtil permissionUtil = new PermissionUtil(OptionsActivity.this);
                     permissionUtil.gotoMiuiPermission();
-                }else if(position == 5){
+                }else if(position == 7){
                     startActivity(new Intent(OptionsActivity.this,PostAdviceActivity.class));
                 }
             }

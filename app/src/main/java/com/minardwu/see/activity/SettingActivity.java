@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -75,12 +76,13 @@ public class SettingActivity extends BaseActivity {
             isHaveFriend = true;
         }
         list = new ArrayList<MultipleView>();
-        list.add(new MultipleView(0,"头像","",Config.me.getAvatar()));
+        list.add(new MultipleView(0,AVUser.getCurrentUser().getUsername(),"",Config.me.getAvatar()));
         if(isHaveFriend){
-            list.add(new MultipleView(0,"好友","",Config.you.getAvatar()));
+            list.add(new MultipleView(0,Config.you.getUsername(),"",Config.you.getAvatar()));
         }else {
             list.add(new MultipleView(0,"无好友","",Config.you.getAvatar()));
         }
+        list.add(new MultipleView(2,"","",""));
         list.add(new MultipleView(1,"昵称",Config.me.getUsername(),""));
         list.add(new MultipleView(1,"密码","勿视",""));
         if(Config.me.getSex()==0){
@@ -94,6 +96,7 @@ public class SettingActivity extends BaseActivity {
 
     private void initView(){
         listView = (ListView) findViewById(R.id.lv_userinfo);
+        listView.addFooterView(new ViewStub(this));//添加这个是为了让最后的一个item的分割线显示
         multipleAdapter = new MultipleAdapter(this,list);
         listView.setAdapter(multipleAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -149,7 +152,7 @@ public class SettingActivity extends BaseActivity {
                     }else {
                         Toast.makeText(SettingActivity.this, "快去寻找吧", Toast.LENGTH_SHORT).show();
                     }
-                } else if (position == 2) {
+                } else if (position == 3) {
                     view_edit_username = LayoutInflater.from(SettingActivity.this).inflate(R.layout.dialog_editname, null);
                     et_newname = (MaterialEditText) view_edit_username.findViewById(R.id.et_newUsername);
                     dialog_edit_username = new MaterialDialog(SettingActivity.this);
@@ -158,6 +161,8 @@ public class SettingActivity extends BaseActivity {
                         public void onClick(View v) {
                             if (et_newname.getText().toString().length() == 0) {
                                 et_newname.setError("用户名不能为空");
+                            } else if (et_newname.getText().toString().equals(Config.me.getUsername())) {
+                                et_newname.setError("未做出修改");
                             } else {
                                 dialog_edit_username.dismiss();
                                 SetUserInfo.setUsername(et_newname.getText().toString());
@@ -165,7 +170,7 @@ public class SettingActivity extends BaseActivity {
                         }
                     });
                     dialog_edit_username.setView(view_edit_username).show();
-                } else if (position == 3) {
+                } else if (position == 4) {
                     view_edit_password = LayoutInflater.from(SettingActivity.this).inflate(R.layout.dialog_editpsw, null);
                     et_oldPassword = (MaterialEditText) view_edit_password.findViewById(R.id.et_oldPassword);
                     et_newPassword = (MaterialEditText) view_edit_password.findViewById(R.id.et_newPassword);
@@ -185,7 +190,7 @@ public class SettingActivity extends BaseActivity {
                         }
                     });
                     dialog_edit_psd.setView(view_edit_password).show();
-                } else if (position == 4) {
+                } else if (position == 5) {
                     ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(SettingActivity.this, android.R.layout.simple_list_item_1);
                     arrayAdapter.add("女");
                     arrayAdapter.add("男");
@@ -263,9 +268,10 @@ public class SettingActivity extends BaseActivity {
             case 1:
                 if(event.getResult()==1){
                     Toast.makeText(MyApplication.getAppContext(), "修改昵称成功", Toast.LENGTH_SHORT).show();
-                    multipleAdapter.updataItemValue(listView,2,Config.me.getUsername());
+                    multipleAdapter.updataItemTitle(listView,0,Config.me.getUsername());
+                    multipleAdapter.updataItemValue(listView,3,Config.me.getUsername());
                 }else if(event.getResult()==-1){
-                    et_newname.setError("用户名已存在");
+                    Toast.makeText(MyApplication.getAppContext(), "用户名已存在", Toast.LENGTH_SHORT).show();
                 }else if(event.getResult()==-2){
                     Toast.makeText(MyApplication.getAppContext(), "修改昵称失败", Toast.LENGTH_SHORT).show();
                 }

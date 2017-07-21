@@ -16,4 +16,10 @@ public class FontUtil {
         return font;
     }
 
+    public static Typeface getLogoTypeFace(){
+        AssetManager assets = MyApplication.getAppContext().getAssets();
+        Typeface font = Typeface.createFromAsset(assets, "fonts/logo.ttf");
+        return font;
+    }
+
 }

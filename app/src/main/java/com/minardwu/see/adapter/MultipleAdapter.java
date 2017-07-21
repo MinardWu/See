@@ -39,7 +39,7 @@ public class MultipleAdapter extends BaseAdapter {
     //返回不同布局的数量
     @Override
     public int getViewTypeCount() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -102,6 +102,9 @@ public class MultipleAdapter extends BaseAdapter {
                 }else {
                     textViewHolder.tv_value.setText(multipleViewList.get(position).getItemVaule());
                 }
+                break;
+            case 2:
+                convertView = LayoutInflater.from(context).inflate(R.layout.listview_emptyitem,null);
                 break;
         }
 

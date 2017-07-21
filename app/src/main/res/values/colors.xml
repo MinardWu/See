@@ -19,4 +19,6 @@
     <color name="et_hint">#969292</color>
     <color name="btn_color_enable">#435356</color>
     <color name="btn_color_unable">#a7afaf</color>
+
+    <color name="background">#f7f7f7</color>
 </resources>
