@@ -77,7 +77,7 @@ public class SearchActivity extends AppCompatActivity {
         btn_add = (Button) findViewById(R.id.btn_search_add);
         ll_result = (LinearLayout) findViewById(R.id.ll_search_result);
 
-        tv_info.setText("开始寻找那个人吧!");
+        tv_info.setText("众里寻他千百度");
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,6 +100,7 @@ public class SearchActivity extends AppCompatActivity {
 
         searchView = (SearchView) findViewById(R.id.sv);
         searchView.setQueryHint("输入用户名称搜索");
+        searchView.setSubmitButtonEnabled(false);
         searchView.setIconified(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -109,9 +110,9 @@ public class SearchActivity extends AppCompatActivity {
                 ll_result.setVisibility(View.GONE);
                 tv_info.setVisibility(View.VISIBLE);
                 if(query.equals(Config.me.getUsername())){
-                    tv_info.setText("哗啦啦啦，天在下雨。");
+                    tv_info.setText("“哗啦啦啦，天在下雨。” ——陶喆•《找自己》");
                 }else if(query.equals(Config.you.getUsername())){
-                    tv_info.setText("远在天边，近在眼前。");
+                    tv_info.setText("“远在天边，近在眼前。”");
                 }else {
                     GetUserInfo.getUserInfoByUserName(query);
                 }

@@ -13,17 +13,19 @@ import android.widget.Toast;
 import com.minardwu.see.R;
 import com.minardwu.see.event.LoginEvent;
 import com.minardwu.see.net.Login;
+import com.minardwu.see.util.FontUtil;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private MaterialEditText et_username;
     private MaterialEditText et_password;
     private Button btn_login;
+    private TextView tv_logo;
     private TextView tv_noaccount;
     private TextView tv_forgetPassword;
 
@@ -39,26 +41,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         et_username = (MaterialEditText) findViewById(R.id.et_username);
         et_password = (MaterialEditText) findViewById(R.id.et_password);
         btn_login = (Button) findViewById(R.id.btn_login);
+        tv_logo = (TextView) findViewById(R.id.tv_logo);
         tv_noaccount = (TextView) findViewById(R.id.tv_noaccount);
         tv_forgetPassword = (TextView) findViewById(R.id.tv_forgetPassword);
 
-        et_username.addTextChangedListener(this);
-        et_password.addTextChangedListener(this);
         btn_login.setOnClickListener(this);
         tv_noaccount.setOnClickListener(this);
         tv_forgetPassword.setOnClickListener(this);
 
-        btn_login.setEnabled(false);
-        btn_login.setTextColor(0xffbababa);
+        tv_logo.setTypeface(FontUtil.getLogoTypeFace());
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_login:
-                btn_login.setText("登录中...");
-                btn_login.setEnabled(false);
-                Login.login(et_username.getText().toString(),et_password.getText().toString());
+                if(et_username.getText().toString().length() == 0){
+                    et_username.setError("请输入用户名");
+                }else if(et_password.getText().toString().length() == 0){
+                    et_password.setError("请输入密码");
+                }else {
+                    btn_login.setText("登录中...");
+                    btn_login.setEnabled(false);
+                    Login.login(et_username.getText().toString(),et_password.getText().toString());
+                }
                 break;
             case R.id.tv_noaccount:
                 startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
@@ -87,23 +93,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
     };
-
-    @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-    @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-    @Override
-    public void afterTextChanged(Editable editable) {
-        if (et_username.getText().toString().length() != 0 && et_password.getText().toString().length() != 0) {
-            btn_login.setEnabled(true);
-            btn_login.setTextColor(0xff000000);
-        } else {
-            btn_login.setEnabled(false);
-            btn_login.setTextColor(0xffbababa);
-        }
-    }
 
     @Override
     protected void onDestroy() {

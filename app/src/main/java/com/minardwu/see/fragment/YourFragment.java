@@ -13,11 +13,13 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.minardwu.see.R;
+import com.minardwu.see.activity.SearchActivity;
 import com.minardwu.see.activity.ShowPhotoActivity;
 import com.minardwu.see.adapter.PhotoAdapter;
 import com.minardwu.see.base.Config;
@@ -50,6 +52,7 @@ public class YourFragment extends Fragment {
     private View emptyview;
     private RelativeLayout rl_nofriend;
     private TextView tv_nofriend;
+    private ImageView iv_nofriend;
     private Button btn_load;
     private TextView tv_nonet;
     private Animation animation;
@@ -65,8 +68,16 @@ public class YourFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_your, container, false);
         rl_nofriend = (RelativeLayout) view.findViewById(R.id.rl_nofriend);
+        iv_nofriend = (ImageView) view.findViewById(R.id.iv_nofriend);
         tv_nofriend = (TextView) view.findViewById(R.id.tv_nofriend);
         tv_nonet = (TextView) view.findViewById(R.id.tv_nonet);
+
+        iv_nofriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), SearchActivity.class));
+            }
+        });
 
         animation = AnimationUtils.loadAnimation(getContext(), R.anim.rotate);
         btn_load = (Button) view.findViewById(R.id.btn_load);

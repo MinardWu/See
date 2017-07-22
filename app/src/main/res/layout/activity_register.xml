@@ -11,12 +11,16 @@
     android:background="@color/white"
     tools:context="com.minardwu.see.activity.RegisterActivity">
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="80dp"
-        android:layout_gravity="center_horizontal"
+
+    <TextView
+        android:text="初见"
+        android:textSize="48sp"
+        android:textColor="#262626"
+        android:id="@+id/tv_logo"
         android:layout_marginBottom="50dp"
-        android:background="@drawable/icon_logo" />
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,31 +36,32 @@
             android:singleLine="true"
             app:met_floatingLabel="highlight"
             app:met_baseColor="#353535"
-            app:met_primaryColor="#000"
-            />
+            app:met_primaryColor="#000" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/et_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="密码"
+            android:inputType="textPassword"
+            android:digits="@string/password_allow"
             android:singleLine="true"
             app:met_floatingLabel="highlight"
             app:met_baseColor="#353535"
-            app:met_primaryColor="#000"
-            />
+            app:met_primaryColor="#000" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/et_comfirmpsw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="确认密码"
+            android:inputType="textPassword"
+            android:digits="@string/password_allow"
             android:imeOptions="actionDone"
             android:singleLine="true"
             app:met_floatingLabel="highlight"
             app:met_baseColor="#353535"
-            app:met_primaryColor="#000"
-            />
+            app:met_primaryColor="#000" />
 
         <!--<com.rengwuxian.materialedittext.MaterialEditText-->
             <!--android:id="@+id/et_phonenumber"-->
@@ -76,7 +81,7 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/btn_rect_enable"
             android:text="注册"
-            android:textColor="#bababa"
+            android:textColor="#434343"
             android:textSize="20dp"
             android:textStyle="bold" />
 
