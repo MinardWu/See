@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Environment;
+import android.util.Log;
 
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.PushService;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.minardwu.see.R;
 import com.minardwu.see.activity.SplashActivity;
+import com.tencent.tauth.Tencent;
 
 import java.io.File;
 
@@ -22,7 +24,10 @@ public class MyApplication extends Application {
     public static Context context;
     public static boolean firstIn;
     public static String versionName;
-    private  String dirPath = Environment.getExternalStorageDirectory() + "/light";
+    private  String dirPath = Environment.getExternalStorageDirectory() + "/See";
+    private  String secondDirPath = Environment.getExternalStorageDirectory() + "/See/img";
+    public static Tencent tencent;
+
 
     @Override
     public void onCreate() {
@@ -39,15 +44,19 @@ public class MyApplication extends Application {
         PushService.subscribe(this, "public", SplashActivity.class);
         PushService.subscribe(this, "private", SplashActivity.class);
         PushService.subscribe(this, "protected", SplashActivity.class);
-
+        //qq
+        tencent = Tencent.createInstance("1105547524", this.getApplicationContext());
         //文件夹初始化
         File fileDir = new File(dirPath);
         if (!fileDir.exists()) {
             fileDir.mkdir();
+            File secondFileDir = new File(secondDirPath);
+            if (!secondFileDir.exists()) {
+                secondFileDir.mkdir();
+            }
         }
         //版本号
         versionName = getVersionName();
-
     }
 
     public static Context getAppContext(){

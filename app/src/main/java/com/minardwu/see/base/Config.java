@@ -28,6 +28,8 @@ public class Config {
     public static final int screenWidth = wm.getDefaultDisplay().getWidth();
     public static final int screenHeight= wm.getDefaultDisplay().getHeight();
 
+    public static boolean loginWithQQ = false;
+
     public static boolean changeFriend = false;
     public static boolean deletePhoto = false;
 

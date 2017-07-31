@@ -31,8 +31,8 @@ import java.nio.ByteBuffer;
 public class UploadPhotoHelper {
 
     private static long currentTimeMillis = System.currentTimeMillis();
-    private static String dirPath = Environment.getExternalStorageDirectory() + "/light/img/";
-    private static String filePath = Environment.getExternalStorageDirectory() + "/light/img/" + currentTimeMillis + ".jpg";
+    private static String dirPath = Environment.getExternalStorageDirectory() + "/See/img/";
+    private static String filePath = Environment.getExternalStorageDirectory() + "/See/img/" + currentTimeMillis + ".jpg";
     private static Uri imageUri = Uri.parse("file://" + filePath);//裁剪图片时使用，传送裁剪得到的bitmap的位置
 
     private static Context mcontext;

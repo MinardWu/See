@@ -195,6 +195,8 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
                 } else if (position == 1) {
                     Intent intent1 = new Intent(Intent.ACTION_GET_CONTENT);
                     intent1.setType("image/*");
+                    intent1.setAction(Intent.ACTION_PICK);
+                    intent1.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent1, GALLERY_REQUEST_CODE);
                 }
             }

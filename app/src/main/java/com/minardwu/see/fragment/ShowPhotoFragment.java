@@ -1,5 +1,6 @@
 package com.minardwu.see.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -71,7 +72,10 @@ public class ShowPhotoFragment extends Fragment {
     private boolean isFirstShow = true;//fragment是否第一次加载，如果是才注册EventBus，防止重复注册
     private boolean isRegister = false;//用于判断是否注册过，防止还没注册就执行解除注册
 
+    @SuppressLint({"NewApi", "ValidFragment"})
+    public ShowPhotoFragment() {}
 
+    @SuppressLint({"NewApi", "ValidFragment"})
     public ShowPhotoFragment(int type, Photo photo,int position) {
         this.type = type;
         this.photo = photo;

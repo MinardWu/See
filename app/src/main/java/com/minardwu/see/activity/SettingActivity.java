@@ -84,13 +84,15 @@ public class SettingActivity extends BaseActivity {
         }
         list.add(new MultipleView(2,"","",""));
         list.add(new MultipleView(1,"昵称",Config.me.getUsername(),""));
-        list.add(new MultipleView(1,"密码","勿视",""));
         if(Config.me.getSex()==0){
             list.add(new MultipleView(1,"性别","女",""));
         }else if(Config.me.getSex()==1){
             list.add(new MultipleView(1,"性别","男",""));
         }else if(Config.me.getSex()==-1){
             list.add(new MultipleView(1,"性别","未知",""));
+        }
+        if(!Config.loginWithQQ){
+            list.add(new MultipleView(1,"密码","勿视",""));
         }
     }
 
@@ -171,26 +173,6 @@ public class SettingActivity extends BaseActivity {
                     });
                     dialog_edit_username.setView(view_edit_username).show();
                 } else if (position == 4) {
-                    view_edit_password = LayoutInflater.from(SettingActivity.this).inflate(R.layout.dialog_editpsw, null);
-                    et_oldPassword = (MaterialEditText) view_edit_password.findViewById(R.id.et_oldPassword);
-                    et_newPassword = (MaterialEditText) view_edit_password.findViewById(R.id.et_newPassword);
-                    dialog_edit_psd = new MaterialDialog(SettingActivity.this);
-                    dialog_edit_psd.setPositiveButton("确定", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (et_oldPassword.getText().toString().length() == 0) {
-                                et_oldPassword.setError("不能为空");
-                            } else if (et_newPassword.getText().toString().length() == 0) {
-                                et_newPassword.setError("不能为空");
-                            }else if (et_newPassword.getText().toString().equals(et_oldPassword.getText().toString())) {
-                                et_newPassword.setError("新旧密码相同");
-                            } else {
-                                SetUserInfo.setPassword(et_oldPassword.getText().toString(),et_newPassword.getText().toString());
-                            }
-                        }
-                    });
-                    dialog_edit_psd.setView(view_edit_password).show();
-                } else if (position == 5) {
                     ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(SettingActivity.this, android.R.layout.simple_list_item_1);
                     arrayAdapter.add("女");
                     arrayAdapter.add("男");
@@ -222,6 +204,26 @@ public class SettingActivity extends BaseActivity {
                     });
                     dialog_edit_sex = new MaterialDialog(SettingActivity.this).setContentView(listView);
                     dialog_edit_sex.show();
+                } else if (position == 5) {
+                    view_edit_password = LayoutInflater.from(SettingActivity.this).inflate(R.layout.dialog_editpsw, null);
+                    et_oldPassword = (MaterialEditText) view_edit_password.findViewById(R.id.et_oldPassword);
+                    et_newPassword = (MaterialEditText) view_edit_password.findViewById(R.id.et_newPassword);
+                    dialog_edit_psd = new MaterialDialog(SettingActivity.this);
+                    dialog_edit_psd.setPositiveButton("确定", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (et_oldPassword.getText().toString().length() == 0) {
+                                et_oldPassword.setError("不能为空");
+                            } else if (et_newPassword.getText().toString().length() == 0) {
+                                et_newPassword.setError("不能为空");
+                            }else if (et_newPassword.getText().toString().equals(et_oldPassword.getText().toString())) {
+                                et_newPassword.setError("新旧密码相同");
+                            } else {
+                                SetUserInfo.setPassword(et_oldPassword.getText().toString(),et_newPassword.getText().toString());
+                            }
+                        }
+                    });
+                    dialog_edit_psd.setView(view_edit_password).show();
                 }
             }
         });
@@ -231,6 +233,9 @@ public class SettingActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 AVUser.logOut();
+                if(Config.loginWithQQ){
+                    MyApplication.tencent.logout(SettingActivity.this);
+                }
                 Config.me = null;
                 Config.you = null;
                 Config.myPhotos.clear();
