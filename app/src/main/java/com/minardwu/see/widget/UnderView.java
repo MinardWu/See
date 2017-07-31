@@ -95,6 +95,6 @@ public class UnderView extends View {
                     EventBus.getDefault().post(new ResultCodeEvent(1));
                 }
             });
-        }//监听动画结束，利用Handler通知Activity退出
+        }//监听动画结束，通知Activity退出
     }
 }
