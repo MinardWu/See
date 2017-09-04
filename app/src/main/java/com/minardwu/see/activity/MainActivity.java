@@ -328,5 +328,3 @@ public class MainActivity extends FragmentActivity implements  View.OnClickListe
     }
 
 }
-
-

@@ -55,7 +55,7 @@ public class ShowPhotoActivity extends AppCompatActivity {
         }
         adapter =new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
-        viewPager.setOffscreenPageLimit(0);
+        viewPager.setOffscreenPageLimit(0);//Fragment懒加载
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(position);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
